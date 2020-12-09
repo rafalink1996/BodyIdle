@@ -1,0 +1,158 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1082897173074572772
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1082897173074572774}
+  - component: {fileID: 1082897173074572775}
+  - component: {fileID: 1082897173074572777}
+  - component: {fileID: 1082897173074572776}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1082897173074572774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082897173074572772}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 394.65738, y: 636.8858, z: -837.3365}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1082897173074572775
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082897173074572772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2effdfaea03dd49899f03f3e4dcdf9af, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sufix:
+  - Thousand
+  - Million
+  - Billion
+  - Trillion
+  - Quadrillion
+  - Quintillion
+  - Hextillion
+  - Septillion
+  - Octillion
+  - Nonillion
+  Cells: 0
+  MaxCells: 0
+  IdleCells: 0
+  CellsDisplay: {fileID: 0}
+  MaxCellsDisplay: {fileID: 0}
+  DNA: 0
+  DNAPS: 0
+  DNAPC: 0
+  DNATier: 0
+  DNAPSTier: 0
+  DNAPCTier: 0
+  DNAText: 
+  DNAPStext: 
+  DNAPCText: 
+  DNADisplay: {fileID: 0}
+  DNAPSDisplay: {fileID: 0}
+  DNAPCDisplay: {fileID: 0}
+  InteligenceLevel: 0
+  EnduranceLevel: 0
+  DexterityLevel: 0
+  StrenghtLevel: 0
+  InteligenceUpgradeCost: 0
+  EnduranceUpgradeCost: 0
+  DexterityUpgradeCost: 0
+  StrenghtLevelCost: 0
+  InteligenceUpgradeCostTier: 0
+  EnduranceUpgradeCostTier: 0
+  DexterityUpgradeCostTier: 0
+  StrenghtLevelTier: 0
+  InteligenceLevelText: {fileID: 0}
+  EnduranceLevelText: {fileID: 0}
+  DexterityLevelText: {fileID: 0}
+  StrenghtLevelText: {fileID: 0}
+  DNAPSActive: 0
+  DNAPSProducersTiers: 
+  RealDNAPS: 0
+  RealDNAPSTier: 0
+  RealDNAPSText: 
+  realDNAPSProducerTiers: 
+--- !u!114 &1082897173074572777
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082897173074572772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2350331f76d754971985f66c40f20739, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sufix:
+  - Thousand
+  - Million
+  - Billion
+  - Trillion
+  - Quadrillion
+  - Quintillion
+  - Hextillion
+  - Septillion
+  - Octillion
+  - Nonillion
+  GM: {fileID: 1082897173074572775}
+  IdleCellCost: 0
+  IdleCellCostTier: 0
+  quantity: 0
+  IdleCellDisplay: {fileID: 0}
+  IdleCellCostDisplay: {fileID: 0}
+--- !u!114 &1082897173074572776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1082897173074572772}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 962e6154fb0464e30a61aed82d6dba18, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Sufix:
+  - Thousand
+  - Million
+  - Billion
+  - Trillion
+  - Quadrillion
+  - Quintillion
+  - Hextillion
+  - Septillion
+  - Octillion
+  - Nonillion
+  RBC: 0
+  MaxRBC: 20
+  RBCDisplay: {fileID: 0}
+  MaxRBCDisplay: {fileID: 0}
+  RedBloodCellADNPS: 0
+  RedBloodCellADNPSTier: 0
+  RedBloodCellADNPSDisplay: {fileID: 0}
+  GM: {fileID: 1082897173074572775}
+  BuyIdleCell: {fileID: 1082897173074572777}
