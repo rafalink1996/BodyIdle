@@ -93,29 +93,27 @@ public class GameManager : MonoBehaviour
     public RedBloodCellSystem RBCS;
 
 
+    //autotick RedBloodCells
+
+    CellsRoleSystem cellsRoleSystem;
+    float RedBloodCellPointsPS;
+    int RedBloodCellCount;
+
+
+
 
 
     // Start is called before the first frame update
     void Start()
     {
+        cellsRoleSystem = GetComponent<CellsRoleSystem>();
         DNADisplay.text = DNA.ToString();
         DNAPC = 1;
         MaxCells = 20;
-     
+   
 
-        /*
-        InteligenceLevel = 1;
-        EnduranceLevel = 1;
-        DexterityLevel = 1;
-        StrenghtLevel = 1;
-
-
-        InteligenceLevelText.text = InteligenceLevel.ToString();
-        DexterityLevelText.text = DexterityLevel.ToString();
-        EnduranceLevelText.text = EnduranceLevel.ToString();
-        */
-
-        StartCoroutine(AutoTick());
+        //StartCoroutine(AutoTick());
+        StartCoroutine(AutoTickRedBloodCells());
 
     }
 
@@ -134,16 +132,7 @@ public class GameManager : MonoBehaviour
 
         };
 
-        /*DNAPSProducersTiers = new[]
-          {
-
-
-          };
-        */
-
-       // DNAPSTier = MaxValue(DNAPSProducersTiers);
-       // RealDNAPSTier = MaxValue(realDNAPSProducerTiers);
-
+        
 
 
 
@@ -301,11 +290,51 @@ public class GameManager : MonoBehaviour
             }
         }
 
-
-
     }
 
-    int MaxValue(int[] intArray)
+    IEnumerator AutoTickRedBloodCells()
+    {
+        while (true)
+        {
+
+            yield return new WaitForSeconds(3f);
+            if (cellsRoleSystem.RedBloodCells.Count != 0)
+            {
+                if (cellsRoleSystem.RedBloodCells.Count > RedBloodCellCount)
+                {
+                    RedBloodCell cellImage = cellsRoleSystem.RedBloodCells[RedBloodCellCount].GetComponent<RedBloodCell>();
+                    cellImage.showPointsGained();
+                    if (DNAPSTier > DNATier)
+                    {
+                        DNA += (1 * Mathf.Pow(1000, DNAPSTier - DNATier)) * .1f;
+                    }
+                    else if (DNAPSTier < DNATier)
+                    {
+                        DNA += (1 / Mathf.Pow(1000, DNATier - DNAPSTier)) * .1f;
+                    }
+                    else
+                    {
+                        DNA += 1;
+                    }
+                    RedBloodCellCount++;
+                }
+                else
+                {
+                    RedBloodCellCount = 0;
+                }
+            } else
+            {
+                Debug.Log("no Red Blood Cells");
+            }
+           
+
+            
+        }
+    }
+
+
+
+        int MaxValue(int[] intArray)
     {
         int max = intArray[0];
         for (var i = 1; i < intArray.Length; i++)
@@ -318,103 +347,5 @@ public class GameManager : MonoBehaviour
 
         return max;
     }
-
-
-
-
-    /*
-    // upgrade Main Character
-    public void upgradeButton(float costTier, float cost, UpgradeManager.UpgardeTypes type, float valueTier, float Value)
-    {
-        if (DNATier >= costTier)
-        {
-
-
-            if (DNATier == costTier)
-            {
-                if (DNA >= cost)
-                {
-                    if (type == UpgradeManager.UpgardeTypes.Skill)
-                    {
-                        SkillLevel++;
-                        DNA -= cost;
-
-                        Debug.Log("skill Upgraded");
-                        RS.ChanceToWin += 10;
-
-                    } else if (type == UpgradeManager.UpgardeTypes.Patience)
-                    {
-                        PatienceLevel++;
-                        DNA -= cost;
-                        Debug.Log("Patience Upgraded");
-                    } else if (type == UpgradeManager.UpgardeTypes.TeamWork)
-                    {
-                        TeamworkLevel++;
-                        DNA -= cost;
-                        Debug.Log("Teamwork Upgraded");
-                    }
-                    else if (type == UpgradeManager.UpgardeTypes.Equipment)
-                    {
-
-                        EquipmentLevel++;
-                        DNA -= cost;
-                        Debug.Log("Equipment Upgraded");
-
-                        DNAPC += 1; //Mathf.Pow(1.02f, EquipmentLevel);
-                    }
-                }
-                else
-                {
-                    Debug.Log("notEnoughPoints");
-                }
-
-            }
-            else
-            {
-                if (type == UpgradeManager.UpgardeTypes.Skill)
-                {
-                    DNA -= cost / Mathf.Pow(1000, DNATier - costTier);
-                    Debug.Log("skill Upgraded");
-                    SkillLevel++;
-                    RS.ChanceToWin += 10;
-
-
-                } else if (type == UpgradeManager.UpgardeTypes.Patience)
-                {
-                    DNA -= cost / Mathf.Pow(1000, DNATier - costTier);
-                    Debug.Log("Patience Upgraded");
-                    PatienceLevel++;
-
-                } else if (type == UpgradeManager.UpgardeTypes.TeamWork)
-                {
-                    DNA -= cost / Mathf.Pow(1000, DNATier - costTier);
-                    Debug.Log("Teamwork Upgraded");
-                    TeamworkLevel++;
-
-                }
-                else if (type == UpgradeManager.UpgardeTypes.Equipment)
-                {
-                    DNA -= cost / Mathf.Pow(1000, DNATier - costTier);
-                    Debug.Log("Teamwork Upgraded");
-                    EquipmentLevel++;
-                    DNAPC += 1;//Mathf.Pow(1.02f, EquipmentLevel);
-
-
-
-                }
-            }
-        }
-    }
-
- */
-
-
-
-
-
-
-
-
-
 
 }

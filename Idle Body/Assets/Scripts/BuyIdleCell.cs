@@ -38,12 +38,15 @@ public class BuyIdleCell : MonoBehaviour
     public TextMeshProUGUI IdleCellDisplay;
     public TextMeshProUGUI IdleCellCostDisplay;
 
+    CellsRoleSystem cellRoleSystem;
+
     
 
     // Start is called before the first frame update
     void Start()
     {
         IdleCellCost = 15;
+        cellRoleSystem = GetComponent<CellsRoleSystem>();
         
     }
 
@@ -84,6 +87,7 @@ public class BuyIdleCell : MonoBehaviour
                         
                         IdleCellCost *= CostMultiplier;
                         GM.IdleCells++;
+                        cellRoleSystem.AddIdleCell();
                         GM.Cells++;
                     }
                 }
@@ -94,6 +98,7 @@ public class BuyIdleCell : MonoBehaviour
                    
                     IdleCellCost *= Mathf.Pow(CostMultiplier, GM.DNATier - IdleCellCostTier);
                     GM.Cells++;
+                    cellRoleSystem.AddIdleCell();
                     GM.IdleCells++;
 
                 }

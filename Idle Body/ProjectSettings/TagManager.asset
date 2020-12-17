@@ -13,8 +13,8 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
+  - Body
+  - Cells
   - 
   - 
   - 
@@ -46,4 +46,10 @@ TagManager:
     locked: 0
   - name: GameView
     uniqueID: 2440718025
+    locked: 0
+  - name: Body
+    uniqueID: 3342991199
+    locked: 0
+  - name: Cells
+    uniqueID: 1860250311
     locked: 0
