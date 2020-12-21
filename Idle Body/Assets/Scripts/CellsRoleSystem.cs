@@ -67,7 +67,7 @@ public class CellsRoleSystem : MonoBehaviour
                     Debug.Log("noRedBloodCells");
                     break;
                 }
-            case 2:
+            case 2:// add White Blood Cell
                 if (IdleCells.Count > 0)
                 {
                     GameObject CellChange;
@@ -84,7 +84,7 @@ public class CellsRoleSystem : MonoBehaviour
                     Debug.Log("OutOfIdleCells");
                     break;
                 }
-            case -2:
+            case -2:// Remove Red Blood Cell
                 if (WhiteBloodCells.Count > 0)
                 {
                     GameObject CellChange;
