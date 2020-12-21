@@ -87,7 +87,7 @@ public class BuyIdleCell : MonoBehaviour
                         
                         IdleCellCost *= CostMultiplier;
                         GM.IdleCells++;
-                        cellRoleSystem.AddIdleCell();
+                        cellRoleSystem.CellRoleAsign(0);
                         GM.Cells++;
                     }
                 }
@@ -98,7 +98,7 @@ public class BuyIdleCell : MonoBehaviour
                    
                     IdleCellCost *= Mathf.Pow(CostMultiplier, GM.DNATier - IdleCellCostTier);
                     GM.Cells++;
-                    cellRoleSystem.AddIdleCell();
+                    cellRoleSystem.CellRoleAsign(0);
                     GM.IdleCells++;
 
                 }
