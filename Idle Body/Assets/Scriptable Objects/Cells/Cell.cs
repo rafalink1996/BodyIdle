@@ -6,6 +6,7 @@ using UnityEngine;
 public class Cell : ScriptableObject
 {
     public int CellID;
+    public string CellName;
     public Sprite CellSprite;
     public  Animator CellAnimator;
    

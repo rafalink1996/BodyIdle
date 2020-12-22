@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ec6a58ee3ffbf47d5b70ae28a40eeb62, type: 3}
-  m_Name: IdleCell
+  m_Name: PalleteCel
   m_EditorClassIdentifier: 
-  CellID: 0
-  CellName: Idle cell
-  CellSprite: {fileID: 21300000, guid: c665f1936c1cc4d908ac2cde79305261, type: 3}
+  CellID: 3
+  CellName: Pallete Cell
+  CellSprite: {fileID: 21300000, guid: 8ceeb5334fe244edf87a864606699618, type: 3}
   CellAnimator: {fileID: 0}

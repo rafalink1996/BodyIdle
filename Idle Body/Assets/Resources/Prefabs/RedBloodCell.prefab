@@ -111,7 +111,6 @@ GameObject:
   - component: {fileID: 1699989053987171681}
   - component: {fileID: -1733786053948660265}
   - component: {fileID: 951462099}
-  - component: {fileID: 125044666161090172}
   - component: {fileID: 8532239722631861292}
   m_Layer: 9
   m_Name: RedBloodCell
@@ -222,22 +221,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &125044666161090172
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7527993075847583223}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 51d3ce765a2d64640954131b25d56558, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed:
-  - 0.5
-  - 0.5
-  plus1text: {fileID: 6612914891927667201}
 --- !u!114 &8532239722631861292
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -251,9 +234,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 2
-  initialVelocity: 2
+  body: {fileID: 0}
   CellScriptableObject: {fileID: 0}
+  initialVelocity: 2
   MoveSpeed: 0.5
+  PlusOneText: {fileID: 6612914891927667201}
 --- !u!1 &7778005977828717963
 GameObject:
   m_ObjectHideFlags: 0
@@ -320,8 +305,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: +1
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 89698b34d9bea440888faf96c481c141, type: 2}
-  m_sharedMaterial: {fileID: 2462286230891181037, guid: 89698b34d9bea440888faf96c481c141,
+  m_fontAsset: {fileID: 11400000, guid: 63f13d31c27f14cd3a97741238c3c64b, type: 2}
+  m_sharedMaterial: {fileID: 6275584598390627608, guid: 63f13d31c27f14cd3a97741238c3c64b,
     type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
@@ -347,13 +332,13 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 0.18
-  m_fontSizeBase: 0.18
+  m_fontSize: 0.2
+  m_fontSizeBase: 0.2
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
   m_fontSizeMax: 72
-  m_fontStyle: 0
+  m_fontStyle: 1
   m_textAlignment: 514
   m_characterSpacing: 0
   m_wordSpacing: 0

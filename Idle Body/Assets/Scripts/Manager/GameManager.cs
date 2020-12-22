@@ -8,42 +8,18 @@ using TMPro;
 public class GameManager : MonoBehaviour
 {
 
-    
-
-    public string[] Sufix = new string[]
-    {
-        "Thousand", // 0
-        "Million", // 1
-        "Billion", // 2
-        "Trillion", // 3
-        "Quadrillion", // 4
-        "Quintillion", // 5
-        "Hextillion", // 6
-        "Septillion", //7
-        "Octillion", // 8
-        "Nonillion",// 9
-
-    };
-
-    
-    public int Cells;
-    public int MaxCells;
-
-    public int IdleCells;
-    
-
     private string CellsText;
     private string MaxCellsText;
 
     public TextMeshProUGUI CellsDisplay;
     public TextMeshProUGUI MaxCellsDisplay;
 
-    public float DNA; // current game points
+    
     public float DNAPS;
     public float DNAPC;
 
 
-    public int DNATier; // current game points tier
+    
     public int DNAPSTier;
     public int DNAPCTier;
 
@@ -54,30 +30,6 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI DNADisplay;
     public TextMeshProUGUI DNAPSDisplay;
   
-
-/*
-    // possible upgrades
-    public int InteligenceLevel; 
-    public int EnduranceLevel;
-    public int DexterityLevel;
-    public int StrenghtLevel;
-
-
-    public int InteligenceUpgradeCost;
-    public int EnduranceUpgradeCost;
-    public int DexterityUpgradeCost;
-    public int StrenghtLevelCost;
-
-    public int InteligenceUpgradeCostTier;
-    public int EnduranceUpgradeCostTier;
-    public int DexterityUpgradeCostTier;
-    public int StrenghtLevelTier;
-
-    public TextMeshProUGUI InteligenceLevelText;
-    public TextMeshProUGUI EnduranceLevelText;
-    public TextMeshProUGUI DexterityLevelText;
-    public TextMeshProUGUI StrenghtLevelText;
-*/
 
     public bool DNAPSActive;
     public int[] DNAPSProducersTiers;
@@ -107,13 +59,17 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         cellsRoleSystem = GetComponent<CellsRoleSystem>();
-        DNADisplay.text = DNA.ToString();
+        DNADisplay.text = Stats.stats.ADN.ToString();
         DNAPC = 1;
-        MaxCells = 20;
+        Stats.stats.MaxCells = 20;
+        Stats.stats.MaxRedBloodCells = 20;
+        Stats.stats.MaxWhiteBloodCells = 5;
    
 
         //StartCoroutine(AutoTick());
         StartCoroutine(AutoTickRedBloodCells());
+
+        //Application.targetFrameRate = 30;
 
     }
 
@@ -121,20 +77,10 @@ public class GameManager : MonoBehaviour
     void Update()
     {
 
-
-
-
-
         realDNAPSProducerTiers = new[]
         {
-
             DNAPCTier
-
         };
-
-        
-
-
 
 
         DNAPS = (RBCS.RedBloodCellADNPS);
@@ -142,24 +88,24 @@ public class GameManager : MonoBehaviour
         
 
         #region TierIncrementation
-        if (DNA >= 1000)
+
+        if (Stats.stats.ADN >= 1000)
         {
-            DNA /= 1000;
-            DNATier++;
+            Stats.stats.ADN /= 1000;
+            Stats.stats.ADNTier ++;
 
         }
 
-        if (DNATier != 0)
+        if (Stats.stats.ADNTier != 0)
         {
-            if (DNA > 0 && DNA < 1)
+            if (Stats.stats.ADN > 0 && Stats.stats.ADN < 1)
             {
-                DNA *= 1000;
-                DNATier--;
+                Stats.stats.ADN *= 1000;
+                Stats.stats.ADNTier--;
             }
         }
        
-
-
+        // DNA per Second
 
         if (DNAPS >= 1000)
         {
@@ -175,7 +121,7 @@ public class GameManager : MonoBehaviour
         }
 
 
-
+        // DNA per click
         if (DNAPC >= 1000)
         {
             DNAPC /= 1000;
@@ -191,36 +137,29 @@ public class GameManager : MonoBehaviour
 
         #endregion
 
-        DNATier = Mathf.Clamp(DNATier, 0, Sufix.Length);
-        DNAPSTier = Mathf.Clamp(DNAPSTier, 0, Sufix.Length);
-        DNAPCTier = Mathf.Clamp(DNAPCTier, 0, Sufix.Length);
+        Stats.stats.ADNTier = Mathf.Clamp(Stats.stats.ADNTier, 0, Stats.stats.Sufix.Length);
+        DNAPSTier = Mathf.Clamp(DNAPSTier, 0, Stats.stats.Sufix.Length);
+        DNAPCTier = Mathf.Clamp(DNAPCTier, 0, Stats.stats.Sufix.Length);
 
  
-        DNAText = CurrencyText(DNAText, DNA, DNATier);
-        DNAPStext = CurrencyText(DNAPStext, DNAPS, DNAPSTier);
-        RealDNAPSText = CurrencyText(RealDNAPSText, RealDNAPS, RealDNAPSTier);
+        DNAText = Stats.stats.CurrencyText(DNAText, Stats.stats.ADN, Stats.stats.ADNTier);
+        DNAPStext = Stats.stats.CurrencyText(DNAPStext, DNAPS, DNAPSTier);
+        RealDNAPSText = Stats.stats.CurrencyText(RealDNAPSText, RealDNAPS, RealDNAPSTier);
 
         DNADisplay.text = DNAText;
         DNAPSDisplay.text = DNAPStext + (" DNA/S");
 
-        //GPPSDisplay.text = CurrencyText(GPPSDisplay.text, GPPS, GPPSTier);
-        //GPPCDisplay.text = CurrencyText(GPPCDisplay.text, GPPC, GGPCTier);
+ 
 
 
-//      InteligenceLevelText.text = InteligenceLevel.ToString();
-//      DexterityLevelText.text = DexterityLevel.ToString();
-//      EnduranceLevelText.text = EnduranceLevel.ToString();
-//      StrenghtLevelText.text = StrenghtLevel.ToString();
-
-
-        if (DNA <= 0)
+        if (Stats.stats.ADN <= 0)
         {
-            DNA = 0;
+            Stats.stats.ADN = 0;
         }
 
 
-        CellsText = Cells.ToString();
-        MaxCellsText = MaxCells.ToString();
+        CellsText = Stats.stats.cells.ToString();
+        MaxCellsText = Stats.stats.MaxCells.ToString();
 
         CellsDisplay.text = CellsText;
         MaxCellsDisplay.text = MaxCellsText;
@@ -228,69 +167,47 @@ public class GameManager : MonoBehaviour
 
     }
 
-    private string CurrencyText(string currencyText, float currency, int tier)
-    {
-        if (tier - 1 > -1)
-        {
-            currencyText = currency.ToString("#.00") + " " + Sufix[tier - 1];
-        }
-        else
-        {
-            currencyText = currency.ToString("#.00");
-        }
-        return currencyText;
-    }
+    
 
     public void PressButton(int GamePointsEarned)
-
     {
-        if (DNAPCTier > DNATier)
+        if (DNAPCTier > Stats.stats.ADNTier)
         {
-
-            DNA += DNAPC * Mathf.Pow(1000, DNAPCTier - DNATier);
-
+            Stats.stats.ADN += DNAPC * Mathf.Pow(1000, DNAPCTier - Stats.stats.ADNTier);
         }
-        else if (DNAPCTier < DNATier)
+        else if (DNAPCTier < Stats.stats.ADNTier)
         {
-            
-            DNA += DNAPC / Mathf.Pow(1000, DNATier - DNAPCTier); 
-
+            Stats.stats.ADN += DNAPC / Mathf.Pow(1000, Stats.stats.ADNTier - DNAPCTier); 
         }
         else
-        {  
-            DNA += DNAPC;
-        }
-        
-        
+        {
+            Stats.stats.ADN += DNAPC;
+        }   
     }
+
+
     IEnumerator AutoTick()
     {
         while (true)
         {
             Debug.Log("tick)");
             yield return new WaitForSeconds(1f);
-            if (DNAPSTier > DNATier)
+            if (DNAPSTier > Stats.stats.ADNTier)
             {
-                
-                   DNA += (DNAPS * Mathf.Pow(1000, DNAPSTier - DNATier)) * .1f;      
-
+                Stats.stats.ADN += (DNAPS * Mathf.Pow(1000, DNAPSTier - Stats.stats.ADNTier)) * .1f;      
             }
-            else if (DNAPSTier < DNATier)
+            else if (DNAPSTier < Stats.stats.ADNTier)
             {
-
-                DNA += (DNAPS / Mathf.Pow(1000, DNATier - DNAPSTier)) * .1f;
-                
+                Stats.stats.ADN += (DNAPS / Mathf.Pow(1000, Stats.stats.ADNTier - DNAPSTier)) * .1f;     
             }
 
             else
             {
-
-                 DNA += DNAPS;
-
+                Stats.stats.ADN += DNAPS;
             }
         }
-
     }
+
 
     IEnumerator AutoTickRedBloodCells()
     {
@@ -302,19 +219,19 @@ public class GameManager : MonoBehaviour
             {
                 if (cellsRoleSystem.RedBloodCells.Count > RedBloodCellCount)
                 {
-                    RedBloodCell cellImage = cellsRoleSystem.RedBloodCells[RedBloodCellCount].GetComponent<RedBloodCell>();
-                    cellImage.showPointsGained();
-                    if (DNAPSTier > DNATier)
+                    CellBehaviour CellPlus1 = cellsRoleSystem.RedBloodCells[RedBloodCellCount].GetComponent<CellBehaviour>();
+                    CellPlus1.showPointsGained();
+                    if (DNAPSTier > Stats.stats.ADNTier)
                     {
-                        DNA += (1 * Mathf.Pow(1000, DNAPSTier - DNATier)) * .1f;
+                        Stats.stats.ADN += (1 * Mathf.Pow(1000, DNAPSTier - Stats.stats.ADNTier)) * .1f;
                     }
-                    else if (DNAPSTier < DNATier)
+                    else if (DNAPSTier < Stats.stats.ADNTier)
                     {
-                        DNA += (1 / Mathf.Pow(1000, DNATier - DNAPSTier)) * .1f;
+                        Stats.stats.ADN += (1 / Mathf.Pow(1000, Stats.stats.ADNTier - DNAPSTier)) * .1f;
                     }
                     else
                     {
-                        DNA += 1;
+                        Stats.stats.ADN += 1;
                     }
                     RedBloodCellCount++;
                 }

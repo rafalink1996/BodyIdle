@@ -13,7 +13,16 @@ public class CellsRoleSystem : MonoBehaviour
 
     public Cell[] CellsScriptableObjects;
 
-    int cellQuantity;
+
+    //---- Systems ----//
+
+    public RedBloodCellSystem redBloodCellSystem;
+    public WhiteBloodCellSystem whiteBloodCellSystem;
+
+    //------- Body Parts------//
+    public int CurrentBodyPart;
+
+    public List<GameObject> BodyParts = new List<GameObject>();
     // Start is called before the first frame update
     void Start()
     {
@@ -28,11 +37,13 @@ public class CellsRoleSystem : MonoBehaviour
             case 0: // add IdleCell
                 GameObject AddedCell = Instantiate(Cell);
                 CellBehaviour AddedCellBeh = AddedCell.GetComponent<CellBehaviour>();
-                AddedCellBeh.CellScriptableObject = CellsScriptableObjects[0];
-                AddedCell.name = "Cell" + "(" + cellQuantity + ")";
-                cellQuantity++;
+                AddedCellBeh.body = BodyParts[CurrentBodyPart];
+;                AddedCellBeh.CellScriptableObject = CellsScriptableObjects[0];
+                AddedCell.name = "Cell" + "(" + Stats.stats.cells + ")";
                 IdleCells.Add(AddedCell);
                 break;
+
+            // ------------- RED BLOOD CELL ------------//
             case 1: // add RedBloodCell
                 if (IdleCells.Count > 0)
                 {
@@ -42,6 +53,9 @@ public class CellsRoleSystem : MonoBehaviour
                     CellBehaviour cellChangeBeh = CellChange.GetComponent<CellBehaviour>();
                     cellChangeBeh.CellScriptableObject = CellsScriptableObjects[1];
                     RedBloodCells.Add(CellChange);
+                    redBloodCellSystem.AddRedBloodCell();
+                    Debug.Log("addedRedBloodCell");
+
                     break;
 
                 }
@@ -60,6 +74,8 @@ public class CellsRoleSystem : MonoBehaviour
                     CellBehaviour cellChangeBeh = CellChange.GetComponent<CellBehaviour>();
                     cellChangeBeh.CellScriptableObject = CellsScriptableObjects[0];
                     IdleCells.Add(CellChange);
+                    redBloodCellSystem.RemoveRedBloodCell();
+                    Debug.Log("RemovedRedBloodCell");
                     break;
                 }
                 else
@@ -67,6 +83,8 @@ public class CellsRoleSystem : MonoBehaviour
                     Debug.Log("noRedBloodCells");
                     break;
                 }
+
+            // ------------- WHITE BLOOD CELL ------------//
             case 2:// add White Blood Cell
                 if (IdleCells.Count > 0)
                 {
@@ -76,6 +94,7 @@ public class CellsRoleSystem : MonoBehaviour
                     CellBehaviour cellChangeBeh = CellChange.GetComponent<CellBehaviour>();
                     cellChangeBeh.CellScriptableObject = CellsScriptableObjects[2];
                     WhiteBloodCells.Add(CellChange);
+                    whiteBloodCellSystem.AddWhiteBloodCell();
                     break;
 
                 }
@@ -84,7 +103,7 @@ public class CellsRoleSystem : MonoBehaviour
                     Debug.Log("OutOfIdleCells");
                     break;
                 }
-            case -2:// Remove Red Blood Cell
+            case -2:// Remove White Blood Cell
                 if (WhiteBloodCells.Count > 0)
                 {
                     GameObject CellChange;
@@ -93,6 +112,7 @@ public class CellsRoleSystem : MonoBehaviour
                     CellBehaviour cellChangeBeh = CellChange.GetComponent<CellBehaviour>();
                     cellChangeBeh.CellScriptableObject = CellsScriptableObjects[0];
                     IdleCells.Add(CellChange);
+                    whiteBloodCellSystem.RemoveWhiteBloodCell();
                     break;
                 }
                 else

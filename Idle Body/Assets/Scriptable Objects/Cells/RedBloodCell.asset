@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: RedBloodCell
   m_EditorClassIdentifier: 
   CellID: 1
+  CellName: Red Blood Cell
   CellSprite: {fileID: 21300000, guid: 03f87622725914e958171c170108fc9e, type: 3}
   CellAnimator: {fileID: 0}
