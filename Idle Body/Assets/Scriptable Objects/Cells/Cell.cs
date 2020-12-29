@@ -9,5 +9,6 @@ public class Cell : ScriptableObject
     public string CellName;
     public Sprite CellSprite;
     public  Animator CellAnimator;
+    public int Damage;
    
 }

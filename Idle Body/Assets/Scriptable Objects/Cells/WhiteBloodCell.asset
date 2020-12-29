@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: WhiteBloodCell
   m_EditorClassIdentifier: 
   CellID: 2
+  CellName: 
   CellSprite: {fileID: 21300000, guid: e34056743197e4fe0aa35effa6ff4052, type: 3}
   CellAnimator: {fileID: 0}
+  Damage: 1

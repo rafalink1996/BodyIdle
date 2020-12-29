@@ -30,6 +30,7 @@ public class CellBehaviour : MonoBehaviour
 
     // whiteBloodCell
     bool isAttacking;
+    private Transform BodyCenter;
 
 
 
@@ -41,6 +42,7 @@ public class CellBehaviour : MonoBehaviour
     {
         
         Target = GameObject.Find("redBloodCellTarget").GetComponent<Transform>();
+        BodyCenter = GameObject.Find("Body").GetComponent<Transform>();
     }
 
 
@@ -91,31 +93,54 @@ public class CellBehaviour : MonoBehaviour
         else if (CellScriptableObject.CellID == 2) 
         {
             GameObject target = FindClosestEnemy();
+            //check if there are eneimes
             if (target != null)
             {
-                float step = speed * Time.deltaTime;
-                transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
+                //check if is inside body
+                float DistanceBody = Vector3.Distance(target.transform.position, body.transform.position);
+                Debug.Log(DistanceBody);
+                if (DistanceBody < 1.8f)
+                {
+                    float step = speed * Time.deltaTime;
+                    transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
 
-                if (Vector3.Distance(transform.position, target.transform.position) < 0.2f)
-                {
-                    speed = 0;
-                    if (isAttacking == false)
+                    //check if is in attack range
+                    if (Vector3.Distance(transform.position, target.transform.position) < 0.2f)
                     {
-                        Enemy EnemyCS = target.GetComponent<Enemy>();
-                        EnemyCS.TakeDamage(CellScriptableObject.CellID, 1);
-                        StartCoroutine(restartAttack());
-                        isAttacking = true;
-                    }    
-                }
-                else
-                {
-                    if (speed < 1)
-                    {
-                        speed += 0.01f;
+                        speed = 0;
+                        if (isAttacking == false)
+                        {
+                            Enemy EnemyCS = target.GetComponent<Enemy>();
+                            EnemyCS.TakeDamage(CellScriptableObject.CellID, CellScriptableObject.Damage);
+                            NumberPopUp.Create(transform.position, CellScriptableObject.Damage, 2, this.gameObject);
+                            StartCoroutine(restartAttack());
+                            isAttacking = true;
+                        }
                     }
-                    
+                    else
+                    {
+                        if (speed < 1)
+                        {
+                            speed += 0.01f;
+                        }
+                    }
+                }else
+                {
+                    if (transform.position != RandomPosition){
+                        transform.position = Vector3.MoveTowards(transform.position, RandomPosition, IdleSpeed);
+                    }else{
+                        randomizePos();
+                    }
                 }
-            } 
+            }
+            else
+            {
+                if (transform.position != RandomPosition){
+                    transform.position = Vector3.MoveTowards(transform.position, RandomPosition, IdleSpeed);
+                }else{
+                    randomizePos();
+                }
+            }
         }
 
 
@@ -141,35 +166,10 @@ public class CellBehaviour : MonoBehaviour
 
     public void showPointsGained()
     {
-        StartCoroutine(RedBloodCellPlusOneOn());
+        //StartCoroutine(RedBloodCellPlusOneOn());
+        NumberPopUp.Create(transform.position + new Vector3(0,.2f,0) , 1, 1, this.gameObject);
     }
 
-    IEnumerator RedBloodCellPlusOneOn()
-    {
-        PlusOneTextColorAlpha = 1;
-        PlusOneText.color = new Color(1, 1, 1, 1);
-        yield return new WaitForSeconds(0.5f);
-        StartCoroutine(RedBloodCellPlusOneOff());
-    }
-
-    IEnumerator RedBloodCellPlusOneOff()
-    {
-        while (true)
-        {
-            yield return new WaitForSeconds(0.1f);
-            if (PlusOneText.color.a > 0)
-            {
-                PlusOneTextColorAlpha -= 0.1f;
-                //Debug.Log(PlusOneTextColorAlpha);
-                PlusOneText.color = new Color(1, 1, 1, PlusOneTextColorAlpha);
-            }
-            else
-            {
-                break;
-            }
-        }
-        
-    }
 
 
     //---------------------- white blood cell functions -----------------//
