@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2cb045ed92d42728f5b6bccf848da4, type: 3}
+  m_Name: Lungs
+  m_EditorClassIdentifier: 
+  OrganID: 2
+  OrganName: Lungs
+  OrganSprite: {fileID: 21300000, guid: 56aa9b1c5ef9643b99b58b124992c168, type: 3}
+  OrganAnimator: {fileID: 22100000, guid: 315ae1ab454934f56bb012e57995142b, type: 2}
+  OrganStartingPointsPerSecond: 8
+  OrganPointCost: 100
+  OrganCellCost: 20
+  OrganLevelClearence: 1

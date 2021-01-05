@@ -60,6 +60,9 @@ public class Stats : MonoBehaviour
     public int MaxMacrophageCells;
 
 
+    // Body Level
+
+    public int BodyLevel;
 
     
 

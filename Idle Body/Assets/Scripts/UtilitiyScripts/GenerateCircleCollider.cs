@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BorderCollider : MonoBehaviour
+// Generates a circle from a edge collider with a specified radius
+public class GenerateCircleCollider : MonoBehaviour
 {
    public int NumEdges;
    public float Radius;
+
+    public Vector2[] polygonPoints;
 
     // Use this for initialization
     void Start()
@@ -22,6 +25,7 @@ public class BorderCollider : MonoBehaviour
             points[i] = new Vector2(x, y);
         }
         points[NumEdges] = points[0];
+        polygonPoints = points;
         edgeCollider.points = points;
     }
  

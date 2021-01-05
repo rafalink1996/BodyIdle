@@ -31,6 +31,8 @@ public class CellBehaviour : MonoBehaviour
     // whiteBloodCell
     bool isAttacking;
     private Transform BodyCenter;
+    public Transform[] PatrolPoints;
+    public int InPatrol;
 
 
 
@@ -43,6 +45,10 @@ public class CellBehaviour : MonoBehaviour
         
         Target = GameObject.Find("redBloodCellTarget").GetComponent<Transform>();
         BodyCenter = GameObject.Find("Body").GetComponent<Transform>();
+
+        BodyPartEssencials BodyEssentials = body.GetComponent<BodyPartEssencials>();
+        PatrolPoints = BodyEssentials.bodyPartPatrolTransform;
+        InPatrol = 0;
     }
 
 
@@ -97,9 +103,9 @@ public class CellBehaviour : MonoBehaviour
             if (target != null)
             {
                 //check if is inside body
-                float DistanceBody = Vector3.Distance(target.transform.position, body.transform.position);
-                Debug.Log(DistanceBody);
-                if (DistanceBody < 1.8f)
+      
+                Enemy enemy = target.GetComponent<Enemy>();
+                if (enemy.IsInsideBody == true)
                 {
                     float step = speed * Time.deltaTime;
                     transform.position = Vector3.MoveTowards(transform.position, target.transform.position, step);
@@ -126,19 +132,35 @@ public class CellBehaviour : MonoBehaviour
                     }
                 }else
                 {
-                    if (transform.position != RandomPosition){
-                        transform.position = Vector3.MoveTowards(transform.position, RandomPosition, IdleSpeed);
-                    }else{
-                        randomizePos();
+                    if (InPatrol <= PatrolPoints.Length)
+                    {
+                        transform.position = Vector3.MoveTowards(transform.position, PatrolPoints[InPatrol].position, IdleSpeed);
+                        if (Vector3.Distance(transform.position, PatrolPoints[InPatrol].position) < 0.2f)
+                        {
+                            InPatrol++;
+                        }
                     }
+                    else
+                    {
+                        InPatrol = 0;
+                    }
+                   
+                    
                 }
             }
             else
             {
-                if (transform.position != RandomPosition){
-                    transform.position = Vector3.MoveTowards(transform.position, RandomPosition, IdleSpeed);
-                }else{
-                    randomizePos();
+                if (InPatrol <= PatrolPoints.Length -1)
+                {
+                    transform.position = Vector3.MoveTowards(transform.position, PatrolPoints[InPatrol].position, IdleSpeed);
+                    if (Vector3.Distance(transform.position, PatrolPoints[InPatrol].position) < 0.2f)
+                    {
+                        InPatrol++;
+                    }
+                }
+                else
+                {
+                    InPatrol = 0;
                 }
             }
         }

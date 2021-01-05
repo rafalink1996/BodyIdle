@@ -5,15 +5,19 @@ using UnityEngine.UI;
 
 public class Enemy : MonoBehaviour
 {
+    private GameObject Body;
     public Infection Infection;
     public float maxHealth;
     public float health;
     public Slider HealthSlider;
 
+    public bool IsInsideBody;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        Body = GameObject.Find("Body");
         SpriteRenderer MySpriteRenderer = GetComponent<SpriteRenderer>();
         MySpriteRenderer.sprite = Infection.InfectionSprite;
         maxHealth = Infection.MaxHealh;
@@ -29,6 +33,13 @@ public class Enemy : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+
+        // check if enemy is inside body
+        PolygonUtilities BodyPlygonUtilities = Body.GetComponent<PolygonUtilities>();
+        Vector2[] BodyShape = BodyPlygonUtilities.polygonPoints;
+        IsPointInsidePolygon isPointInsidePolygon = Body.GetComponent<IsPointInsidePolygon>();
+        IsInsideBody = isPointInsidePolygon.IsPointInPolygon(transform.position, BodyShape);
     }
 
     public void TakeDamage(int CellID, float DamageTaken)
