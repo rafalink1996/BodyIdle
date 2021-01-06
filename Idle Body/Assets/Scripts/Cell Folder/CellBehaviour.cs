@@ -132,7 +132,7 @@ public class CellBehaviour : MonoBehaviour
                     }
                 }else
                 {
-                    if (InPatrol <= PatrolPoints.Length)
+                    if (InPatrol <= PatrolPoints.Length - 1)
                     {
                         transform.position = Vector3.MoveTowards(transform.position, PatrolPoints[InPatrol].position, IdleSpeed);
                         if (Vector3.Distance(transform.position, PatrolPoints[InPatrol].position) < 0.2f)
