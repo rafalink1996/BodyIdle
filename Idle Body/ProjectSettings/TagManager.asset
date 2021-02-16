@@ -42,7 +42,7 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Background
+  - name: Background Back
     uniqueID: 2453262385
     locked: 0
   - name: GameView
@@ -54,7 +54,7 @@ TagManager:
   - name: Cells
     uniqueID: 1860250311
     locked: 0
-  - name: Top
+  - name: Background Front
     uniqueID: 3019920353
     locked: 0
   - name: UI
