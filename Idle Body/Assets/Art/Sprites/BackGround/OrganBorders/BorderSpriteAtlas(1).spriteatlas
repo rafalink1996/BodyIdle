@@ -49,7 +49,7 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 80cf7898d941e4391852311f72e71619, type: 3}
     - {fileID: 2800000, guid: afc33570aa06e4cbc9f97e9ca98df52d, type: 3}
     - {fileID: 2800000, guid: 0c0ce0a481ab7435c8f4a5c101117a01, type: 3}
-    - {fileID: 2800000, guid: 6b354088a888949eabb4073d1dc2e9c7, type: 3}
+    - {fileID: 2800000, guid: e3ea0aef3175c4420a4581888938fd10, type: 3}
     - {fileID: 2800000, guid: 50c64a6e79052477b83b53a2d816a45a, type: 3}
     - {fileID: 2800000, guid: dff055f0ea08640f1a2f88502d198c56, type: 3}
     - {fileID: 2800000, guid: f0c2a5cb6f96a4c6fb0ca8b951a4d863, type: 3}
@@ -64,12 +64,12 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 0c0ce0a481ab7435c8f4a5c101117a01, type: 3}
   - {fileID: 21300000, guid: 0ffb3b25ff59a4e238feee49da2cc2b2, type: 3}
   - {fileID: 21300000, guid: d52096c63948b4d699a741b313e2aedd, type: 3}
-  - {fileID: 21300000, guid: 6b354088a888949eabb4073d1dc2e9c7, type: 3}
   - {fileID: 21300000, guid: 80cf7898d941e4391852311f72e71619, type: 3}
   - {fileID: 21300000, guid: f0c2a5cb6f96a4c6fb0ca8b951a4d863, type: 3}
   - {fileID: 21300000, guid: df6e841d63ee84c2f80fb1c72f3ce41a, type: 3}
   - {fileID: 21300000, guid: ae507e4d76766463eb324c4b4de9e543, type: 3}
   - {fileID: 21300000, guid: 50c64a6e79052477b83b53a2d816a45a, type: 3}
+  - {fileID: 21300000, guid: e3ea0aef3175c4420a4581888938fd10, type: 3}
   m_PackedSpriteNamesToIndex:
   - Borde Branquias
   - Borde Hueso
@@ -77,11 +77,11 @@ SpriteAtlas:
   - Borde Intestinos
   - Borde Glandula Veneno
   - Borde Cerebro
-  - Borde Pancreas
   - Borde Higado
   - Borde Vejiga
   - "Borde Esto\u0301mago"
   - "Borde Corazo\u0301n"
   - Borde Pulmones
+  - Borde Pancreas
   m_Tag: BorderSpriteAtlas(1)
   m_IsVariant: 0
