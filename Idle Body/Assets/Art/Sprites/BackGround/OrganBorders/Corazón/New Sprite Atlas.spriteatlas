@@ -74,6 +74,6 @@ SpriteAtlas:
   - "Corazo\u0301nanimacion_IZ(small)_10"
   - "Corazo\u0301nanimacion_IZ(small)_8"
   - "Corazo\u0301nanimacion_IZ(small)_9"
-  - "Borde Corazo\u0301n"
+  - "Borde Coraz\xF3n"
   m_Tag: New Sprite Atlas
   m_IsVariant: 0

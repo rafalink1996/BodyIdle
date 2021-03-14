@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
+  - RedCells1
+  - RedCells10
+  - RedCells100
   layers:
   - Default
   - TransparentFX
