@@ -13,6 +13,10 @@ public class UILeanTween : MonoBehaviour
     public GameObject CellTypeBar;
     public GameObject CellSlotsMask;
     public GameObject BuyCellButton;
+    public GameObject StickyImage;
+    public GameObject ArrowTabIndicator;
+
+    public BottomUiManager bottomUiManager;
 
    public void UiTabToggle()
     {
@@ -20,14 +24,29 @@ public class UILeanTween : MonoBehaviour
         {
             LeanTween.cancel(gameObject);
             LeanTween.moveLocal(gameObject, new Vector3(0, -750, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
-            UIHidden = true;   
+            UIHidden = true;
+
+            LeanTween.cancel(StickyImage);
+            LeanTween.scaleY(StickyImage, 0, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
+
+            //LeanTween.scaleY(ArrowTabIndicator, -1, 0);
+            LeanTween.cancel(ArrowTabIndicator);
+            LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 180), TweenTime / 4);
+
         }
         else
         {
             LeanTween.cancel(gameObject);
             //LeanTween.isTweening(gameObject);
             LeanTween.moveLocal(gameObject, new Vector3(0, -570, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
-            UIHidden = false;    
+            UIHidden = false;
+            LeanTween.cancel(StickyImage);
+            LeanTween.scaleY(StickyImage, 1.73f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
+            //LeanTween.scaleY(ArrowTabIndicator, 1, 0);
+            LeanTween.cancel(ArrowTabIndicator);
+            LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 0), TweenTime / 4);
+
+
         }
     }
 
@@ -43,7 +62,8 @@ public class UILeanTween : MonoBehaviour
      
 
         LeanTween.cancel(CellTypeBar);
-        LeanTween.moveLocal(CellTypeBar, new Vector3(-800,0,0), TweenTime/4).setEase(LeanTweenType.easeInQuad);
+        LeanTween.moveLocal(CellTypeBar, new Vector3(-(100*CellTypeBar.transform.childCount),0,0), TweenTime/4).setEase(LeanTweenType.easeInQuad);
+     
 
         BuyCellButton.GetComponent<Button>().interactable = false;
         LeanTween.scale(BuyCellButton, new Vector3(0, 0, 0), TweenTime/4).setEase(LeanTweenType.easeInExpo);
@@ -66,6 +86,9 @@ public class UILeanTween : MonoBehaviour
 
     void FinishChangeCellType()
     {
+       
+        bottomUiManager.ChangeCellType(CurrentCellType);
+        CellTypeBar.transform.localPosition = new Vector3(-(100 * CellTypeBar.transform.childCount), 0, 0);
         LeanTween.cancel(CellTypeBar);
         LeanTween.moveLocal(CellTypeBar, new Vector3(10, 0, 0), TweenTime / 8);
         ScrollRect CellSlotsScrollRect = CellSlotsMask.GetComponent<ScrollRect>();
@@ -84,4 +107,6 @@ public class UILeanTween : MonoBehaviour
         LeanTween.scale(BuyCellButton, new Vector3(1.2f, 1.2f, 1.2f), TweenTime / 4).setEase(LeanTweenType.easeOutExpo);
         LeanTween.scale(BuyCellButton, new Vector3(1, 1, 1), TweenTime / 4).setEase(LeanTweenType.easeInExpo).setDelay(TweenTime / 4);
     }
+
+   
 }

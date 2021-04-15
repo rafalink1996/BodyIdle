@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d63ff70d349b44f2a47a668eba251d6, type: 3}
+  m_Name: WhiteBloodCell
+  m_EditorClassIdentifier: 
+  MyCellType: 1
+  Cellx1: {fileID: 21300000, guid: 206e87088be5f4f7992587e2a5c31ec0, type: 3}
+  Cellx10: {fileID: 21300000, guid: e0b66f54ce6d34fdf9ef8211559b6ae1, type: 3}
+  Cellx100: {fileID: 21300000, guid: aad17ff014c9843168afb4d52736583b, type: 3}
+  MyColor: {r: 0.7568628, g: 0.75294125, b: 0.75294125, a: 1}
