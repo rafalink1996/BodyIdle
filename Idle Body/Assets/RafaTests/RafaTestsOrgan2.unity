@@ -368,6 +368,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsPerSecond: 1
   totalPoints: 1
+  organCells:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  organPoints:
+  - 0
+  - 0
   organ1Cells: {x: 3, y: 7, z: 4}
   organ1Points: 0
   organ2Cells: {x: 4, y: 5, z: 6}
@@ -604,6 +610,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1264454474}
   - component: {fileID: 1264454473}
+  - component: {fileID: 1264454475}
   m_Layer: 0
   m_Name: Cell Spawner
   m_TagString: Untagged
@@ -618,7 +625,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1264454472}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 080bd5c4e00ca49c1bf9af72151d1d6f, type: 3}
   m_Name: 
@@ -645,6 +652,28 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1264454475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264454472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7634064372448b885c48e495597852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  organID: 1
+  cells:
+  - {fileID: 9196088673389811172, guid: 482f27a1cf4c5420696ca4b1ab3086c0, type: 3}
+  - {fileID: 3373742676797800577, guid: cf03dc7a9a5504d4fa8fb9127422b720, type: 3}
+  - {fileID: 4258546806333515217, guid: 60647acd9fb93462986cdda569ba014a, type: 3}
+  numOfRedCells: {x: 5, y: 6, z: 7}
+  organPoints: 0
+  total: {fileID: 1787044735}
+  points: {fileID: 867181463}
+  sceneToLoad: RafaTestsOrgan1
 --- !u!1 &1427487110
 GameObject:
   m_ObjectHideFlags: 0

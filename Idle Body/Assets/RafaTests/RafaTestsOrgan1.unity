@@ -387,7 +387,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1264454473}
+      - m_Target: {fileID: 1264454475}
         m_MethodName: BuySmallCell
         m_Mode: 3
         m_Arguments:
@@ -466,6 +466,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pointsPerSecond: 0
   totalPoints: 0
+  organCells:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 0}
+  organPoints:
+  - 0
+  - 0
   organ1Cells: {x: 3, y: 4, z: 5}
   organ1Points: 0
   organ2Cells: {x: 1, y: 2, z: 3}
@@ -571,7 +577,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1264454474}
-  - component: {fileID: 1264454473}
+  - component: {fileID: 1264454475}
   m_Layer: 0
   m_Name: Cell Spawner
   m_TagString: Untagged
@@ -579,26 +585,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1264454473
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1264454472}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6740c619c46b54e3b990f7e6aa18d55c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cells:
-  - {fileID: 9196088673389811172, guid: 482f27a1cf4c5420696ca4b1ab3086c0, type: 3}
-  - {fileID: 3373742676797800577, guid: cf03dc7a9a5504d4fa8fb9127422b720, type: 3}
-  - {fileID: 4258546806333515217, guid: 60647acd9fb93462986cdda569ba014a, type: 3}
-  numOfRedCells: {x: 13, y: 2, z: 5}
-  organPoints: 0
-  total: {fileID: 1787044735}
-  points: {fileID: 867181463}
 --- !u!4 &1264454474
 Transform:
   m_ObjectHideFlags: 0
@@ -613,6 +599,29 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1264454475
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1264454472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b7634064372448b885c48e495597852, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  organID: 0
+  cells:
+  - {fileID: 9196088673389811172, guid: 482f27a1cf4c5420696ca4b1ab3086c0, type: 3}
+  - {fileID: 3373742676797800577, guid: cf03dc7a9a5504d4fa8fb9127422b720, type: 3}
+  - {fileID: 4258546806333515217, guid: 60647acd9fb93462986cdda569ba014a, type: 3}
+  numOfRedCells: {x: 3, y: 4, z: 5}
+  organPoints: 0
+  total: {fileID: 1787044735}
+  points: {fileID: 867181463}
+  sceneToLoad: RafaTestsOrgan2
+  combine_S: 0
 --- !u!1 &1604070533
 GameObject:
   m_ObjectHideFlags: 0
