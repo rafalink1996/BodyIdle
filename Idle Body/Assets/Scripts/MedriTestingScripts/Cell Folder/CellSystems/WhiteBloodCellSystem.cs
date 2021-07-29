@@ -13,7 +13,7 @@ public class WhiteBloodCellSystem : MonoBehaviour
     public TextMeshProUGUI MaxWhiteBloodCellDisplay;
 
 
-    public GameManager GM;
+    public TestGameManager GM;
 
 
 

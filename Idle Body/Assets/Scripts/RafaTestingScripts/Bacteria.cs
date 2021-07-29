@@ -48,8 +48,8 @@ public class Bacteria : MonoBehaviour
         {
             if (target.GetComponent<HitPoints>().canDie)
             {
-                target.GetComponent<HitPoints>().hitPoints -= 1;
-                GetComponent<HitPoints>().hitPoints -= 1;
+                target.GetComponent<HitPoints>().health -= 1;
+                //GetComponent<HitPoints>().hitPoints -= 1;
                 StartCoroutine(MoveAgain());
             }
         }

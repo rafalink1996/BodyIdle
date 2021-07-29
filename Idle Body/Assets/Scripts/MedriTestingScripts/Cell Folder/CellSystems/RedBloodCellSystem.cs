@@ -19,7 +19,7 @@ public class RedBloodCellSystem : MonoBehaviour
     private string RedBloodCellADNPSText;
     //public TextMeshProUGUI RedBloodCellADNPSDisplay;
 
-    public GameManager GM;
+    public TestGameManager GM;
     
     
 

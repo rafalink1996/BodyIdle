@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class HitPoints : MonoBehaviour
 {
-    public int hitPoints;
+    public int health;
     public bool canDie = true;
     // Start is called before the first frame update
     void Start()
@@ -15,9 +15,14 @@ public class HitPoints : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (hitPoints <= 0)
+        if (health <= 0)
         {
-            Destroy(gameObject);
+            DeactivateCell();
         }
+    }
+
+    void DeactivateCell()
+    {
+        Destroy(gameObject);
     }
 }

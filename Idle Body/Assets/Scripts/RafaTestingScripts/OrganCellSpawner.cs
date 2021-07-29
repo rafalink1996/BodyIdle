@@ -23,10 +23,10 @@ public class OrganCellSpawner : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        numOfRedCells = PointsManager.pointsManager.organCells[organID];
+        numOfRedCells = GameManager.gameManager.pointsManager.organCells[organID];
         StartCoroutine(SpawnCells());
         
-        buttonText.text = "Get Cell \n Cost: " + PointsManager.pointsManager.organCostOfCell[organID].ToString();
+        buttonText.text = "Get Cell \n Cost: " + GameManager.gameManager.pointsManager.organCostOfCell[organID].ToString();
 
     }
 
@@ -35,15 +35,15 @@ public class OrganCellSpawner : MonoBehaviour
     {
         //organPoints = GameObject.FindGameObjectsWithTag("RedCells1").Length + (GameObject.FindGameObjectsWithTag("RedCells10").Length * 10) + (GameObject.FindGameObjectsWithTag("RedCells100").Length * 100);
 
-        PointsManager.pointsManager.organCells[organID] = new Vector3(GameObject.FindGameObjectsWithTag("RedCells1").Length, GameObject.FindGameObjectsWithTag("RedCells10").Length, GameObject.FindGameObjectsWithTag("RedCells100").Length);
-        PointsManager.pointsManager.organPoints[organID] = PointsManager.pointsManager.organCells[organID].x + PointsManager.pointsManager.organCells[organID].y * 10 + PointsManager.pointsManager.organCells[organID].z * 100;
-        if (PointsManager.pointsManager.organCells[organID].x == 10 && !combine_S)
+        GameManager.gameManager.pointsManager.organCells[organID] = new Vector3(GameObject.FindGameObjectsWithTag("RedCells1").Length, GameObject.FindGameObjectsWithTag("RedCells10").Length, GameObject.FindGameObjectsWithTag("RedCells100").Length);
+        GameManager.gameManager.pointsManager.organPoints[organID] = GameManager.gameManager.pointsManager.organCells[organID].x + GameManager.gameManager.pointsManager.organCells[organID].y * 10 + GameManager.gameManager.pointsManager.organCells[organID].z * 100;
+        if (GameManager.gameManager.pointsManager.organCells[organID].x == 10 && !combine_S)
         {
 
                 StartCoroutine(SpawnMedCell());
 
         }
-        if (PointsManager.pointsManager.organCells[organID].y == 10 && !combine_M)
+        if (GameManager.gameManager.pointsManager.organCells[organID].y == 10 && !combine_M)
         {
             StartCoroutine(SpawnLargeCell());
         }
@@ -51,8 +51,8 @@ public class OrganCellSpawner : MonoBehaviour
         {
             SceneManager.LoadScene(sceneToLoad);
         }
-        total.text = "Total Points: " + PointsManager.pointsManager.totalPoints.ToString();
-        points.text = "Points per second: " + PointsManager.pointsManager.pointsPerSecond.ToString();
+        total.text = "Total Points: " + GameManager.gameManager.pointsManager.totalPoints.ToString();
+        points.text = "Points per second: " + GameManager.gameManager.pointsManager.pointsPerSecond.ToString();
         if (Input.GetKeyDown(KeyCode.B)) //spawnear bacterias for testing todo
         {
             Vector3 randomPosition = Random.insideUnitCircle * 3f;
@@ -131,13 +131,13 @@ public class OrganCellSpawner : MonoBehaviour
     }
     public void BuySmallCell()
     {
-        if (PointsManager.pointsManager.totalPoints >= PointsManager.pointsManager.organCostOfCell[organID] && PointsManager.pointsManager.organCells[organID].x < 10 && canBuyRedCell)
+        if (GameManager.gameManager.pointsManager.totalPoints >= GameManager.gameManager.pointsManager.organCostOfCell[organID] && GameManager.gameManager.pointsManager.organCells[organID].x < 10 && canBuyRedCell)
         {
             Vector3 randomPosition = Random.insideUnitCircle * 3f;
             Instantiate(cells[0], randomPosition, Quaternion.identity);
-            PointsManager.pointsManager.GetPoints(-PointsManager.pointsManager.organCostOfCell[organID]);
-            PointsManager.pointsManager.organCostOfCell[organID] += 1;
-            buttonText.text = "Get Cell \n Cost: " + PointsManager.pointsManager.organCostOfCell[organID].ToString();
+            GameManager.gameManager.pointsManager.GetPoints(-GameManager.gameManager.pointsManager.organCostOfCell[organID]);
+            GameManager.gameManager.pointsManager.organCostOfCell[organID] += 1;
+            buttonText.text = "Get Cell \n Cost: " + GameManager.gameManager.pointsManager.organCostOfCell[organID].ToString();
             combine_S = false;
         }
     }

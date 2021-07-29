@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using TMPro;
 
 
-public class GameManager : MonoBehaviour
+public class TestGameManager : MonoBehaviour
 {
 
     private string CellsText;

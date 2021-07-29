@@ -10,6 +10,7 @@ public class TopUIManager : MonoBehaviour
     void Start()
     {
         myUITopLeanTween = GetComponent<UITopLeanTween>();
+        
     }
 
     public void OpenStore()
@@ -23,7 +24,7 @@ public class TopUIManager : MonoBehaviour
     {
 
     }
-    IEnumerator 
+    //IEnumerator 
 
     public void CloseStore()
     {
