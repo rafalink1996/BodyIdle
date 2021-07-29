@@ -389,7 +389,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1264454475}
         m_MethodName: BuySmallCell
-        m_Mode: 3
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -467,7 +467,7 @@ MonoBehaviour:
   pointsPerSecond: 0
   totalPoints: 0
   organCells:
-  - {x: 0, y: 0, z: 0}
+  - {x: 9, y: 9, z: 9}
   - {x: 0, y: 0, z: 0}
   organPoints:
   - 0
@@ -476,6 +476,7 @@ MonoBehaviour:
   organ1Points: 0
   organ2Cells: {x: 1, y: 2, z: 3}
   organ2Points: 0
+  organCostOfCell: 6400000064000000
 --- !u!4 &662514799
 Transform:
   m_ObjectHideFlags: 0
@@ -616,12 +617,16 @@ MonoBehaviour:
   - {fileID: 9196088673389811172, guid: 482f27a1cf4c5420696ca4b1ab3086c0, type: 3}
   - {fileID: 3373742676797800577, guid: cf03dc7a9a5504d4fa8fb9127422b720, type: 3}
   - {fileID: 4258546806333515217, guid: 60647acd9fb93462986cdda569ba014a, type: 3}
+  - {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
   numOfRedCells: {x: 3, y: 4, z: 5}
   organPoints: 0
   total: {fileID: 1787044735}
   points: {fileID: 867181463}
+  buttonText: {fileID: 1604070535}
   sceneToLoad: RafaTestsOrgan2
   combine_S: 0
+  combine_M: 0
+  canBuyRedCell: 1
 --- !u!1 &1604070533
 GameObject:
   m_ObjectHideFlags: 0

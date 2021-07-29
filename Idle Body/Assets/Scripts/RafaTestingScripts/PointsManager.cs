@@ -17,6 +17,7 @@ public class PointsManager : MonoBehaviour
     public float organ1Points;
     public Vector3 organ2Cells;
     public float organ2Points;
+    public int[] organCostOfCell;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -57,6 +58,10 @@ public class PointsManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.I))
         {
             GetPoints(10);
+        }
+        if (Input.GetKeyDown(KeyCode.U))
+        {
+            GetPoints(100);
         }
     }
     IEnumerator GetPointsPerSecond()

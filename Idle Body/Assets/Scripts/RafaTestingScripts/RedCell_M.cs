@@ -7,10 +7,13 @@ public class RedCell_M : MonoBehaviour
     [SerializeField]
     List<GameObject> smallCells;
     public bool spawn = true;
+    public bool move = true;
     public Vector2 target;
     public Vector2 currentPos;
     public Vector2 combineTarget;
+    public float speed;
     public bool combine;
+    public bool combining;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,7 +23,9 @@ public class RedCell_M : MonoBehaviour
         {
             gameObject.tag = "Untagged";
             GetComponent<Animator>().SetTrigger("Light");
+            GetComponent<HitPoints>().canDie = false;
         }
+        gameObject.name = "RedBlood_M";
     }
 
     // Update is called once per frame
@@ -31,13 +36,14 @@ public class RedCell_M : MonoBehaviour
             StartCoroutine(SpawnSelf());
         }
         currentPos = transform.position;
-        if (gameObject.tag == "RedCells10")
+        if (move)
         {
-            transform.position = Vector2.Lerp(transform.position, target, Time.deltaTime);
+            //transform.position = Vector2.Lerp(transform.position, target, Time.deltaTime);
+            transform.position = Vector2.MoveTowards(transform.position, target, speed * Time.deltaTime);
         }
         if (currentPos == target)
         {
-            target = new Vector2(Random.Range(-8.5f, 8.5f), Random.Range(-5f, 5f));
+            StartCoroutine(MoveAgain());
         }
         if (combine)
         {
@@ -47,7 +53,7 @@ public class RedCell_M : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.tag == "RedCells1")
+        if (other.name == "RedBlood_S" && !spawn)
         {
             smallCells.Add(other.gameObject);
         }
@@ -58,17 +64,36 @@ public class RedCell_M : MonoBehaviour
         spawn = true;
         yield return new WaitForSeconds(0.5f);
         GetComponent<Animator>().SetTrigger("Spawn");
+        GetComponent<HitPoints>().canDie = true;
         foreach (GameObject cell_S in smallCells)
         {
             Destroy(cell_S);
         }
-        gameObject.tag = "RedCells10";
+        move = true;
+        FindObjectOfType<OrganCellSpawner>().canBuyRedCell = true;
+        FindObjectOfType<OrganCellSpawner>().combine_M = false;
+        //gameObject.tag = "RedCells10";
+    }
+    IEnumerator MoveAgain()
+    {
+        if (!combining)
+        {
+            move = false;
+            target = new Vector2(Random.Range(-8.5f, 8.5f), Random.Range(-5f, 5f));
+            yield return new WaitForSeconds(Random.Range(0.8f, 1.2f));
+            move = true;
+        }
     }
     IEnumerator Combine()
     {
-        yield return new WaitForSeconds(0.4f);
-        GetComponent<Animator>().SetTrigger("Light");
-        yield return new WaitForSeconds(0.3f);
-        target = combineTarget;
+        if (!combining)
+        {
+            combining = true;
+            yield return new WaitForSeconds(0.4f);
+            GetComponent<Animator>().SetTrigger("Light");
+            yield return new WaitForSeconds(0.3f);
+            target = combineTarget;
+            speed += 5;
+        }
     }
 }

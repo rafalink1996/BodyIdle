@@ -8,6 +8,7 @@ TagManager:
   - RedCells1
   - RedCells10
   - RedCells100
+  - Bacteria
   layers:
   - Default
   - TransparentFX
