@@ -298,8 +298,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1842062842}
   - component: {fileID: 1842062841}
-  - component: {fileID: 1842062840}
   - component: {fileID: 1842062843}
+  - component: {fileID: 1842062840}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -316,18 +316,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1842062839}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5678079a1c9840e6b3690b94c92bdcd, type: 3}
+  m_Script: {fileID: 11500000, guid: 8fcccb2ddb10a43ddaed43d45d59cd03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsPerSecond: 1
-  totalPoints: 1
-  organCells:
-  - {x: 1, y: 0, z: 3}
-  - {x: 0, y: 2, z: 2}
-  organPoints:
-  - 0
-  - 0
-  organCostOfCell: 0000000000000000
+  totalPoints: 0
 --- !u!114 &1842062841
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -340,7 +332,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3f97aed98fd00412eb843aa2541759ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pointsManager: {fileID: 1842062840}
+  pointsManager: {fileID: 0}
   organManager: {fileID: 1842062843}
   currentState: 0
 --- !u!4 &1842062842
@@ -397,20 +389,48 @@ MonoBehaviour:
     - health: 2
       maxHealth: 0
       timer: 0
-      alive: 0
+      alive: 1
     - health: 3
       maxHealth: 0
       timer: 0
-      alive: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
+    - health: 3
+      maxHealth: 0
+      timer: 0
+      alive: 1
     bigRedCells:
     - health: 4
       maxHealth: 0
       timer: 0
-      alive: 0
+      alive: 1
     - health: 8
       maxHealth: 0
       timer: 0
-      alive: 0
+      alive: 1
   - name: Stomach
     id: 1
     border: {fileID: 0}
@@ -418,53 +438,17 @@ MonoBehaviour:
     backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     pointsMultiplier: 1.1
     smallRedCells:
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
+    - health: 2
+      maxHealth: 2
       timer: 0
       alive: 1
     medRedCells:
-    - health: 9
-      maxHealth: 0
+    - health: 2
+      maxHealth: 2
       timer: 0
-      alive: 0
-    - health: 9
-      maxHealth: 0
-      timer: 0
-      alive: 0
-    - health: 9
-      maxHealth: 0
-      timer: 0
-      alive: 0
-    - health: 9
-      maxHealth: 0
-      timer: 0
-      alive: 0
+      alive: 1
     bigRedCells:
-    - health: 6
-      maxHealth: 0
+    - health: 1
+      maxHealth: 1
       timer: 0
-      alive: 0
-    - health: 8
-      maxHealth: 0
-      timer: 0
-      alive: 0
+      alive: 1

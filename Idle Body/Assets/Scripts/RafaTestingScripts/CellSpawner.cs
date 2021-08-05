@@ -22,25 +22,47 @@ public class CellSpawner : MonoBehaviour
             BuySmallRedBloodCell();
         }
     }
-    public void InstantiateCells()
+    public void InstantiateCells(Vector3 targetPosition = default(Vector3))
     {
         myOrganManager = GameManager.gameManager.organManager;
         if (myOrganManager.organs[organId].smallRedCells.Count != 0)
         {
             for (int i = smallRedBloodCells.Count; i < myOrganManager.organs[organId].smallRedCells.Count; i++)
             {
-                Vector3 randomPosition = Random.insideUnitCircle * 3f;
-                GameObject cell = Instantiate(cellsPrefabs[0], randomPosition, Quaternion.identity);
-                cell.GetComponent<HitPoints>().health = myOrganManager.organs[organId].smallRedCells[i].health;
-                smallRedBloodCells.Add(cell);
+                Vector3 spawnPosition;
+ 
+                if (targetPosition == default(Vector3))
+                {
+                      spawnPosition = Random.insideUnitCircle * 3f;
+                }
+                else
+                {
+                    spawnPosition = targetPosition;
+                }
+               
+                    GameObject cell = Instantiate(cellsPrefabs[0], spawnPosition, Quaternion.identity);
+                    cell.GetComponent<HitPoints>().health = myOrganManager.organs[organId].smallRedCells[i].health;
+                    smallRedBloodCells.Add(cell);
+                
             }
         }
         if (myOrganManager.organs[organId].medRedCells.Count != 0)
         {
             for (int i = medRedBloodCells.Count; i < myOrganManager.organs[organId].medRedCells.Count; i++)
             {
-                Vector3 randomPosition = Random.insideUnitCircle * 3f;
-                GameObject cell = Instantiate(cellsPrefabs[1], randomPosition, Quaternion.identity);
+                Vector3 spawnPosition;
+
+                if (targetPosition == default(Vector3))
+                {
+                    spawnPosition = Random.insideUnitCircle * 3f;
+                }
+                else
+                {
+                    spawnPosition = targetPosition;
+                }
+
+
+                GameObject cell = Instantiate(cellsPrefabs[1], spawnPosition, Quaternion.identity);
                 cell.GetComponent<HitPoints>().health = myOrganManager.organs[organId].medRedCells[i].health;
                 medRedBloodCells.Add(cell);
             }
@@ -49,8 +71,18 @@ public class CellSpawner : MonoBehaviour
         {
             for (int i = bigRedBloodCells.Count; i < myOrganManager.organs[organId].bigRedCells.Count; i++)
             {
-                Vector3 randomPosition = Random.insideUnitCircle * 3f;
-                GameObject cell = Instantiate(cellsPrefabs[2], randomPosition, Quaternion.identity);
+                Vector3 spawnPosition;
+
+                if (targetPosition == default(Vector3))
+                {
+                    spawnPosition = Random.insideUnitCircle * 3f;
+                }
+                else
+                {
+                    spawnPosition = targetPosition;
+                }
+
+                GameObject cell = Instantiate(cellsPrefabs[2], spawnPosition, Quaternion.identity);
                 cell.GetComponent<HitPoints>().health = myOrganManager.organs[organId].bigRedCells[i].health;
                 bigRedBloodCells.Add(cell);
             }
@@ -65,9 +97,37 @@ public class CellSpawner : MonoBehaviour
         cellInfo.alive = true;
         myOrganManager.organs[organId].smallRedCells.Add(cellInfo);
         InstantiateCells();
-        
+        MergeCells();
     }
-    
+    void MergeCells()
+    {
+        if (myOrganManager.organs[organId].smallRedCells.Count >= 10)
+        {
+            OrganManager.OrganInfo.CellInfo cellInfo = new OrganManager.OrganInfo.CellInfo();
+            cellInfo.health = 5;
+            cellInfo.maxHealth = 5;
+            cellInfo.timer = 0;
+            cellInfo.alive = true;
+            myOrganManager.organs[organId].medRedCells.Add(cellInfo);
+            myOrganManager.organs[organId].smallRedCells.Clear();
+            smallRedBloodCells.Clear();
+
+        }
+        if (myOrganManager.organs[organId].medRedCells.Count >= 10)
+        {
+            OrganManager.OrganInfo.CellInfo cellInfo = new OrganManager.OrganInfo.CellInfo();
+            cellInfo.health = 5;
+            cellInfo.maxHealth = 5;
+            cellInfo.timer = 0;
+            cellInfo.alive = true;
+            myOrganManager.organs[organId].bigRedCells.Add(cellInfo);
+            myOrganManager.organs[organId].medRedCells.Clear();
+            medRedBloodCells.Clear();
+
+        }
+
+    }
+
     public void UpdateCells()
     {
         if (myOrganManager.organs[organId].smallRedCells.Count != 0)

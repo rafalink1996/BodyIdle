@@ -16,10 +16,10 @@ public class OrganManager : MonoBehaviour
         [System.Serializable]
         public class CellInfo
         {
-            public int health;
-            public int maxHealth;
-            public float timer;
-            public bool alive;
+            public int health = 1;
+            public int maxHealth = 1;
+            public float timer = 0;
+            public bool alive = true;
         }
         [Space (10)]
         [Header ("Red Blood Cells")] 
