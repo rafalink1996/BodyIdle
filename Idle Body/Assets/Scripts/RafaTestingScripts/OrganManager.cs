@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class OrganManager : MonoBehaviour
 {
-    CellSpawner cellSpawner;
+    [HideInInspector]
+    public CellSpawner cellSpawner;
    [System.Serializable]
     public class OrganInfo {
         public string name;

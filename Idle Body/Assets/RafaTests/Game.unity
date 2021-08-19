@@ -246,6 +246,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1793788018}
   - component: {fileID: 1793788019}
+  - component: {fileID: 1793788020}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -288,6 +289,20 @@ MonoBehaviour:
   smallRedBloodCells: []
   medRedBloodCells: []
   bigRedBloodCells: []
+  myCellMerger: {fileID: 0}
+--- !u!114 &1793788020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1793788017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 244a0ebfe224f412682c27f6083d4f5a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  merger: {fileID: 2935962007086878687, guid: a50977b4509ba4be585636f527a5409c, type: 3}
 --- !u!1 &1842062839
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,6 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1aed20bdd34594a66b1e0375b90fc422, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  cellSpawner: {fileID: 0}
   organs:
   - name: Heart
     id: 0
@@ -373,64 +389,12 @@ MonoBehaviour:
       maxHealth: 0
       timer: 0
       alive: 1
-    - health: 4
-      maxHealth: 0
-      timer: 7
-      alive: 1
-    - health: 4
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 4
-      maxHealth: 0
-      timer: 0
-      alive: 1
     medRedCells:
-    - health: 2
+    - health: 0
       maxHealth: 0
       timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 3
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    bigRedCells:
-    - health: 4
-      maxHealth: 0
-      timer: 0
-      alive: 1
-    - health: 8
-      maxHealth: 0
-      timer: 0
-      alive: 1
+      alive: 0
+    bigRedCells: []
   - name: Stomach
     id: 1
     border: {fileID: 0}
