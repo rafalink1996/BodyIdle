@@ -21,7 +21,7 @@ public class OrganCellSpawner : MonoBehaviour
     int costOfCell;
 
     // Start is called before the first frame update
-    void Start()
+    /*void Start()
     {
         numOfRedCells = GameManager.gameManager.pointsManager.organCells[organID];
         StartCoroutine(SpawnCells());
@@ -141,5 +141,5 @@ public class OrganCellSpawner : MonoBehaviour
             combine_S = false;
         }
     }
-
+    */
 }

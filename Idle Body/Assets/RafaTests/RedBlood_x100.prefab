@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8114343184054826195}
   - component: {fileID: 7562102641035328263}
   - component: {fileID: 8489044761485983127}
+  - component: {fileID: -7437329893291360136}
   m_Layer: 0
   m_Name: RedBlood_x100
   m_TagString: RedCells100
@@ -130,7 +131,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4258546806333515217}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a0b9f6dd739d14abf84fc25753270b5c, type: 3}
   m_Name: 
@@ -175,5 +176,23 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ba58562bb404c2eb2d5d5bab5d6862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hitPoints: 100
+  health: 5
   canDie: 1
+--- !u!114 &-7437329893291360136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4258546806333515217}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b8c8c38421bc42bbb64e768cdbc4b92, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {x: 0, y: 0}
+  currentPos: {x: 0, y: 0}
+  combineTarget: {x: 0, y: 0}
+  speed: 3
+  combining: 0
+  myCellMerger: {fileID: 0}

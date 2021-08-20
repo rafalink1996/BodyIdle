@@ -7,7 +7,7 @@ public class GameManager : MonoBehaviour
     
     public static GameManager gameManager;
     [Header("References")]
-    public PointsManager pointsManager;
+    public NewPointsManager pointsManager;
     public OrganManager organManager;
     public enum gameState { store, cellsScreen, organScreen, organism};
     public gameState currentState;
@@ -27,7 +27,7 @@ public class GameManager : MonoBehaviour
     void Start()
 
     {
-
+        pointsManager.StartPointsManager();
     }
 
     // Update is called once per frame

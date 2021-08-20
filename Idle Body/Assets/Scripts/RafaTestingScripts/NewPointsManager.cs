@@ -10,19 +10,24 @@ public class NewPointsManager : MonoBehaviour
     void Start()
     {
         OM = GameManager.gameManager.organManager;
-        
+    }
+    public void StartPointsManager()
+    {
+        StartCoroutine(GetPointsPerSecond());
     }
 
     // Update is called once per frame
     void Update()
     {
-        totalPoints = PointsPerSecond();
+        //totalPoints = PointsPerSecond();
     }
     IEnumerator GetPointsPerSecond()
     {
-        yield return new WaitForSeconds(1f);
-        totalPoints += PointsPerSecond();
-        StartCoroutine(GetPointsPerSecond());
+        while (true)
+        {
+            yield return new WaitForSeconds(1f);
+            GetPoints(PointsPerSecond());
+        }
 
     }
     float PointsPerSecond()
@@ -30,30 +35,39 @@ public class NewPointsManager : MonoBehaviour
         float pointsPerSecond = 0;
         for (int o = 0; o < OM.organs.Count; o++)
         {
-            for (int s = 0; s < OM.organs[o].smallRedCells.Count; s++)
+            for (int s = 0; s < OM.organs[o].lists[0].Cells.Count; s++)
             {
-                if (OM.organs[o].smallRedCells[s].alive)
+                if (OM.organs[o].lists[0].Cells[s].alive)
                 {
                     pointsPerSecond += 1 * OM.organs[o].pointsMultiplier;
                 }
             }
-            for (int m = 0; m < OM.organs[o].medRedCells.Count; m++)
+            for (int m = 0; m < OM.organs[o].lists[1].Cells.Count; m++)
             {
-                if (OM.organs[o].medRedCells[m].alive)
+                if (OM.organs[o].lists[1].Cells[m].alive)
                 {
                     pointsPerSecond += 10 * OM.organs[o].pointsMultiplier;
                 }
             }
-            for (int b = 0; b < OM.organs[o].bigRedCells.Count; b++)
+            for (int b = 0; b < OM.organs[o].lists[2].Cells.Count; b++)
             {
-                if (OM.organs[o].bigRedCells[b].alive)
+                if (OM.organs[o].lists[2].Cells[b].alive)
                 {
                     pointsPerSecond += 100 * OM.organs[o].pointsMultiplier;
                 }
             }
             //pointsPerSecond += (OM.organs[o].smallRedCells.Count + (OM.organs[o].medRedCells.Count * 10) + (OM.organs[o].bigRedCells.Count * 100)) * OM.organs[o].pointsMultiplier;
         }
-        
+
         return pointsPerSecond;
+    }
+    public void GetPoints(float pointValue)
+    {
+        totalPoints += pointValue;
+        // Esta función es para agregar puntos manualmente. Por ejemplo haciendo tap en la pantalla
+    }
+    public void OnClickGetPoints()
+    {
+        GetPoints(1 * OM.organs[OM.activeOrganID].pointsMultiplier);
     }
 }

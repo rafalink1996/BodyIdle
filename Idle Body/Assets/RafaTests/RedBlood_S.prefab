@@ -154,7 +154,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 60ba58562bb404c2eb2d5d5bab5d6862, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 0
+  health: 5
   canDie: 1
 --- !u!114 &7970367359666460624
 MonoBehaviour:
@@ -171,9 +171,6 @@ MonoBehaviour:
   target: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}
   combineTarget: {x: 0, y: 0}
-  velocity: {x: 0, y: 0}
-  move: 1
   speed: 5
-  maxSpeed: 0
-  combine: 0
   combining: 0
+  myCellMerger: {fileID: 0}

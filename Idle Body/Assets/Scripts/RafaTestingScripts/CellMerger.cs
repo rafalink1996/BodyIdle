@@ -67,7 +67,7 @@ public class CellMerger : MonoBehaviour
         CellSpawner myCellSpawner = GameManager.gameManager.organManager.cellSpawner;
         if (!spawnBigCell)
         {
-            myCellSpawner.SpawnMedRedBloodCell();
+            myCellSpawner.SpawnMedRedBloodCell(cellMerger.transform.position);
         }
         else
         {
