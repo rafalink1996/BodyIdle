@@ -32,7 +32,7 @@ Transform:
   m_GameObject: {fileID: 3373742676797800577}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 3.11, y: 2.66, z: 0}
-  m_LocalScale: {x: 0.2568826, y: 0.2568826, z: 0.2568826}
+  m_LocalScale: {x: 0.1, y: 0.1, z: 0.1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -73,8 +73,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: 1860250311
+  m_SortingLayer: 4
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 49868511427c740b9a5e0e53c792523c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -193,6 +193,6 @@ MonoBehaviour:
   target: {x: 0, y: 0}
   currentPos: {x: 0, y: 0}
   combineTarget: {x: 0, y: 0}
-  speed: 4
+  speed: 2
   combining: 0
   myCellMerger: {fileID: 0}

@@ -1,40 +1,104 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+
 
 public class GameData : MonoBehaviour
 {
+    public float energyPoints;
     public static GameData data;
-    public float points;
-    public bool organ0unlocked;
-    public int organ0smallRedCells;
-    public int organ0medRedCells;
-    public int organ0bigRedCells;
-    public float organ0smallRedCell0Health;
-    public float organ0smallRedCell1Health;
-    public float organ0smallRedCell2Health;
-    public float organ0smallRedCell3Health;
-    public float organ0smallRedCell4Health;
-    public float organ0smallRedCell5Health;
-    public float organ0smallRedCell6Health;
-    public float organ0smallRedCell7Health;
-    public float organ0smallRedCell8Health;
-    public float organ0medRedCell0Health;
-    public float organ0medRedCell1Health;
-    public float organ0medRedCell2Health;
+    OrganManager myOrganManager;
+    SaveObject LoadedObject;
+  
 
-    // Start is called before the first frame update
     private void Awake()
     {
         if (data == null)
         {
             DontDestroyOnLoad(gameObject);
             data = this;
+            //Rest of Awake code
+            SaveSystem.Init();
         }
         else if (data != this)
         {
             Destroy(gameObject);
         }
     }
-   
+    public void CustomStart()
+    {  
+        myOrganManager = GameManager.gameManager.organManager;
+    }
+
+
+    private void save()
+    {
+        SaveObject saveObject = new SaveObject
+        {
+            energyPoints = energyPoints,
+            Organs = myOrganManager.organs.ToArray(),
+        };
+        string json = JsonUtility.ToJson(saveObject);
+        SaveSystem.Save(json);
+        Debug.Log("Saved Data");
+    }
+
+    private void Load()
+    {
+        string saveString = SaveSystem.Load();
+        if (!string.IsNullOrEmpty(saveString))
+        {
+            LoadedObject = JsonUtility.FromJson<SaveObject>(saveString);
+            Debug.Log("Load Data");
+        }
+        else
+        {
+            Debug.LogWarning("No save");
+        }
+ 
+    }
+
+    void SetStats()
+    {
+        if(LoadedObject != null)
+        {
+            if(LoadedObject.Organs != null)
+            {
+                myOrganManager.organs = LoadedObject.Organs.ToList();
+            }
+            energyPoints = LoadedObject.energyPoints;
+        }
+    }
+
+    private class SaveObject
+    {
+        public float energyPoints;
+        public OrganManager.OrganInfo[] Organs;
+        
+    }
+
+
+    /// DELETE THIS METHOD////TODO
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            save();
+        }
+        if (Input.GetKeyDown(KeyCode.L))
+        {
+            Load();
+        }
+        if(Input.GetKeyDown(KeyCode.M))
+        {
+            SetStats();
+        }
+     
+    }
+
+
+
+
 }

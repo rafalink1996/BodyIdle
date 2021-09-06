@@ -9,15 +9,25 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public NewPointsManager pointsManager;
     public OrganManager organManager;
+    public BottomUiManager bottomUiManager;
+    public TopUIManager topUIManager;
+
+    
     public enum gameState { store, cellsScreen, organScreen, organism};
+    [Header("States")]
     public gameState currentState;
     // Start is called before the first frame update
     private void Awake()
     {
         if (gameManager == null)
         {
-            DontDestroyOnLoad(gameObject);
+            //DontDestroyOnLoad(gameObject);
+            QualitySettings.vSyncCount = 0;
+            Application.targetFrameRate = 30;
             gameManager = this;
+            //Rest of awake code
+            GetReferences();
+
         }
         else if (gameManager != this)
         {
@@ -25,14 +35,22 @@ public class GameManager : MonoBehaviour
         }
     }
     void Start()
-
     {
+        GameData.data.CustomStart();
         pointsManager.StartPointsManager();
+
     }
 
-    // Update is called once per frame
-    void Update()
+    void GetReferences()
     {
-
+        if(pointsManager == null)
+        {
+            pointsManager = FindObjectOfType<NewPointsManager>();
+        }
+        if (organManager == null)
+        {
+            organManager = FindObjectOfType<OrganManager>();
+        }
+     
     }
 }

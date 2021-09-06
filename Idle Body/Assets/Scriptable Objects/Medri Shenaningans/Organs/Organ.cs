@@ -10,7 +10,7 @@ public class Organ : ScriptableObject
     public Sprite OrganSprite;
     public AnimatorOverrideController OrganAnimator;
     public float OrganStartingPointsPerSecond;
-
+    public int pointMultiplier;
     public int OrganPointCost;
     public int OrganCellCost;
 

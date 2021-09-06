@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -597,24 +597,33 @@ MonoBehaviour:
   - {fileID: 2386883804046001956, guid: 77cb1071baadb47a8a6cdd961cc3db96, type: 3}
   myCellMerger: {fileID: 0}
   canBuyRedcell: 1
-  lists:
-  - name: Small Red
+  CellTypes:
+  - name: Small red cell
     id: 0
     Cells: []
-  - name: Med Red
+  - name: Medium red cell
     id: 1
     Cells: []
-  - name: Big Red
+  - name: Big red cell
     id: 2
     Cells: []
-  - name: Small White
-    id: 0
+  - name: small White cell
+    id: 3
     Cells: []
-  - name: Med White
-    id: 0
+  - name: Medium White cell
+    id: 4
     Cells: []
-  - name: Big White
-    id: 0
+  - name: Big White cell
+    id: 5
+    Cells: []
+  - name: small Helper cell
+    id: 6
+    Cells: []
+  - name: Medium Helper cell
+    id: 7
+    Cells: []
+  - name: Big Helper cell
+    id: 8
     Cells: []
 --- !u!114 &1793788020
 MonoBehaviour:

@@ -6,8 +6,9 @@ public class OrganManager : MonoBehaviour
 {
     [HideInInspector]
     public CellSpawner cellSpawner;
-   [System.Serializable]
-    public class OrganInfo {
+    [System.Serializable]
+    public class OrganInfo
+    {
         public string name;
         public int id;
         public bool unlocked;
@@ -25,13 +26,10 @@ public class OrganManager : MonoBehaviour
             public float timer = 0;
             public bool alive = true;
         }
-
-        //public List<CellInfo> smallRedCells;
-        //public List<CellInfo> medRedCells;
-        //public List<CellInfo> bigRedCells;
         [System.Serializable]
         public class cellsList
         {
+           
             public string name;
             public int id;
             public List<CellInfo> Cells;
@@ -39,11 +37,14 @@ public class OrganManager : MonoBehaviour
         [Space(10)]
         [Header("Cells List")]
         public cellsList[] lists;
+        
     }
-    public List<OrganInfo> organs;
-    public int activeOrganID = 0;
 
+    public List<OrganInfo> organs = new List<OrganInfo>();
+    public int activeOrganID = 0;
     
+
+
     // Start is called before the first frame update
     void Start()
     {
@@ -58,13 +59,17 @@ public class OrganManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.S))
+        if (Input.GetKeyDown(KeyCode.G))
         {
             StartCoroutine(ChangeOrgan(1));
         }
         if (Input.GetKeyDown(KeyCode.H))
         {
             StartCoroutine(ChangeOrgan(0));
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            AddNewOrgan();
         }
     }
 
@@ -83,31 +88,93 @@ public class OrganManager : MonoBehaviour
     public float CalculateCosts(int organId)
     {
         float totalCells = GetTotalCells(organId);
-        float cost = organs[activeOrganID].initialRedCellCost + ((totalCells *(totalCells + 1)) / 2);
+        float cost = organs[activeOrganID].initialRedCellCost + ((totalCells * (totalCells + 1)) / 2);
         return cost;
     }
     float GetTotalCells(int organId)
     {
         float totalCells = 0;
-       
-            for (int c = 0; c < 3; c++)
+
+        for (int c = 0; c < 3; c++)
+        {
+
+            for (int r = 0; r < organs[organId].lists[c].Cells.Count; r++)
             {
-               
-                for (int r = 0; r < organs[organId].lists[c].Cells.Count; r++)
+                if (c == 0)
                 {
-                    if (c == 0)
-                    {
-                        totalCells++;
-                    }else if (c == 1)
-                    {
-                        totalCells += 10;
-                    }else if (c == 2)
-                    {
-                        totalCells += 100;
-                    }
+                    totalCells++;
+                }
+                else if (c == 1)
+                {
+                    totalCells += 10;
+                }
+                else if (c == 2)
+                {
+                    totalCells += 100;
                 }
             }
-        
+        }
+
         return totalCells;
+    }
+
+
+    void AddNewOrgan()
+    {
+        OrganInfo newOrgan = new OrganInfo
+        {
+            pointsMultiplier = 1,
+            lists = new OrganInfo.cellsList[]
+              {
+                   new OrganInfo.cellsList
+                   {
+                       name = "Small Red Blood Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Medium Red Blood Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Big Red Blood Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Small white Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Medium white Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Big white Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Small Helper Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Medium Helper Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+                   new OrganInfo.cellsList
+                   {
+                       name = "Big Helper Cells",
+                       Cells = new List<OrganInfo.CellInfo>(),
+                   },
+
+              },
+        };
+        organs.Add(newOrgan);
+
     }
 }
