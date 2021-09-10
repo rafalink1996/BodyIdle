@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class NewPointsManager : MonoBehaviour
 {
-    public float totalPoints;
+    public double totalPoints;
     private OrganManager OM;
     // Start is called before the first frame update
     void Start()
@@ -23,13 +23,14 @@ public class NewPointsManager : MonoBehaviour
     }
     IEnumerator GetPointsPerSecond()
     {
+        float PointDilation = 1f;
         while (true)
         {
-            yield return new WaitForSeconds(1f);
-            GetPoints(PointsPerSecond());  
+            yield return new WaitForSeconds(1f * PointDilation);
+            GetPoints(PointsPerSecond() * PointDilation);
         }
     }
-    float PointsPerSecond()
+    public float PointsPerSecond()
     {
         float pointsPerSecond = 0;
 
@@ -37,53 +38,35 @@ public class NewPointsManager : MonoBehaviour
         {
             for (int o = 0; o < OM.organs.Count; o++) // Check all organs
             {
-                if (OM.organs[0].lists.Length == 9) // Check if cell lists are the correct size
+                if (OM.organs[0].CellTypes.Length == 3) // Check if cell Types are the correct size
                 {
-                    for (int c = 0; c < 3; c++) // Cehck red blood cells
+                    if (OM.organs[o].CellTypes[0] != null) // Check if red blood cells are correct
                     {
-                        if (OM.organs[o].lists[c] != null)
+                        if (OM.organs[o].CellTypes[0].cellSizes.Count == 3) // check if there are 3 cell sizes
                         {
-                            if (OM.organs[o].lists[c].Cells != null)
+                            for (int b = 0; b < OM.organs[o].CellTypes[0].cellSizes.Count; b++) // go through all sizes
                             {
-                                if (OM.organs[o].lists[c].Cells.Count != 0)
+                                if (OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count != 0) // check if there are red cells of current size
                                 {
-                                    for (int b = 0; b < OM.organs[o].lists[c].Cells.Count; b++)// Check cell list cells red blood cells
+                                    for (int c = 0; c < OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count; c++) // check all cells of current size
                                     {
-                                        if (OM.organs[o].lists[c].Cells[b].alive)
+                                        if (OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos[c].alive)
                                         {
-                                            int multiplier = Mathf.FloorToInt(Mathf.Pow(10, c));
-                                            Debug.Log(multiplier);
+                                            int multiplier = Mathf.FloorToInt(Mathf.Pow(10, b));
                                             pointsPerSecond += multiplier * OM.organs[o].pointsMultiplier;
-                                            
+
                                         }
                                     }
                                 }
-                                else
-                                {
-                                    Debug.Log("No cells of type: " + c);
-                                }
-
                             }
-                            else
-                            {
-                                Debug.Log("Cells are null");
-                            }
-                        }
-                        else
-                        {
-                            Debug.Log("Cells list are null");
                         }
                     }
-                }
-                else
-                {
-                    Debug.Log("Cell list lenght is not 9");
                 }
             }
         }
 
         return pointsPerSecond;
-        
+
     }
     public void GetPoints(float pointValue)
     {

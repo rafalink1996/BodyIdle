@@ -6,23 +6,12 @@ public class CellMerger : MonoBehaviour
 {
     [SerializeField] GameObject merger;
 
-    // Start is called before the first frame update
-    void Start()
+    public void Merge(List<GameObject> cellsToMerge, int celltype, bool MidCellMerge = false)
     {
-
+        StartCoroutine(MergeCells(cellsToMerge, celltype, MidCellMerge));
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-    public void Merge(List<GameObject> cellsToMerge, bool spawnBigCell = false)
-    {
-        StartCoroutine(MergeCells(cellsToMerge, spawnBigCell));
-    }
-
-    IEnumerator MergeCells(List<GameObject> cellsToMerge, bool spawnBigCell)
+    IEnumerator MergeCells(List<GameObject> cellsToMerge, int cellType, bool midCellMerge)
     {
         Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
         Vector2 spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
@@ -65,15 +54,23 @@ public class CellMerger : MonoBehaviour
         }
         cellsToMerge.Clear();
         CellSpawner myCellSpawner = GameManager.gameManager.organManager.cellSpawner;
-        if (!spawnBigCell)
+        if (midCellMerge)
         {
-            myCellSpawner.SpawnMedRedBloodCell(cellMerger.transform.position);
+            Debug.Log("Cell with no ifno spawned");
+            //myCellSpawner.SpawnMedRedBloodCell(cellMerger.transform.position);
+            myCellSpawner.InstantiateCells(cellMerger.transform.position, false, cellType, 1, true);
+            myCellSpawner.CheckMedCellsMerge(cellType);
         }
         else
         {
             myCellSpawner.InstantiateCells(cellMerger.transform.position);
+            myCellSpawner.CanBuyCell = true;
         }
         Destroy(cellMerger);
-        myCellSpawner.CheckMedCellsMerge();
+    }
+
+    public void InstantiateMergeObject()
+    {
+
     }
 }

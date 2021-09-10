@@ -7,256 +7,301 @@ public class CellSpawner : MonoBehaviour
 
     public OrganManager myOrganManager;
     [SerializeField]
-    List<GameObject> cellsPrefabs;
-    /*[SerializeField]
-    List<GameObject> smallRedBloodCells;
-    [SerializeField]
-    List<GameObject> medRedBloodCells;
-    [SerializeField]
-    List<GameObject> bigRedBloodCells;*/
-    [SerializeField]
     CellMerger myCellMerger;
 
-    public bool canBuyRedcell = true;
+    public bool CanBuyCell = true;
     [System.Serializable]
-    public class cellsList
+    public class CellType
     {
+        [System.Serializable]
+        public class CellSize
+        {
+            public string name;
+            public List<GameObject> Cells;
+            public GameObject CellPrefab;
+        }
         public string name;
-        public int id;
-        public List<GameObject> Cells;
+        public CellSize[] CellSizes;
     }
-    public cellsList[] CellTypes = new cellsList[]
+    public CellType[] CellTypes = new CellType[]
     {
-        new cellsList
+        new CellType
         {
-            name = "Small red cell",
-            id = 0,
+            name = "Red Cells",
+            CellSizes = new CellType.CellSize[]
+            {
+                new CellType.CellSize
+                {
+                    name = "Small Red",
+                    Cells = new List<GameObject>()
+                },
+                  new CellType.CellSize
+                {
+                    name = "Medium Red",
+                    Cells = new List<GameObject>()
+                },
+                    new CellType.CellSize
+                {
+                    name = "Big Red",
+                    Cells = new List<GameObject>()
+                }
+            }
         },
-        new cellsList
+        new CellType
         {
-            name = "Medium red cell",
-            id = 1,
+            name = "White Cells",
+                  CellSizes = new CellType.CellSize[]
+            {
+                new CellType.CellSize
+                {
+                    name = "Small White",
+                    Cells = new List<GameObject>()
+                },
+                  new CellType.CellSize
+                {
+                    name = "Medium White",
+                    Cells = new List<GameObject>()
+                },
+                    new CellType.CellSize
+                {
+                    name = "Big White",
+                    Cells = new List<GameObject>()
+                }
+            }
         },
-        new cellsList
+        new CellType
         {
-            name = "Big red cell",
-            id = 2,
-        },
-        new cellsList
-        {
-            name = "small White cell",
-            id = 3,
-        },
-        new cellsList
-        {
-            name = "Medium White cell",
-            id = 4,
-        },
-        new cellsList
-        {
-            name = "Big White cell",
-            id = 5,
-        },
-        new cellsList
-        {
-            name = "small Helper cell",
-            id = 6,
-        },
-         new cellsList
-        {
-            name = "Medium Helper cell",
-            id = 7,
-        },
-          new cellsList
-        {
-            name = "Big Helper cell",
-            id = 8,
+            name = "Helper Cells",
+                  CellSizes = new CellType.CellSize[]
+            {
+                new CellType.CellSize
+                {
+                    name = "Small Helper",
+                    Cells = new List<GameObject>()
+                },
+                  new CellType.CellSize
+                {
+                    name = "Medium Helper",
+                    Cells = new List<GameObject>()
+                },
+                    new CellType.CellSize
+                {
+                    name = "Big Helper",
+                    Cells = new List<GameObject>()
+                }
+            }
         },
     };
 
 
 
-    private void Start()
+    public void CustomStart()
     {
         myCellMerger = GetComponent<CellMerger>();
+        myOrganManager = GameManager.gameManager.organManager;
     }
-    void Update()
+
+    public void InstantiateCells(Vector3 targetPosition = default(Vector3), bool SpawnAll = true, int cellType = 0, int cellSize = 0, bool IgnoreCellInfo = false)
     {
-        //UpdateCells();
-        if (Input.GetKeyDown(KeyCode.B))
+        if (SpawnAll)
         {
-            BuySmallRedBloodCell();
+            if (myOrganManager != null)
+            {
+                if (myOrganManager.organs.Count != 0) // check if there is an organ
+                {
+                    for (int a = 0; a < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes.Length; a++) // go through all cell types
+                    {
+                        for (int b = 0; b < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes.Count; b++) // go through all cell sizes
+                        {
+                            if (myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count != 0) // check if there are cells for current size
+                            {
+                                for (int c = CellTypes[a].CellSizes[b].Cells.Count; c < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count; c++) // go through differenece of cells of current size vs current instaniated cells
+                                {
+                                    Vector3 spawnPosition;
+                                    if (targetPosition == default(Vector3))
+                                    {
+                                        //spawnPosition = Random.insideUnitCircle * 3f;
+                                        Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
+                                        spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+                                    }
+                                    else
+                                    {
+                                        spawnPosition = targetPosition;
+                                    }
+
+                                    GameObject cell = Instantiate(CellTypes[a].CellSizes[b].CellPrefab, spawnPosition, Quaternion.identity);
+
+                                    cell.GetComponent<HitPoints>().health = myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c].health;
+                                    cell.TryGetComponent(out Cell_Base cell_Base);
+                                    cell_Base.CellStart(c, Cell_Base.CellSize.Small, myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c]);
+
+
+                                    CellTypes[a].CellSizes[b].Cells.Add(cell);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            else
+            {
+
+                Debug.LogWarning("Error: Organ Manager is null (at CellSpawner.cs - instantiateCells()");
+            }
+        }
+        else
+        {
+            Vector3 spawnPosition;
+            if (targetPosition == default(Vector3))
+            {
+                Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
+                spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+            }
+            else
+            {
+                spawnPosition = targetPosition;
+            }
+            GameObject cell = Instantiate(CellTypes[cellType].CellSizes[cellSize].CellPrefab, spawnPosition, Quaternion.identity);
+            if (!IgnoreCellInfo)
+            {
+                //Cell info started
+                int cellPosition = myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos.Count;
+                cell.GetComponent<HitPoints>().health = myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1].health;
+                cell.TryGetComponent(out Cell_Base cell_Base);
+                if (cell_Base != null)
+                {
+                    cell_Base.CellStart(cellPosition, Cell_Base.CellSize.Small, myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1]);
+                }
+                
+            }
+            CellTypes[cellType].CellSizes[cellSize].Cells.Add(cell);
         }
     }
-    public void InstantiateCells(Vector3 targetPosition = default(Vector3), int cellId = 0)
+
+
+    public void BuyCell(out bool Bought, int cellType = 0)
     {
-        myOrganManager = GameManager.gameManager.organManager;
-        for (int l = 0; l < CellTypes.Length; l++)
+        Bought = false;
+        if (CanBuyCell)
         {
-            if (myOrganManager.organs.Count != 0)
+            if (GameManager.gameManager.pointsManager.totalPoints >= myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost)
             {
-                if (myOrganManager.organs[myOrganManager.activeOrganID].lists[l].Cells.Count != 0)
+
+                /*----DATA----*/
+                /*----Create new Small Cell Data----*/
+                OrganManager.OrganInfo.cellsType.CellSizes.CellInfo cellInfo = new OrganManager.OrganInfo.cellsType.CellSizes.CellInfo();
+                cellInfo.maxHealth = 1;
+                cellInfo.health = 1;
+                cellInfo.timer = 0;
+                cellInfo.alive = true;
+                myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[0].CellsInfos.Add(cellInfo);
+
+
+                /*----Check for merge in data----*/
+                DataMerge(cellType, out bool merge, out bool big);
+
+                /*----Manage points a cost data----*/
+                GameManager.gameManager.pointsManager.GetPoints(-myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost);
+                myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost = myOrganManager.CalculateCosts(myOrganManager.activeOrganID, cellType);
+                Bought = true;
+
+                /*----END OF DATA----*/
+                /*-------------------*/
+                /*-------VISUAL------*/
+
+
+                /*----Instantiate New Cell----*/
+                if (merge)
                 {
-                    for (int i = CellTypes[l].Cells.Count; i < myOrganManager.organs[myOrganManager.activeOrganID].lists[l].Cells.Count; i++)
+                    if (big)
                     {
-                        Vector3 spawnPosition;
-
-                        if (targetPosition == default(Vector3))
-                        {
-                            //spawnPosition = Random.insideUnitCircle * 3f;
-                            Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
-                            spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
-                        }
-                        else
-                        {
-                            spawnPosition = targetPosition;
-                        }
-
-                        GameObject cell = Instantiate(cellsPrefabs[l], spawnPosition, Quaternion.identity);
-                        cell.GetComponent<HitPoints>().health = myOrganManager.organs[myOrganManager.activeOrganID].lists[l].Cells[i].health;
-                        CellTypes[l].Cells.Add(cell);
+                        myCellMerger.Merge(CellTypes[cellType].CellSizes[0].Cells, cellType, true);
                     }
+                    else
+                    {
+                        myCellMerger.Merge(CellTypes[cellType].CellSizes[0].Cells, cellType);
+                    }
+                    CanBuyCell = false;
+                }
+                else
+                {
+                    InstantiateCells();
+                }
+            }
+            else
+            {
+                Debug.Log("not enough points");
+            }
+        }
+    }
+    //public void SpawnMedRedBloodCell(Vector3 targetPosition = default(Vector3))
+    //{
+    //    Vector3 spawnPosition;
+    //    Debug.Log("Spawn med cell function activated");
+    //    if (targetPosition == default(Vector3))
+    //    {
+    //        //spawnPosition = Random.insideUnitCircle * 3f;
+    //        Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
+    //        spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+    //    }
+    //    else
+    //    {
+    //        spawnPosition = targetPosition;
+    //    }
+    //    GameObject cell = Instantiate(CellTypes[0].CellSizes[1].CellPrefab, spawnPosition, Quaternion.identity);
+    //    CellTypes[0].CellSizes[1].Cells.Add(cell);
+    //}
+    void DataMerge(int CellType, out bool MergeTime, out bool Big)
+    {
+        MergeTime = false;
+        Big = false;
+        for (int i = 0; i < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; i++) // Check all cell Sizes of current type
+        {
+            if (myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Count >= 10) // check if current cell size cell infos are greater than 10
+            {
+                OrganManager.OrganInfo.cellsType.CellSizes.CellInfo cellInfo = new OrganManager.OrganInfo.cellsType.CellSizes.CellInfo();
+                cellInfo.health = Mathf.Pow(10, i);
+                cellInfo.maxHealth = Mathf.Pow(10, i);
+                cellInfo.timer = 0;
+                cellInfo.alive = true;
+                myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i + 1].CellsInfos.Add(cellInfo);
+                myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Clear();
+                MergeTime = true;
+                if (i == 1)
+                {
+                    Big = true;
                 }
             }
         }
     }
-    public void BuySmallRedBloodCell()
+    public void CheckMedCellsMerge(int cellType)
     {
-        if (canBuyRedcell)
+        if (CellTypes[cellType].CellSizes[1].Cells.Count >= 10)
         {
-            if (GameManager.gameManager.pointsManager.totalPoints >= myOrganManager.organs[myOrganManager.activeOrganID].currentRedCellCost)
-            {
-                OrganManager.OrganInfo.CellInfo cellInfo = new OrganManager.OrganInfo.CellInfo();
-                cellInfo.maxHealth = 5;
-                cellInfo.health = 5;
-                cellInfo.timer = 0;
-                cellInfo.alive = true;
-                myOrganManager.organs[myOrganManager.activeOrganID].lists[0].Cells.Add(cellInfo);
-                InstantiateCells();
-                MergeCells();
-                GameManager.gameManager.pointsManager.GetPoints(-myOrganManager.organs[myOrganManager.activeOrganID].currentRedCellCost);
-                myOrganManager.organs[myOrganManager.activeOrganID].currentRedCellCost = myOrganManager.CalculateCosts(myOrganManager.activeOrganID);
-            }
-            else
-            {
-                //Not enough points todo
-            }
-        }
-    }
-    public void SpawnMedRedBloodCell(Vector3 targetPosition = default(Vector3))
-    {
-        Vector3 spawnPosition;
-
-        if (targetPosition == default(Vector3))
-        {
-            //spawnPosition = Random.insideUnitCircle * 3f;
-            Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
-            spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+            Debug.Log("Whoah it's a big cell");
+            myCellMerger.Merge(CellTypes[cellType].CellSizes[1].Cells, cellType, false);
         }
         else
         {
-            spawnPosition = targetPosition;
-        }
-
-
-        GameObject cell = Instantiate(cellsPrefabs[1], spawnPosition, Quaternion.identity);
-        //cell.GetComponent<HitPoints>().health = myOrganManager.organs[organId].medRedCells[9].health;
-        CellTypes[1].Cells.Add(cell);
-    }
-    void MergeCells()
-    {
-        if (myOrganManager.organs[myOrganManager.activeOrganID].lists[0].Cells.Count >= 10)
-        {
-            OrganManager.OrganInfo.CellInfo cellInfo = new OrganManager.OrganInfo.CellInfo();
-            cellInfo.health = 5;
-            cellInfo.maxHealth = 5;
-            cellInfo.timer = 0;
-            cellInfo.alive = true;
-            myOrganManager.organs[myOrganManager.activeOrganID].lists[1].Cells.Add(cellInfo);
-            myOrganManager.organs[myOrganManager.activeOrganID].lists[0].Cells.Clear();
-            myCellMerger.Merge(CellTypes[0].Cells);
-            canBuyRedcell = false;
-            //smallRedBloodCells.Clear();
-
-        }
-        if (myOrganManager.organs[myOrganManager.activeOrganID].lists[1].Cells.Count >= 10)
-        {
-            OrganManager.OrganInfo.CellInfo cellInfo = new OrganManager.OrganInfo.CellInfo();
-            cellInfo.health = 5;
-            cellInfo.maxHealth = 5;
-            cellInfo.timer = 0;
-            cellInfo.alive = true;
-            myOrganManager.organs[myOrganManager.activeOrganID].lists[2].Cells.Add(cellInfo);
-            myOrganManager.organs[myOrganManager.activeOrganID].lists[1].Cells.Clear();
-            //myCellMerger.Merge(medRedBloodCells);
-            //medRedBloodCells.Clear();
-
-        }
-
-    }
-    public void CheckMedCellsMerge()
-    {
-        if (CellTypes[1].Cells.Count >= 10)
-        {
-            myCellMerger.Merge(CellTypes[1].Cells, true);
-        }
-        else
-        {
-            canBuyRedcell = true;
+            CanBuyCell = true;
         }
     }
-    /*public void UpdateCells()
-    {
-        if (myOrganManager.organs[myOrganManager.activeOrganID].smallRedCells.Count != 0)
-        {
-            for (int i = 0; i < smallRedBloodCells.Count; i++)
-            {
-                myOrganManager.organs[myOrganManager.activeOrganID].smallRedCells[i].health = smallRedBloodCells[i].GetComponent<HitPoints>().health;
-            }
-        }
-        if (myOrganManager.organs[myOrganManager.activeOrganID].medRedCells.Count != 0)
-        {
-            for (int i = 0; i < medRedBloodCells.Count; i++)
-            {
-                myOrganManager.organs[myOrganManager.activeOrganID].medRedCells[i].health = medRedBloodCells[i].GetComponent<HitPoints>().health;
-            }
-        }
-        if (myOrganManager.organs[myOrganManager.activeOrganID].bigRedCells.Count != 0)
-        {
-            for (int i = 0; i < bigRedBloodCells.Count; i++)
-            {
-                myOrganManager.organs[myOrganManager.activeOrganID].bigRedCells[i].health = bigRedBloodCells[i].GetComponent<HitPoints>().health;
-            }
-        }
-    }*/
+
     public void DestroyCells(bool destroyAll = true)
     {
         if (destroyAll)
         {
-            for (int l = 0; l < CellTypes.Length; l++)
+            for (int a = 0; a < CellTypes.Length; a++)
             {
-                for (int c = 0; c < CellTypes[l].Cells.Count; c++)
+                for (int b = 0; b < CellTypes[a].CellSizes.Length; b++)
                 {
-                    Destroy(CellTypes[l].Cells[c]);
-
+                    for (int c = 0; c < CellTypes[a].CellSizes[b].Cells.Count; c++)
+                    {
+                        Destroy(CellTypes[a].CellSizes[b].Cells[c]);
+                    }
+                    CellTypes[a].CellSizes[b].Cells.Clear();
                 }
-                CellTypes[l].Cells.Clear();
             }
         }
-        /*foreach (GameObject cell in smallRedBloodCells)
-        {
-            Destroy(cell);
-        }
-        foreach (GameObject cell in medRedBloodCells)
-        {
-            Destroy(cell);
-        }
-        foreach (GameObject cell in bigRedBloodCells)
-        {
-            Destroy(cell);
-        }
-        smallRedBloodCells.Clear();
-        medRedBloodCells.Clear();
-        bigRedBloodCells.Clear();*/
     }
 }

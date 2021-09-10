@@ -16,33 +16,41 @@ public class OrganManager : MonoBehaviour
         public AnimatorOverrideController borderAnimation;
         public Color backgroundColor;
         public float pointsMultiplier;
-        public float initialRedCellCost;
-        public float currentRedCellCost;
+
         [System.Serializable]
-        public class CellInfo
+        public class cellsType
         {
-            public int health = 1;
-            public int maxHealth = 1;
-            public float timer = 0;
-            public bool alive = true;
-        }
-        [System.Serializable]
-        public class cellsList
-        {
-           
+            [System.Serializable]
+            public class CellSizes
+            {
+                [System.Serializable]
+                public class CellInfo
+                {
+                    public float health = 1;
+                    public float maxHealth = 1;
+                    public float timer = 0;
+                    public bool alive = true;
+                }
+                public string name;
+                public List<CellInfo> CellsInfos;
+            }
             public string name;
             public int id;
-            public List<CellInfo> Cells;
+            public List<CellSizes> cellSizes;
+            [Space(10)]
+            [Header("Cell Type Cost")]
+            public float initialCellCost;
+            public float currentCellCost;
+          
         }
         [Space(10)]
         [Header("Cells List")]
-        public cellsList[] lists;
-        
+        public cellsType[] CellTypes;
     }
 
     public List<OrganInfo> organs = new List<OrganInfo>();
     public int activeOrganID = 0;
-    
+
 
 
     // Start is called before the first frame update
@@ -52,7 +60,10 @@ public class OrganManager : MonoBehaviour
         cellSpawner.InstantiateCells();
         for (int o = 0; o < organs.Count; o++)
         {
-            organs[o].currentRedCellCost = CalculateCosts(o);
+            for(int t = 0; t < organs[o].CellTypes.Length; t++)
+            {
+                organs[o].CellTypes[t].currentCellCost = CalculateCosts(o, t);
+            }
         }
     }
 
@@ -85,36 +96,22 @@ public class OrganManager : MonoBehaviour
             //organs[activeOrganID].currentRedCellCost = CalculateCosts();
         }
     }
-    public float CalculateCosts(int organId)
+    public float CalculateCosts(int organId, int cellType)
     {
-        float totalCells = GetTotalCells(organId);
-        float cost = organs[activeOrganID].initialRedCellCost + ((totalCells * (totalCells + 1)) / 2);
+        float totalCells = GetCellTypeTotal(organId, cellType);
+        float cost = organs[organId].CellTypes[cellType].initialCellCost + ((totalCells * (totalCells + 1)) / 2);
         return cost;
     }
-    float GetTotalCells(int organId)
+    float GetCellTypeTotal(int organId, int celltype = 0)
     {
         float totalCells = 0;
-
-        for (int c = 0; c < 3; c++)
+        for (int a = 0; a < organs[organId].CellTypes[celltype].cellSizes.Count; a++)
         {
-
-            for (int r = 0; r < organs[organId].lists[c].Cells.Count; r++)
+            for (int b = 0; b < organs[organId].CellTypes[celltype].cellSizes[a].CellsInfos.Count; b++)
             {
-                if (c == 0)
-                {
-                    totalCells++;
-                }
-                else if (c == 1)
-                {
-                    totalCells += 10;
-                }
-                else if (c == 2)
-                {
-                    totalCells += 100;
-                }
+                totalCells += Mathf.Pow(10, a);
             }
         }
-
         return totalCells;
     }
 
@@ -124,54 +121,75 @@ public class OrganManager : MonoBehaviour
         OrganInfo newOrgan = new OrganInfo
         {
             pointsMultiplier = 1,
-            lists = new OrganInfo.cellsList[]
+            unlocked = true,
+            CellTypes = new OrganInfo.cellsType[]
               {
-                   new OrganInfo.cellsList
+                   new OrganInfo.cellsType
                    {
-                       name = "Small Red Blood Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
+                       name = "Red Cells",
+                       cellSizes = new List<OrganInfo.cellsType.CellSizes>
+                       {
+                           new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Small red blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                             new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Medium red blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                               new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Big red blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           }
+                       }
                    },
-                   new OrganInfo.cellsList
+                   new OrganInfo.cellsType
                    {
-                       name = "Medium Red Blood Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
+                       name = "White Cells",
+                       cellSizes = new List<OrganInfo.cellsType.CellSizes>
+                       {
+                           new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Small White blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                             new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Medium White blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                               new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Big White blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           }
+                       }
                    },
-                   new OrganInfo.cellsList
+                   new OrganInfo.cellsType
                    {
-                       name = "Big Red Blood Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
+                       name = "Helper Cells",
+                       cellSizes = new List<OrganInfo.cellsType.CellSizes>
+                       {
+                           new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Small Helper blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                             new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Medium Helper blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           },
+                               new OrganInfo.cellsType.CellSizes
+                           {
+                               name = "Big Helper blood cell",
+                               CellsInfos = new List<OrganInfo.cellsType.CellSizes.CellInfo>(),
+                           }
+                       }
                    },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Small white Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Medium white Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Big white Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Small Helper Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Medium Helper Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-                   new OrganInfo.cellsList
-                   {
-                       name = "Big Helper Cells",
-                       Cells = new List<OrganInfo.CellInfo>(),
-                   },
-
               },
         };
         organs.Add(newOrgan);

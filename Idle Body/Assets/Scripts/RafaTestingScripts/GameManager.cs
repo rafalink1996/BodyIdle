@@ -9,8 +9,9 @@ public class GameManager : MonoBehaviour
     [Header("References")]
     public NewPointsManager pointsManager;
     public OrganManager organManager;
-    public BottomUiManager bottomUiManager;
-    public TopUIManager topUIManager;
+    public CellView_UI_Manager CellViewUI;
+    public TopUI_Manager topUIManager;
+    public PlayerInput playerInput;
 
     
     public enum gameState { store, cellsScreen, organScreen, organism};
@@ -21,7 +22,7 @@ public class GameManager : MonoBehaviour
     {
         if (gameManager == null)
         {
-            //DontDestroyOnLoad(gameObject);
+            
             QualitySettings.vSyncCount = 0;
             Application.targetFrameRate = 30;
             gameManager = this;
@@ -37,19 +38,28 @@ public class GameManager : MonoBehaviour
     void Start()
     {
         GameData.data.CustomStart();
+        playerInput.CustomStart();
         pointsManager.StartPointsManager();
 
     }
 
     void GetReferences()
     {
-        if(pointsManager == null)
+        if (pointsManager == null)
         {
             pointsManager = FindObjectOfType<NewPointsManager>();
         }
         if (organManager == null)
         {
             organManager = FindObjectOfType<OrganManager>();
+        }
+        if (playerInput == null)
+        {
+            playerInput = FindObjectOfType<PlayerInput>();
+        }
+        if(CellViewUI == null)
+        {
+            CellViewUI = FindObjectOfType<CellView_UI_Manager>();
         }
      
     }

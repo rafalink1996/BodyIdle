@@ -3,14 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class UIBotLeanTween : MonoBehaviour
+public class CellView_UI_Animations : MonoBehaviour
 {
     [SerializeField] float TweenTime = 2f;
     private bool UIHidden = false;
 
     // Change Cell Type UI
-    private int CurrentCellType = 0;
-    private int previousCellType = 0;
+   
     public GameObject CellTypeBar;
     RectTransform CellTypeBarTransform;
     public GameObject CellSlotsMask;
@@ -19,13 +18,13 @@ public class UIBotLeanTween : MonoBehaviour
     public GameObject ArrowTabIndicator;
     GridLayoutGroup gridLayoutGroup;
 
-    BottomUiManager MyBottomUiManager;
+    CellView_UI_Manager MyCellViewUiManager;
     [SerializeField] AnimationCurve CustomElastic;
 
     private void Start()
     {
         CellTypeBarTransform = CellTypeBar.GetComponent<RectTransform>();
-        MyBottomUiManager = GetComponent<BottomUiManager>();
+        MyCellViewUiManager = GetComponent<CellView_UI_Manager>();
         gridLayoutGroup = CellTypeBar.GetComponent<GridLayoutGroup>();
     }
     public void CustomStart()
@@ -44,7 +43,7 @@ public class UIBotLeanTween : MonoBehaviour
             LeanTween.cancel(StickyImage);
             LeanTween.scaleY(StickyImage, .3f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
 
-            //LeanTween.scaleY(ArrowTabIndicator, -1, 0);
+            
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 180), TweenTime / 4);
 
@@ -52,12 +51,12 @@ public class UIBotLeanTween : MonoBehaviour
         else
         {
             LeanTween.cancel(gameObject);
-            //LeanTween.isTweening(gameObject);
+           
             LeanTween.moveLocal(gameObject, new Vector3(0, 0, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = false;
             LeanTween.cancel(StickyImage);
             LeanTween.scaleY(StickyImage, 1f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
-            //LeanTween.scaleY(ArrowTabIndicator, 1, 0);
+            
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 0), TweenTime / 4);
 
@@ -67,9 +66,9 @@ public class UIBotLeanTween : MonoBehaviour
 
     public void ChangeSelectedCellType(int CellType)
     {
-        
-        previousCellType = CurrentCellType;
-        if (CurrentCellType == CellType)
+
+        MyCellViewUiManager.previousCellType = MyCellViewUiManager.CurrentCellType;
+        if (MyCellViewUiManager.CurrentCellType == CellType)
         {
             return;
         }
@@ -80,47 +79,49 @@ public class UIBotLeanTween : MonoBehaviour
         
         LeanTween.cancel(CellTypeBar);
 
-        float CellSize = ((gridLayoutGroup.cellSize.x * Mathf.Abs(MyBottomUiManager.CheckCellTotal(previousCellType))) + 120);
+        float CellSize = ((gridLayoutGroup.cellSize.x * Mathf.Abs(MyCellViewUiManager.CheckCellSlotTotal(MyCellViewUiManager.previousCellType))) + 120);
         float CellTypePos = CellSize + ((1420 - CellSize) / 2);
         //print(CellTypePos + " :CellTypePos" + " - CellType " + previousCellType);
 
-        LeanTween.moveLocal(CellTypeBar, new Vector3(-CellTypePos, 0,0), TweenTime/4).setEase(LeanTweenType.easeInQuad);
+        LTDescr d = LeanTween.moveLocal(CellTypeBar, new Vector3(-CellTypePos, 0,0), TweenTime/4).setEase(LeanTweenType.easeInQuad);
      
 
         BuyCellButton.GetComponent<Button>().interactable = false;
         LeanTween.scale(BuyCellButton, new Vector3(0, 0, 0), TweenTime/4).setEase(LeanTweenType.easeInExpo);
        
         if (CellType == 1)
-        { 
-            CurrentCellType = 1;
+        {
+            MyCellViewUiManager.CurrentCellType = 1;
         }
         else if (CellType == 2)
         {
-            CurrentCellType = 2;
+            MyCellViewUiManager.CurrentCellType = 2;
         }
         else if (CellType == 3)
         {
-            CurrentCellType = 3;
+            MyCellViewUiManager.CurrentCellType = 3;
         }
 
-        Invoke("ChangeCells", 1f);
+        d.setOnComplete(ChangeCells);
+
+       // Invoke("ChangeCells", 1f);
     }
 
 
     void ChangeCells()
     {
-        MyBottomUiManager.ChangeCellType(CurrentCellType);
+        MyCellViewUiManager.ChangeCellType(MyCellViewUiManager.CurrentCellType);
     }
 
     public void FinishChangeCellType()
     {
 
-        float CellSize = ((gridLayoutGroup.cellSize.x * Mathf.Abs(MyBottomUiManager.CheckCellTotal(CurrentCellType))) + 120);
+        float CellSize = ((gridLayoutGroup.cellSize.x * Mathf.Abs(MyCellViewUiManager.CheckCellSlotTotal(MyCellViewUiManager.CurrentCellType))) + 120);
         float CellTypePos = CellSize + ((1420 - CellSize) / 2);
         //print(CellTypePos + " :CellTypePos 2" + " - CellType " + previousCellType);
         CellTypeBar.transform.localPosition = new Vector3(-CellTypePos, 0, 0);
         LeanTween.cancel(CellTypeBar);
-        float MovePosition = 65 * (MyBottomUiManager.CheckCellTotal(CurrentCellType) - 10);
+        float MovePosition = 65 * (MyCellViewUiManager.CheckCellSlotTotal(MyCellViewUiManager.CurrentCellType) - 10);
         //print(MovePosition + " :MovePosition");
 
         LeanTween.moveLocal(CellTypeBar, new Vector3(MovePosition, 0, 0), TweenTime / 8); //65*(CellTypeBar.transform.childCount-10)
