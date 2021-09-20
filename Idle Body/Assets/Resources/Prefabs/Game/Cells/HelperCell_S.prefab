@@ -18,7 +18,7 @@ GameObject:
   - component: {fileID: 3059624272567424085}
   m_Layer: 9
   m_Name: HelperCell_S
-  m_TagString: RedCells1
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -166,8 +166,8 @@ MonoBehaviour:
   myCellSpawner: {fileID: 0}
   speed: 1
   myParticleSystem: {fileID: 0}
-  rigidbody2D: {fileID: 0}
-  collider2D: {fileID: 0}
+  myRigidbody2D: {fileID: 0}
+  myCollider2D: {fileID: 0}
   TakeDamage: 0
 --- !u!198 &6661211724319569075
 ParticleSystem:

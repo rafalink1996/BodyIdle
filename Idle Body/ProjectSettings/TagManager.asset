@@ -5,10 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - RedCells1
-  - RedCells10
   - Bacteria
   - Merger
+  - RedCells
   layers:
   - Default
   - TransparentFX
