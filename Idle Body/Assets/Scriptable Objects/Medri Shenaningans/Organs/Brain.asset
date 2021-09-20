@@ -12,11 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d2cb045ed92d42728f5b6bccf848da4, type: 3}
   m_Name: Brain
   m_EditorClassIdentifier: 
-  OrganID: 3
+  OrganTypeID: 5
   OrganName: Brain
+  pointMultiplier: 0
+  OrganInitialCost: 0
+  OrganCellInitialCost: 0
   OrganSprite: {fileID: 21300000, guid: e675be2bc595c444c9b0fd92d9c7d136, type: 3}
   OrganAnimator: {fileID: 22100000, guid: 4549ec5b50f0342f080cf9501421cd1c, type: 2}
-  OrganStartingPointsPerSecond: 40
-  OrganPointCost: 800
-  OrganCellCost: 35
-  OrganLevelClearence: 2

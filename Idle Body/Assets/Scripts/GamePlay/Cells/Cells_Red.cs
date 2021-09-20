@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RedCells : Cell_Base
+public class Cells_Red : Cell_Base
 {
     public override void GetNewTarget()
     {

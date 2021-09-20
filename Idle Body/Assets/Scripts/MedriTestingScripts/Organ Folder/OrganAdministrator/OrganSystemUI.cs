@@ -44,14 +44,14 @@ public class OrganSystemUI : MonoBehaviour
         {
             for (int j = 0; j < AvailableOrgans.Count; j++)
             {
-                if (i <= AvailableOrgans[j].OrganLevelClearence)
-                {
-                    UIOrgans[i].SetActive(true);
-                }
-                else
-                {
-                    UIOrgans[i].SetActive(false);
-                }
+                //if (i <= AvailableOrgans[j].OrganLevelClearence)
+                //{
+                //    UIOrgans[i].SetActive(true);
+                //}
+                //else
+                //{
+                //    UIOrgans[i].SetActive(false);
+                //}
             }
         }
 

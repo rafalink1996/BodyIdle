@@ -7,7 +7,7 @@ using TMPro;
 public class CellSlot : MonoBehaviour
 {
     CellsSO myObject;
-    [SerializeField] private OrganManager.OrganInfo.cellsType.CellSizes.CellInfo myInfo;
+    [SerializeField] private OrganManager.OrganType.OrganInfo.cellsType.CellSizes.CellInfo myInfo;
     int myType;
     
 
@@ -32,7 +32,7 @@ public class CellSlot : MonoBehaviour
             }
         }
     }
-    public void UpdateSlot(int type, CellsSO cellSO, OrganManager.OrganInfo.cellsType.CellSizes.CellInfo Info)
+    public void UpdateSlot(int type, CellsSO cellSO, OrganManager.OrganType.OrganInfo.cellsType.CellSizes.CellInfo Info)
     {
         myType = type;
         myObject = cellSO;

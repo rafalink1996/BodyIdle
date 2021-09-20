@@ -5,56 +5,61 @@ using UnityEngine;
 public class NewPointsManager : MonoBehaviour
 {
     public double totalPoints;
+    public int ComplexityPoints;
+    public int ComplexityMaxPoints = 100;
+    public int GoldenMolecules;
+
     private OrganManager OM;
-    // Start is called before the first frame update
+
     void Start()
     {
         OM = GameManager.gameManager.organManager;
     }
-    public void StartPointsManager()
+    public void CustomStart()
     {
         StartCoroutine(GetPointsPerSecond());
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        //totalPoints = PointsPerSecond();
-    }
     IEnumerator GetPointsPerSecond()
     {
         float PointDilation = 1f;
         while (true)
         {
             yield return new WaitForSeconds(1f * PointDilation);
-            GetPoints(PointsPerSecond() * PointDilation);
+            ManagePoints(PointsPerSecond() * PointDilation);
         }
     }
     public float PointsPerSecond()
     {
         float pointsPerSecond = 0;
 
-        if (OM.organs.Count != 0) // check if we have organ
+        if(OM.organTypes.Length != 0) // check if we have organ types
         {
-            for (int o = 0; o < OM.organs.Count; o++) // Check all organs
+            for (int t = 0; t < OM.organTypes.Length; t++) // go through all organ types
             {
-                if (OM.organs[0].CellTypes.Length == 3) // Check if cell Types are the correct size
+                if (OM.organTypes[t].organs.Count != 0) // check if we have an organ
                 {
-                    if (OM.organs[o].CellTypes[0] != null) // Check if red blood cells are correct
+                    for (int o = 0; o < OM.organTypes[t].organs.Count; o++) // Check all organs
                     {
-                        if (OM.organs[o].CellTypes[0].cellSizes.Count == 3) // check if there are 3 cell sizes
+                        if (OM.organTypes[t].organs[0].CellTypes.Length == 3) // Check if cell Types are the correct size
                         {
-                            for (int b = 0; b < OM.organs[o].CellTypes[0].cellSizes.Count; b++) // go through all sizes
+                            if (OM.organTypes[t].organs[o].CellTypes[0] != null) // Check if red blood cells are correct
                             {
-                                if (OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count != 0) // check if there are red cells of current size
+                                if (OM.organTypes[t].organs[o].CellTypes[0].cellSizes.Count == 3) // check if there are 3 cell sizes
                                 {
-                                    for (int c = 0; c < OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count; c++) // check all cells of current size
+                                    for (int b = 0; b < OM.organTypes[t].organs[o].CellTypes[0].cellSizes.Count; b++) // go through all sizes
                                     {
-                                        if (OM.organs[o].CellTypes[0].cellSizes[b].CellsInfos[c].alive)
+                                        if (OM.organTypes[t].organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count != 0) // check if there are red cells of current size
                                         {
-                                            int multiplier = Mathf.FloorToInt(Mathf.Pow(10, b));
-                                            pointsPerSecond += multiplier * OM.organs[o].pointsMultiplier;
+                                            for (int c = 0; c < OM.organTypes[t].organs[o].CellTypes[0].cellSizes[b].CellsInfos.Count; c++) // check all cells of current size
+                                            {
+                                                if (OM.organTypes[t].organs[o].CellTypes[0].cellSizes[b].CellsInfos[c].alive)
+                                                {
+                                                    int multiplier = Mathf.FloorToInt(Mathf.Pow(10, b));
+                                                    pointsPerSecond += multiplier * OM.organTypes[t].pointsMultiplier;
 
+                                                }
+                                            }
                                         }
                                     }
                                 }
@@ -62,20 +67,19 @@ public class NewPointsManager : MonoBehaviour
                         }
                     }
                 }
+
             }
         }
-
         return pointsPerSecond;
-
     }
-    public void GetPoints(float pointValue)
+    public void ManagePoints(double pointValue)
     {
         totalPoints += pointValue;
         // Esta función es para agregar puntos manualmente. Por ejemplo haciendo tap en la pantalla
     }
     public void OnClickGetPoints()
     {
-        GetPoints(1 * OM.organs[OM.activeOrganID].pointsMultiplier);
+        ManagePoints(1 * OM.organTypes[OM.activeOranType].pointsMultiplier);
     }
 }
 

@@ -37,7 +37,7 @@ public class GameData : MonoBehaviour
         SaveObject saveObject = new SaveObject
         {
             energyPoints = energyPoints,
-            Organs = myOrganManager.organs.ToArray(),
+            Organs = myOrganManager.organTypes,
         };
         string json = JsonUtility.ToJson(saveObject);
         SaveSystem.Save(json);
@@ -50,6 +50,7 @@ public class GameData : MonoBehaviour
         if (!string.IsNullOrEmpty(saveString))
         {
             LoadedObject = JsonUtility.FromJson<SaveObject>(saveString);
+            SetStats();
             Debug.Log("Load Data");
         }
         else
@@ -65,7 +66,7 @@ public class GameData : MonoBehaviour
         {
             if(LoadedObject.Organs != null)
             {
-                myOrganManager.organs = LoadedObject.Organs.ToList();
+                myOrganManager.organTypes = LoadedObject.Organs;
             }
             energyPoints = LoadedObject.energyPoints;
         }
@@ -74,7 +75,7 @@ public class GameData : MonoBehaviour
     private class SaveObject
     {
         public float energyPoints;
-        public OrganManager.OrganInfo[] Organs;
+        public OrganManager.OrganType[] Organs;
         
     }
 

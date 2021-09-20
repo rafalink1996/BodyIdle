@@ -13,9 +13,10 @@ public class CellView_UI_Manager : MonoBehaviour
 
     [SerializeField] CellsSO RedBloodCell, WhiteBloodCell, HelperCell;
     [SerializeField] CellView_UI_Animations MyUILeanTween;
+    [SerializeField] TextMeshProUGUI CellCost;
     OrganManager myOrganManager;
-    [HideInInspector] public int CurrentCellType = 0;
-    [HideInInspector] public int previousCellType = 0;
+    public int CurrentCellType = 0;
+    public int previousCellType = 0;
 
     [System.Serializable]
     public class SlotSize
@@ -24,9 +25,6 @@ public class CellView_UI_Manager : MonoBehaviour
         public List<GameObject> ActiveCellSlots = new List<GameObject>();
 
     }
-    //[SerializeField] List<GameObject> ActiveSmallCellSlots = new List<GameObject>();
-    //[SerializeField] List<GameObject> ActiveMediumCellSlots = new List<GameObject>();
-    //[SerializeField] List<GameObject> ActiveBigCellSlots = new List<GameObject>();
     public SlotSize[] SlotSizes = new SlotSize[]
     {
         new SlotSize
@@ -43,30 +41,6 @@ public class CellView_UI_Manager : MonoBehaviour
         },
     };
 
-
-    // References
-
-    private void Start()
-    {
-        myOrganManager = GameManager.gameManager.organManager;
-        MyUILeanTween = GetComponent<CellView_UI_Animations>();
-        PoolDictionary = new Dictionary<string, Queue<GameObject>>();
-
-        foreach (pool pool in pools)
-        {
-            Queue<GameObject> ObjectPool = new Queue<GameObject>();
-            for (int i = 0; i < pool.size; i++)
-            {
-                GameObject obj = Instantiate(pool.prefab);
-                obj.SetActive(false);
-                obj.transform.SetParent(UiCellCountcontainer.transform);
-                ObjectPool.Enqueue(obj);
-            }
-            PoolDictionary.Add(pool.tag, ObjectPool);
-        }
-    }
-    #region Pooling
-
     [System.Serializable]
     public class pool
     {
@@ -82,36 +56,89 @@ public class CellView_UI_Manager : MonoBehaviour
     "MediumCellSlot",
     "BigCellSlot"
     };
-    //string RedBloodCellTag = "CellSlotRedCell";
-    //string HelperTCellTag = "CellSlotHelperCell";
+
+    private void Awake()
+    {
+        MyUILeanTween = GetComponent<CellView_UI_Animations>();
+        PoolDictionary = new Dictionary<string, Queue<GameObject>>();
+
+        foreach (pool pool in pools)
+        {
+            Queue<GameObject> ObjectPool = new Queue<GameObject>();
+            for (int i = 0; i < pool.size; i++)
+            {
+                GameObject obj = Instantiate(pool.prefab);
+                obj.SetActive(false);
+                obj.transform.SetParent(UiCellCountcontainer.transform);
+                ObjectPool.Enqueue(obj);
+            }
+            PoolDictionary.Add(pool.tag, ObjectPool);
+            Debug.Log("Added pool with key " + pool.tag);
+        }
+    }
 
     public GameObject SpawnFroomPool(string tag)
     {
         if (!PoolDictionary.ContainsKey(tag))
         {
-            Debug.LogWarning("pool With tag" + tag + "deosn't exist");
+            Debug.LogWarning("pool With tag" + tag + " deosn't exist");
             return null;
         }
         GameObject ObjectToSpawn = PoolDictionary[tag].Dequeue();
         ObjectToSpawn.SetActive(true);
         PoolDictionary[tag].Enqueue(ObjectToSpawn);
         return ObjectToSpawn;
-
     }
 
-
-
-    #endregion Pooling
-    #region From input Methods
-    public void StartChangeCell(int cellType)
+    public void CustomStart()
     {
-        MyUILeanTween.ChangeSelectedCellType(cellType);
+        myOrganManager = GameManager.gameManager.organManager;
+        //UpdateCellCost();
+    }
+
+    #region From input Methods
+    public void StartChangeCell(int cellType, bool changeView = false)
+    {
+        MyUILeanTween.ChangeSelectedCellType(cellType, changeView);
+        
+    }
+    public void StartCellTab()
+    {
+        MyUILeanTween.UiTabToggle();
     }
     public void StartBuyCell()
     {
         MyUILeanTween.BuyCellTween();
         //ChangeCellType(CurrentCellType, true);
         BuyCellEffect(CurrentCellType);
+        UpdateCellCost();
+    }
+
+    public void UpdateCellCost()
+    {
+        if(myOrganManager != null)
+        {
+            if (myOrganManager.organTypes[myOrganManager.activeOranType].organs != null)
+            {
+                if (myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count != 0)
+                {
+                    if(CellCost != null)
+                    {
+                        CellCost.text = AbbreviationUtility.AbbreviateNumber(myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CurrentCellType].currentCellCost);  
+                    }
+                    else
+                    {
+                        Debug.Log("Cell Cost is null");
+                    }
+                   
+                }
+            }         
+        }
+        else
+        {
+            Debug.LogWarning("Organ Manager is null");
+        }
+       
     }
     #endregion From input Methods
 
@@ -142,10 +169,10 @@ public class CellView_UI_Manager : MonoBehaviour
         }
 
 
-        for (int a = 0; a < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
+        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
         {
             /* ---- Check if cells merged ---- */
-            int organNumber = myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count;
+            int organNumber = myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count;
             if (organNumber == 0 && CellTotals[a] != organNumber)
             {
                 for (int x = 0; x < SlotSizes[a].ActiveCellSlots.Count; x++)
@@ -153,24 +180,23 @@ public class CellView_UI_Manager : MonoBehaviour
                     SlotSizes[a].ActiveCellSlots[x].SetActive(false);
                 }
                 SlotSizes[a].ActiveCellSlots.Clear();
-            }   
+            }
         }
 
         /* ---- Get New Cell Slot ---- */
-       
-        
-        for (int a = 0; a < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
+
+
+        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
         {
-            for (int c = SlotSizes[a].ActiveCellSlots.Count; c < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count; c++)
+            for (int c = SlotSizes[a].ActiveCellSlots.Count; c < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count; c++)
             {
-               
-               GameObject Cell = SpawnFroomPool(CellTag[a]);
+                GameObject Cell = SpawnFroomPool(CellTag[a]);
                 Cell.transform.SetParent(UiCellCountcontainer.transform);
                 Cell.transform.localScale = new Vector3(0, 0, 0);
                 Cell.transform.SetAsLastSibling();
                 LeanTween.scale(Cell, new Vector3(1, 1, 1), 0.8f).setEase(LeanTweenType.easeOutExpo);
                 Cell.TryGetComponent(out CellSlot cellslot);
-                cellslot.UpdateSlot(a + 1, cellsSO, myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos[c]);
+                cellslot.UpdateSlot(a + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos[c]);
                 SlotSizes[a].ActiveCellSlots.Add(Cell);
             }
         }
@@ -212,21 +238,21 @@ public class CellView_UI_Manager : MonoBehaviour
                 break;
         }
 
-        if (myOrganManager.organs.Count != 0)
+        if (myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count != 0)
         {
-            Debug.Log(myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
-            for (int c = 0; c < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; c++)
+            Debug.Log(myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
+            for (int c = 0; c < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; c++)
             {
-                
-                if (myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count != 0)
+
+                if (myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count != 0)
                 {
-                    for (int v = 0; v < myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count; v++)
-                    {   
+                    for (int v = 0; v < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count; v++)
+                    {
                         GameObject Cell = SpawnFroomPool(CellTag[c]);
                         Cell.transform.SetParent(UiCellCountcontainer.transform);
                         Cell.transform.localScale = new Vector3(1, 1, 1);
                         Cell.transform.SetAsFirstSibling();
-                        Cell.GetComponent<CellSlot>().UpdateSlot(c + 1, cellsSO, myOrganManager.organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos[v]);
+                        Cell.GetComponent<CellSlot>().UpdateSlot(c + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos[v]);
                         SlotSizes[c].ActiveCellSlots.Add(Cell);
                     }
                 }
@@ -240,6 +266,8 @@ public class CellView_UI_Manager : MonoBehaviour
         {
             MyUILeanTween.FinishChangeCellType();
         }
+
+        UpdateCellCost();
     }
 
     public float CheckCellSlotTotal(int celltype)
