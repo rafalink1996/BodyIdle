@@ -7,85 +7,123 @@ using System.Linq;
 
 public class TopUI_Manager : MonoBehaviour
 {
-    [SerializeField] GameObject TransitionImage;
+    [SerializeField] RectTransform TransitionObject;
+    [SerializeField] RectTransform TransitionImageMask;
+    Image transitionImage;
     [SerializeField] float TweenTimeTransition;
     [SerializeField] TextMeshProUGUI PointsText, PointsPerSecondText;
     [SerializeField] GameManager myGameManager;
     [SerializeField] NewPointsManager pointsManager;
 
-    void Start()
+    enum LoadingScreenActions { ShowCellViewUI, ShowOrganViewUI, ShowOrganismViewUI }
+    LoadingScreenActions NextAction;
+    public bool CanTransition;
+
+    [Header ("Game Views")]
+    [SerializeField] GameObject CellViewUI;
+    [SerializeField] GameObject OrganViewUI;
+    [SerializeField] GameObject OrganismViewUI;
+
+    public void customStart()
     {
         myGameManager = GameManager.gameManager;
         if (myGameManager != null)
             pointsManager = myGameManager.pointsManager;
 
+        transitionImage = TransitionObject.GetComponent<Image>();
+        SetTransitionImage();
+        TransitionOut();
+    }
 
-        Debug.Log("789000000000000 is " + AbbrevationUtility.AbbreviateNumber(789000000000));
+    void SetTransitionImage()
+    {
+        TransitionObject.anchorMax = new Vector2(0.5f, 0.5f);
+        TransitionObject.anchorMin = new Vector2(0.5f, 0.5f);
+        TransitionObject.anchoredPosition = new Vector2(0, 0);
+        float screenHeight = (Screen.height * 1920) / Screen.width;
+        TransitionObject.sizeDelta = new Vector2(1920, screenHeight);
     }
 
     private void Update()
     {
-        PointsText.text = AbbrevationUtility.AbbreviateNumber(pointsManager.totalPoints);
-        PointsPerSecondText.text = AbbrevationUtility.AbbreviateNumber(pointsManager.PointsPerSecond());
-    }
-    public static class AbbrevationUtility
-    {
-        private static readonly SortedDictionary<double, string> abbrevations = new SortedDictionary<double, string>
-     {
-         {1000,"K"},
-         {1000000, "M" },
-         {1000000000, "B" },
-         {1000000000000, "t" },
-         {1000000000000000, "q" },
-         {1000000000000000000, "Q" }
-     };
+        PointsText.text = AbbreviationUtility.AbbreviateNumber(pointsManager.totalPoints);
+        PointsPerSecondText.text = AbbreviationUtility.AbbreviateNumber(pointsManager.PointsPerSecond()) + " /s";
 
-        public static string AbbreviateNumber(double number)
+        //Testing
+        if (Input.GetKeyDown(KeyCode.LeftArrow))
         {
-            for (int i = abbrevations.Count - 1; i >= 0; i--)
-            {
-                KeyValuePair<double, string> pair = abbrevations.ElementAt(i);
-                if (number >= pair.Key)
-                {
-                    float roundedNumber = (float)(number / pair.Key);
-                    return roundedNumber.ToString("F2") + " " + pair.Value;
-                }
-            }
-            return number.ToString();
+            TransitionOut();
         }
-
-    
+        if (Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            TransitionIn();
+        }
     }
-
-    public void TransitionIn()
+    void TransitionIn()
     {
-        EnableTransition();
-        LeanTween.cancel(TransitionImage);
-        LeanTween.scaleY(TransitionImage, 1, TweenTimeTransition);
-        LeanTween.moveLocalY(TransitionImage, 0, TweenTimeTransition);
-
+        ToggleRaycast();
+        LeanTween.cancel(TransitionImageMask);
+        float screenHeight = (Screen.height * 1920) / Screen.width;
+        LTDescr d = LeanTween.size(TransitionImageMask, new Vector2(-1920, 0), 1).setEase(LeanTweenType.easeInOutExpo);
+        d.setOnComplete(LoadingScreenAction);
     }
     public void TransitionOut()
     {
-        LeanTween.cancel(TransitionImage);
-        LeanTween.moveLocalY(TransitionImage, -3413, TweenTimeTransition).setEase(LeanTweenType.easeInExpo);
-        Invoke("EnableTransition", TweenTimeTransition);
-
+        LeanTween.cancel(TransitionImageMask);
+        LTDescr d = LeanTween.size(TransitionImageMask, new Vector2(2640, Screen.height), 1).setEase(LeanTweenType.easeInOutExpo);
+        d.setOnComplete(ToggleRaycast);
     }
 
-    void EnableTransition()
+    public void ChangeView(int view)
     {
-        if (!TransitionImage.activeSelf)
+        switch (view)
         {
-            TransitionImage.SetActive(true);
+            case 0: //cell View
+                NextAction = LoadingScreenActions.ShowCellViewUI;
+                TransitionIn();
+                break;
+            case 1: //Organ View
+                NextAction = LoadingScreenActions.ShowOrganViewUI;
+                TransitionIn();
+                break;
+            case 2: //Organism View
+                NextAction = LoadingScreenActions.ShowOrganismViewUI;
+                TransitionIn();
+                break;
+        }
+    }
+
+    void LoadingScreenAction()
+    {
+
+        myGameManager.organManager.cellSpawner.myCellMerger.DestroyMergerReference();
+        switch (NextAction)
+        {
+            case LoadingScreenActions.ShowCellViewUI:
+                myGameManager.changeView(0);
+                TransitionOut();
+                break;
+            case LoadingScreenActions.ShowOrganViewUI:
+                myGameManager.changeView(1);
+                TransitionOut();
+                break;
+            case LoadingScreenActions.ShowOrganismViewUI:
+                myGameManager.changeView(2);
+                TransitionOut();
+                break;
+        }
+    }
+
+    void ToggleRaycast()
+    {
+        if (transitionImage.raycastTarget == false) 
+        {
+            transitionImage.raycastTarget = true;
         }
         else
         {
-            TransitionImage.SetActive(false);
+            transitionImage.raycastTarget = false;
         }
+
     }
-
-
-
-
 }

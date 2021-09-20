@@ -15,6 +15,7 @@ public class CellView_UI_Animations : MonoBehaviour
     public GameObject CellSlotsMask;
     public GameObject BuyCellButton;
     public GameObject StickyImage;
+    [SerializeField] GameObject bottom_UI;
     public GameObject ArrowTabIndicator;
     GridLayoutGroup gridLayoutGroup;
 
@@ -36,8 +37,8 @@ public class CellView_UI_Animations : MonoBehaviour
         if (!UIHidden)
         {
             
-            LeanTween.cancel(gameObject);
-            LeanTween.moveLocal(gameObject, new Vector3(0, -400, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
+            LeanTween.cancel(bottom_UI);
+            LeanTween.moveLocal(bottom_UI, new Vector3(0, -400, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = true;
 
             LeanTween.cancel(StickyImage);
@@ -50,9 +51,9 @@ public class CellView_UI_Animations : MonoBehaviour
         }
         else
         {
-            LeanTween.cancel(gameObject);
+            LeanTween.cancel(bottom_UI);
            
-            LeanTween.moveLocal(gameObject, new Vector3(0, 0, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
+            LeanTween.moveLocal(bottom_UI, new Vector3(0, 0, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = false;
             LeanTween.cancel(StickyImage);
             LeanTween.scaleY(StickyImage, 1f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
@@ -64,11 +65,11 @@ public class CellView_UI_Animations : MonoBehaviour
         }
     }
 
-    public void ChangeSelectedCellType(int CellType)
+    public void ChangeSelectedCellType(int CellType, bool ChangeView = false)
     {
 
         MyCellViewUiManager.previousCellType = MyCellViewUiManager.CurrentCellType;
-        if (MyCellViewUiManager.CurrentCellType == CellType)
+        if (!ChangeView && MyCellViewUiManager.CurrentCellType == CellType)
         {
             return;
         }
@@ -88,20 +89,9 @@ public class CellView_UI_Animations : MonoBehaviour
 
         BuyCellButton.GetComponent<Button>().interactable = false;
         LeanTween.scale(BuyCellButton, new Vector3(0, 0, 0), TweenTime/4).setEase(LeanTweenType.easeInExpo);
-       
-        if (CellType == 1)
-        {
-            MyCellViewUiManager.CurrentCellType = 1;
-        }
-        else if (CellType == 2)
-        {
-            MyCellViewUiManager.CurrentCellType = 2;
-        }
-        else if (CellType == 3)
-        {
-            MyCellViewUiManager.CurrentCellType = 3;
-        }
 
+
+        MyCellViewUiManager.CurrentCellType = CellType;
         d.setOnComplete(ChangeCells);
 
        // Invoke("ChangeCells", 1f);

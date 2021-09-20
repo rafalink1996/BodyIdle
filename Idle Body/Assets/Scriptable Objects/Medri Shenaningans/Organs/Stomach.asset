@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0d2cb045ed92d42728f5b6bccf848da4, type: 3}
+  m_Name: Stomach
+  m_EditorClassIdentifier: 
+  OrganTypeID: 3
+  OrganName: Stomach
+  pointMultiplier: 10
+  OrganInitialCost: 0
+  OrganCellInitialCost: 0
+  OrganSprite: {fileID: 0}
+  OrganAnimator: {fileID: 0}
