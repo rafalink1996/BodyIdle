@@ -5,15 +5,10 @@ using UnityEngine;
 public class Pathogen_Fungi : Pathogen_Base
 {
     bool reproduce;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
+        Move();
         if (!reproduce)
         {
             reproduce = true;
@@ -34,12 +29,11 @@ public class Pathogen_Fungi : Pathogen_Base
     }
     protected override void OnPathogenEffect()
     {
-
-        //Instantiate another fungus
+        pathogenSpawner.SpawnPathogen(2, false, transform);
     }
     IEnumerator Reproduce()
     {
-        yield return new WaitForSeconds(10f);
+        yield return new WaitForSeconds(2f);
         OnPathogenEffect();
         reproduce = false;
     }

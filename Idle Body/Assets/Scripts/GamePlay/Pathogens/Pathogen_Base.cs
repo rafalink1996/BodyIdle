@@ -8,19 +8,25 @@ public class Pathogen_Base : MonoBehaviour
     public Transform target = null;
     public float speed;
     protected bool move;
+    protected PathogenSpawner pathogenSpawner;
     // Start is called before the first frame update
     void Start()
     {
-        
+        PathogenStart();
     }
     public virtual void PathogenStart()
     {
+        pathogenSpawner = FindObjectOfType<PathogenSpawner>();
         StartCoroutine(MoveAgain());
         target = FindClosestCell();
     }
 
     // Update is called once per frame
     void Update()
+    {
+       
+    }
+    protected void Move()
     {
         if (target == null)
         {

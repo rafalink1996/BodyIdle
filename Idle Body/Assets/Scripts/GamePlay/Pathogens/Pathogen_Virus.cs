@@ -4,16 +4,9 @@ using UnityEngine;
 
 public class Pathogen_Virus : Pathogen_Base
 {
-    // Start is called before the first frame update
-    void Start()
+    private void Update()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Move();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -30,6 +23,6 @@ public class Pathogen_Virus : Pathogen_Base
     protected override void OnPathogenEffect()
     {
 
-        //Instantiate another virus
+        pathogenSpawner.SpawnPathogen(1, false, transform);
     }
 }
