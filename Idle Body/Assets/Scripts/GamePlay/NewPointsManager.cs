@@ -9,11 +9,14 @@ public class NewPointsManager : MonoBehaviour
     public int ComplexityMaxPoints = 100;
     public int GoldenMolecules;
 
+    private GameManager GM;
     private OrganManager OM;
 
     void Start()
     {
-        OM = GameManager.gameManager.organManager;
+        GM = GameManager.gameManager;
+        if (GM != null)
+            OM = GM.organManager;
     }
     public void CustomStart()
     {
@@ -27,13 +30,15 @@ public class NewPointsManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f * PointDilation);
             ManagePoints(PointsPerSecond() * PointDilation);
+            updatePointButtons();
+
         }
     }
-    public float PointsPerSecond()
+    public double PointsPerSecond()
     {
-        float pointsPerSecond = 0;
+        double pointsPerSecond = 0;
 
-        if(OM.organTypes.Length != 0) // check if we have organ types
+        if (OM.organTypes.Length != 0) // check if we have organ types
         {
             for (int t = 0; t < OM.organTypes.Length; t++) // go through all organ types
             {
@@ -79,7 +84,12 @@ public class NewPointsManager : MonoBehaviour
     }
     public void OnClickGetPoints()
     {
-        ManagePoints(1 * OM.organTypes[OM.activeOranType].pointsMultiplier);
+        ManagePoints(1 * OM.organTypes[OM.activeOrganType].pointsMultiplier);
+    }
+
+    void updatePointButtons()
+    {
+        GM.OrganViewUI.UpdateButtons();
     }
 }
 

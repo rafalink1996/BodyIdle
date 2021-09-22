@@ -107,15 +107,15 @@ public class CellSpawner : MonoBehaviour
         {
             if (myOrganManager != null)
             {
-                if (myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count != 0) // check if there is an organ
+                if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count != 0) // check if there is an organ
                 {
-                    for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes.Length; a++) // go through all cell types
+                    for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes.Length; a++) // go through all cell types
                     {
-                        for (int b = 0; b < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes.Count; b++) // go through all cell sizes
+                        for (int b = 0; b < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes.Count; b++) // go through all cell sizes
                         {
-                            if (myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count != 0) // check if there are cells for current size
+                            if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count != 0) // check if there are cells for current size
                             {
-                                for (int c = CellTypes[a].CellSizes[b].Cells.Count; c < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count; c++) // go through differenece of cells of current size vs current instaniated cells
+                                for (int c = CellTypes[a].CellSizes[b].Cells.Count; c < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos.Count; c++) // go through differenece of cells of current size vs current instaniated cells
                                 {
                                     Vector3 spawnPosition;
                                     if (targetPosition == default(Vector3))
@@ -131,9 +131,9 @@ public class CellSpawner : MonoBehaviour
 
                                     GameObject cell = Instantiate(CellTypes[a].CellSizes[b].CellPrefab, spawnPosition, Quaternion.identity);
                                     cell.transform.SetParent(CellHolder.transform);
-                                    cell.GetComponent<HitPoints>().health = myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c].health;
+                                    cell.GetComponent<HitPoints>().health = myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c].health;
                                     cell.TryGetComponent(out Cell_Base cell_Base);
-                                    cell_Base.CellStart(c, Cell_Base.CellSize.Small, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c]);
+                                    cell_Base.CellStart(c, Cell_Base.CellSize.Small, myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[a].cellSizes[b].CellsInfos[c]);
                                     cell_Base.CellStartAnim();
 
 
@@ -167,11 +167,11 @@ public class CellSpawner : MonoBehaviour
             cell_Base.CellStartAnim();
             if (!IgnoreCellInfo)
             {
-                int cellPosition = myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos.Count;
-                cell.GetComponent<HitPoints>().health = myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1].health;
+                int cellPosition = myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos.Count;
+                cell.GetComponent<HitPoints>().health = myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1].health;
                 if (cell_Base != null)
                 {
-                    cell_Base.CellStart(cellPosition, Cell_Base.CellSize.Small, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1]);
+                    cell_Base.CellStart(cellPosition, Cell_Base.CellSize.Small, myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[cellSize].CellsInfos[cellPosition - 1]);
                 }
                 
             }
@@ -185,7 +185,7 @@ public class CellSpawner : MonoBehaviour
         Bought = false;
         if (CanBuyCell)
         {
-            if (GameManager.gameManager.pointsManager.totalPoints >= myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost)
+            if (GameManager.gameManager.pointsManager.totalPoints >= myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost)
             {
 
                 /*----DATA----*/
@@ -195,15 +195,15 @@ public class CellSpawner : MonoBehaviour
                 cellInfo.health = 1;
                 cellInfo.timer = 0;
                 cellInfo.alive = true;
-                myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[0].CellsInfos.Add(cellInfo);
+                myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].cellSizes[0].CellsInfos.Add(cellInfo);
 
 
                 /*----Check for merge in data----*/
                 DataMerge(cellType, out bool merge, out bool big);
 
                 /*----Manage points a cost data----*/
-                GameManager.gameManager.pointsManager.ManagePoints(-myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost);
-                myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost = myOrganManager.CalculateCosts(myOrganManager.activeOrganID, cellType);
+                GameManager.gameManager.pointsManager.ManagePoints(-myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost);
+                myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[cellType].currentCellCost = myOrganManager.CalculateCosts(myOrganManager.activeOrganID, cellType);
                 Bought = true;
 
                 /*----END OF DATA----*/
@@ -239,17 +239,17 @@ public class CellSpawner : MonoBehaviour
     {
         MergeTime = false;
         Big = false;
-        for (int i = 0; i < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; i++) // Check all cell Sizes of current type
+        for (int i = 0; i < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; i++) // Check all cell Sizes of current type
         {
-            if (myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Count >= 10) // check if current cell size cell infos are greater than 10
+            if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Count >= 10) // check if current cell size cell infos are greater than 10
             {
                 OrganManager.OrganType.OrganInfo.cellsType.CellSizes.CellInfo cellInfo = new OrganManager.OrganType.OrganInfo.cellsType.CellSizes.CellInfo();
                 cellInfo.health = Mathf.Pow(10, i);
                 cellInfo.maxHealth = Mathf.Pow(10, i);
                 cellInfo.timer = 0;
                 cellInfo.alive = true;
-                myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i + 1].CellsInfos.Add(cellInfo);
-                myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Clear();
+                myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i + 1].CellsInfos.Add(cellInfo);
+                myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[i].CellsInfos.Clear();
                 MergeTime = true;
                 if (i == 1)
                 {

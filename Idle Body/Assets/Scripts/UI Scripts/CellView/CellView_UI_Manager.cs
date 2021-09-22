@@ -73,7 +73,7 @@ public class CellView_UI_Manager : MonoBehaviour
                 ObjectPool.Enqueue(obj);
             }
             PoolDictionary.Add(pool.tag, ObjectPool);
-            Debug.Log("Added pool with key " + pool.tag);
+            //Debug.Log("Added pool with key " + pool.tag);
         }
     }
 
@@ -118,13 +118,13 @@ public class CellView_UI_Manager : MonoBehaviour
     {
         if(myOrganManager != null)
         {
-            if (myOrganManager.organTypes[myOrganManager.activeOranType].organs != null)
+            if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs != null)
             {
-                if (myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count != 0)
+                if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count != 0)
                 {
                     if(CellCost != null)
                     {
-                        CellCost.text = AbbreviationUtility.AbbreviateNumber(myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CurrentCellType].currentCellCost);  
+                        CellCost.text = AbbreviationUtility.AbbreviateNumber(myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CurrentCellType].currentCellCost);  
                     }
                     else
                     {
@@ -169,10 +169,10 @@ public class CellView_UI_Manager : MonoBehaviour
         }
 
 
-        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
+        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
         {
             /* ---- Check if cells merged ---- */
-            int organNumber = myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count;
+            int organNumber = myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count;
             if (organNumber == 0 && CellTotals[a] != organNumber)
             {
                 for (int x = 0; x < SlotSizes[a].ActiveCellSlots.Count; x++)
@@ -186,9 +186,9 @@ public class CellView_UI_Manager : MonoBehaviour
         /* ---- Get New Cell Slot ---- */
 
 
-        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
+        for (int a = 0; a < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; a++)
         {
-            for (int c = SlotSizes[a].ActiveCellSlots.Count; c < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count; c++)
+            for (int c = SlotSizes[a].ActiveCellSlots.Count; c < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos.Count; c++)
             {
                 GameObject Cell = SpawnFroomPool(CellTag[a]);
                 Cell.transform.SetParent(UiCellCountcontainer.transform);
@@ -196,7 +196,7 @@ public class CellView_UI_Manager : MonoBehaviour
                 Cell.transform.SetAsLastSibling();
                 LeanTween.scale(Cell, new Vector3(1, 1, 1), 0.8f).setEase(LeanTweenType.easeOutExpo);
                 Cell.TryGetComponent(out CellSlot cellslot);
-                cellslot.UpdateSlot(a + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos[c]);
+                cellslot.UpdateSlot(a + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[a].CellsInfos[c]);
                 SlotSizes[a].ActiveCellSlots.Add(Cell);
             }
         }
@@ -238,21 +238,21 @@ public class CellView_UI_Manager : MonoBehaviour
                 break;
         }
 
-        if (myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count != 0)
+        if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count != 0)
         {
-            Debug.Log(myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
-            for (int c = 0; c < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; c++)
+            Debug.Log(myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
+            for (int c = 0; c < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; c++)
             {
 
-                if (myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count != 0)
+                if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count != 0)
                 {
-                    for (int v = 0; v < myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count; v++)
+                    for (int v = 0; v < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos.Count; v++)
                     {
                         GameObject Cell = SpawnFroomPool(CellTag[c]);
                         Cell.transform.SetParent(UiCellCountcontainer.transform);
                         Cell.transform.localScale = new Vector3(1, 1, 1);
                         Cell.transform.SetAsFirstSibling();
-                        Cell.GetComponent<CellSlot>().UpdateSlot(c + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOranType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos[v]);
+                        Cell.GetComponent<CellSlot>().UpdateSlot(c + 1, cellsSO, myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes[c].CellsInfos[v]);
                         SlotSizes[c].ActiveCellSlots.Add(Cell);
                     }
                 }

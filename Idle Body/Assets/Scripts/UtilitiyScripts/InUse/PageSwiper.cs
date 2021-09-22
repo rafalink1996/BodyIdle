@@ -14,7 +14,9 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     public float easing = 0.5f;
     bool ScreenSpace = true;
     public List<GameObject> Holders;
-    bool CanChange = true;
+    [SerializeField] bool CanChange = true;
+    public bool Locked = false;
+    
 
 
     void Start()
@@ -23,11 +25,11 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         panelLocation = transform.position;
         StartingPos = transform.position;
         transform.position = StartingPos;
-        Debug.Log(panelLocation);
+        //Debug.Log(panelLocation);
     }
     public void OnDrag(PointerEventData data)
     {
-        if (CanChange)
+        if (CanChange && !Locked)
         {
             if (ScreenSpace)
             {
@@ -44,13 +46,13 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     }
     public void OnEndDrag(PointerEventData data)
     {
-        if (CanChange)
+        if (CanChange && !Locked)
         {
             float percentage = (data.pressPosition.x - data.position.x) / Screen.width;
             if (Mathf.Abs(percentage) >= perecentThreshold)
             {
                 Vector3 newLocation = panelLocation;
-                Debug.Log("Start = " + newLocation);
+                //Debug.Log("Start = " + newLocation);
                 bool Left = false;
                 if (ScreenSpace)
                 {
@@ -79,7 +81,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                         newLocation += new Vector3(Screen.width * 2, 0, 0);
                     }
                 }
-                Debug.Log("End = " + newLocation);
+                //Debug.Log("End = " + newLocation);
                 if (Left)
                 {
                     StartCoroutine(SmoothMove(transform.position, newLocation, easing, -1));
@@ -140,31 +142,24 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void SwipeRight()
     {
-        gameManager.organManager.activeOranType += 1;
-        if (gameManager.organManager.activeOranType > gameManager.organManager.organTypes.Length - 1)
-        {
-            gameManager.organManager.activeOranType = 0;
-        }
-        gameManager.OrganViewUI.MiddleOrganHolder += 1;
-        if(gameManager.OrganViewUI.MiddleOrganHolder > 2)
-        {
-            gameManager.OrganViewUI.MiddleOrganHolder = 0;
-        }
         gameManager.OrganViewUI.UpdateOrganViews(false);
     }
 
     void SwipeLeft()
     {
-        gameManager.organManager.activeOranType -= 1;
-        if (gameManager.organManager.activeOranType < 0)
-        {
-            gameManager.organManager.activeOranType = gameManager.organManager.organTypes.Length - 1;
-        }
-        gameManager.OrganViewUI.MiddleOrganHolder -= 1;
-        if (gameManager.OrganViewUI.MiddleOrganHolder < 0)
-        {
-            gameManager.OrganViewUI.MiddleOrganHolder = 2;
-        }
+        //int UnlockedOrgans = 1;
+        //for (int i = 0; i < gameManager.organManager.organTypes.Length; i++)
+        //{
+        //    if (gameManager.organManager.organTypes[i].unlocked)
+        //    {
+        //        UnlockedOrgans++;
+        //    }
+        //}
+        //gameManager.organManager.activeOranType -= 1;
+        //if (gameManager.organManager.activeOranType < 0)
+        //{
+        //    gameManager.organManager.activeOranType = UnlockedOrgans;
+        //}
         gameManager.OrganViewUI.UpdateOrganViews(true);
     }
 

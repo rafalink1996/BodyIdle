@@ -109,6 +109,7 @@ public class Cell_Base : MonoBehaviour
         }
     }
 
+
     IEnumerator UpdateHealth()
     {
         while (myInfo.alive)

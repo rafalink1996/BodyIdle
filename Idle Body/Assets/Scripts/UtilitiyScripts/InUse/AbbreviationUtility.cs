@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
-public static class AbbreviationUtility 
+public static class AbbreviationUtility
 {
     private static readonly SortedDictionary<double, string> abbrevations = new SortedDictionary<double, string>
      {
@@ -23,7 +23,8 @@ public static class AbbreviationUtility
             if (number >= pair.Key)
             {
                 float roundedNumber = (float)(number / pair.Key);
-                return roundedNumber.ToString("F2") + " " + pair.Value;
+                //return roundedNumber.ToString("F2") + " " + pair.Value;
+                return (decimal.Truncate((decimal)roundedNumber * 100) / 100).ToString() + " " + pair.Value;
             }
         }
         return number.ToString();

@@ -9,7 +9,8 @@ public class InfectionSpawner : MonoBehaviour
     public int pointAmount = 100;
     public GameObject prefab;
     public int InfectionChance = 20;
-    
+
+
 
     bool spawning; 
 
@@ -17,9 +18,6 @@ public class InfectionSpawner : MonoBehaviour
     {
         spawning = true;
         StartCoroutine(SpawnerTimer());
-
-       
-
     }
 
     public Vector2 RandomPointInAnnulus(Vector2 origin, float minRadius, float maxRadius)
@@ -46,10 +44,8 @@ public class InfectionSpawner : MonoBehaviour
                 {   
                     Spawninfection();
                 }
-                
             }
         }
-        
     }
     void Spawninfection()
     {

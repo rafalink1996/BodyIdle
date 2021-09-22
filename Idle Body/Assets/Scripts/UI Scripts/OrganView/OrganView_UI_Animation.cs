@@ -4,13 +4,22 @@ using UnityEngine;
 
 public class OrganView_UI_Animation : MonoBehaviour
 {
-
+    [Header("Normal UI")]
     [SerializeField] GameObject StickyImage;
     [SerializeField] GameObject bottom_UI;
     [SerializeField] GameObject ArrowTabIndicator;
     private bool UIHidden = false;
     [SerializeField] float TweenTime = 2f;
+    [SerializeField] GameObject UIObject;
+    [SerializeField] GameObject UIBuyObject;
+    OrganView_Manager organView_Manager;
 
+
+    private void Start()
+    {
+        LeanTween.moveLocal(UIBuyObject, new Vector3(0, -900, 0), 0);
+        organView_Manager = GameManager.gameManager.OrganViewUI;
+    }
     public void UiTabToggle()
     {
         if (!UIHidden)
@@ -26,6 +35,7 @@ public class OrganView_UI_Animation : MonoBehaviour
 
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 180), TweenTime / 4);
+            organView_Manager.toggleButtonsInteractive(false);
 
         }
         else
@@ -39,8 +49,26 @@ public class OrganView_UI_Animation : MonoBehaviour
 
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 0), TweenTime / 4);
-
-
+            organView_Manager.toggleButtonsInteractive(true);
         }
+    }
+
+    public void GoToBuyOrganUI()
+    {
+        //Debug.Log("Time to buy new organ");
+        LeanTween.cancel(UIObject);
+        LeanTween.moveLocal(UIObject, new Vector3(0, -900, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+
+        LeanTween.cancel(UIBuyObject);
+        LeanTween.moveLocal(UIBuyObject, new Vector3(0, 0, 0), 0.5f).setEase(LeanTweenType.easeInExpo);  
+    }
+    public void GoToNormalOrganUI()
+    {
+        //Debug.Log("back to normal Organ");
+        LeanTween.cancel(UIBuyObject);
+        LeanTween.moveLocal(UIBuyObject, new Vector3(0, -900, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+
+        LeanTween.cancel(UIObject);
+        LeanTween.moveLocal(UIObject, new Vector3(0, 0, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
     }
 }

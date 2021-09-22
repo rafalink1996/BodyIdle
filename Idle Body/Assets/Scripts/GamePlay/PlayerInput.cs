@@ -40,32 +40,39 @@ public class PlayerInput : MonoBehaviour
     #region Organ View Interactions
     public void OnClickBuyOrgan()
     {
-        if(myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count < 5) // chequear que hayan menos de 5 organos de ese tipo
+        if (myOrganManager.activeOrganType < 12)
         {
-            int OrganCount = myOrganManager.organTypes[myOrganManager.activeOranType].organs.Count;
-            if (myGameManager.pointsManager.totalPoints >= myOrganManager.organTypes[myOrganManager.activeOranType].PointCost[OrganCount]) // chequear que el jugador tiene los puntos necesarios
+            if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count < 5) // chequear que hayan menos de 5 organos de ese tipo
             {
-                if(myGameManager.pointsManager.ComplexityPoints + myOrganManager.organTypes[myOrganManager.activeOranType].ComplexityCost[OrganCount] <= myGameManager.pointsManager.ComplexityMaxPoints) // chequear que el jugador no sobrepase la cantidad de complexity
+                int OrganCount = myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count;
+                if (myGameManager.pointsManager.totalPoints >= myOrganManager.organTypes[myOrganManager.activeOrganType].PointCost[OrganCount]) // chequear que el jugador tiene los puntos necesarios
                 {
-                    Debug.Log("Organ Can be bought");
-                    myGameManager.pointsManager.ManagePoints(-myOrganManager.organTypes[myOrganManager.activeOranType].PointCost[OrganCount]);
-                    myOrganManager.AddNewOrgan(myOrganManager.activeOranType);
-                    myGameManager.OrganViewUI.ShowOrgans();
+                    if (myGameManager.pointsManager.ComplexityPoints + myOrganManager.organTypes[myOrganManager.activeOrganType].ComplexityCost[OrganCount] <= myGameManager.pointsManager.ComplexityMaxPoints) // chequear que el jugador no sobrepase la cantidad de complexity
+                    {
+                        //Debug.Log("Organ Can be bought");
+                        myGameManager.pointsManager.ManagePoints(-myOrganManager.organTypes[myOrganManager.activeOrganType].PointCost[OrganCount]);
+                        myOrganManager.AddNewOrgan(myOrganManager.activeOrganType);
+                        myGameManager.OrganViewUI.UpdateOrgans();
+                    }
+                    else
+                    {
+                        Debug.Log("Not enough compelxity");
+                        Debug.Log("Current Complexity = " + myGameManager.pointsManager.ComplexityPoints + "Max Complexity = " + myGameManager.pointsManager.ComplexityMaxPoints);
+                    }
                 }
                 else
                 {
-                    Debug.Log("Not enough compelxity");
-                    Debug.Log("Current Complexity = " +  myGameManager.pointsManager.ComplexityPoints + "Max Complexity = " + myGameManager.pointsManager.ComplexityMaxPoints);
+                    Debug.Log("Not Enough Points");
                 }
             }
             else
             {
-                Debug.Log("Not Enough Points");
+                Debug.Log("Organ Max");
             }
         }
         else
         {
-            Debug.Log("Organ Max");
+            Debug.Log("Choosing organ");
         }
 
     }

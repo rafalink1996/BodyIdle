@@ -12,11 +12,11 @@ public class OrganManager : MonoBehaviour
     public class OrganType
     {
         public string Name;
-        //public float InitialCost;
         public double[] PointCost;
         public float[] ComplexityCost;
-
+        public double pointMultiplierCost;
         public float pointsMultiplier;
+        public bool unlocked;
 
         [System.Serializable]
         public class OrganInfo
@@ -63,7 +63,7 @@ public class OrganManager : MonoBehaviour
     public OrganType[] organTypes;
     public List<int> OrganOrder;
 
-    public int activeOranType = 0;
+    public int activeOrganType = 0;
     public int activeOrganID = 0;
 
 
@@ -72,11 +72,11 @@ public class OrganManager : MonoBehaviour
     public void CustomStart()
     {
         cellSpawner = FindObjectOfType<CellSpawner>();
-        for (int o = 0; o < organTypes[activeOranType].organs.Count; o++)
+        for (int o = 0; o < organTypes[activeOrganType].organs.Count; o++)
         {
-            for(int t = 0; t < organTypes[activeOranType].organs[o].CellTypes.Length; t++)
+            for(int t = 0; t < organTypes[activeOrganType].organs[o].CellTypes.Length; t++)
             {
-                organTypes[activeOranType].organs[o].CellTypes[t].currentCellCost = CalculateCosts(o, t);
+                organTypes[activeOrganType].organs[o].CellTypes[t].currentCellCost = CalculateCosts(o, t);
             }
         }
     }
@@ -100,7 +100,7 @@ public class OrganManager : MonoBehaviour
     public void AsignNewOrganID(int id, out bool OrganUnlocked)
     {
         OrganUnlocked = false;
-        if (organTypes[activeOranType].organs[id].unlocked)
+        if (organTypes[activeOrganType].organs[id].unlocked)
         {
             activeOrganID = id;
             OrganUnlocked = true;
@@ -108,7 +108,7 @@ public class OrganManager : MonoBehaviour
     }
     IEnumerator ChangeOrganRoutine(int id)
     {
-        if (activeOrganID != id && organTypes[activeOranType].organs[id].unlocked)
+        if (activeOrganID != id && organTypes[activeOrganType].organs[id].unlocked)
         {
             cellSpawner.DestroyCells();
             activeOrganID = id;
@@ -120,15 +120,15 @@ public class OrganManager : MonoBehaviour
     public float CalculateCosts(int organId, int cellType)
     {
         float totalCells = GetCellTypeTotal(organId, cellType);
-        float cost = organTypes[activeOranType].organs[organId].CellTypes[cellType].initialCellCost + ((totalCells * (totalCells + 1)) / 2);
+        float cost = organTypes[activeOrganType].organs[organId].CellTypes[cellType].initialCellCost + ((totalCells * (totalCells + 1)) / 2);
         return cost;
     }
     float GetCellTypeTotal(int organId, int celltype = 0)
     {
         float totalCells = 0;
-        for (int a = 0; a < organTypes[activeOranType].organs[organId].CellTypes[celltype].cellSizes.Count; a++)
+        for (int a = 0; a < organTypes[activeOrganType].organs[organId].CellTypes[celltype].cellSizes.Count; a++)
         {
-            for (int b = 0; b < organTypes[activeOranType].organs[organId].CellTypes[celltype].cellSizes[a].CellsInfos.Count; b++)
+            for (int b = 0; b < organTypes[activeOrganType].organs[organId].CellTypes[celltype].cellSizes[a].CellsInfos.Count; b++)
             {
                 totalCells += Mathf.Pow(10, a);
             }
