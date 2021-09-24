@@ -8,7 +8,7 @@ public class OrganView_UI_Animation : MonoBehaviour
     [SerializeField] GameObject StickyImage;
     [SerializeField] GameObject bottom_UI;
     [SerializeField] GameObject ArrowTabIndicator;
-    private bool UIHidden = false;
+    public bool UIHidden = false;
     [SerializeField] float TweenTime = 2f;
     [SerializeField] GameObject UIObject;
     [SerializeField] GameObject UIBuyObject;
@@ -24,7 +24,7 @@ public class OrganView_UI_Animation : MonoBehaviour
     {
         if (!UIHidden)
         {
-
+            
             LeanTween.cancel(bottom_UI);
             LeanTween.moveLocal(bottom_UI, new Vector3(0, -400, 0), TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = true;
@@ -36,6 +36,8 @@ public class OrganView_UI_Animation : MonoBehaviour
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 180), TweenTime / 4);
             organView_Manager.toggleButtonsInteractive(false);
+            organView_Manager.PositionOrganIndicator(1);
+
 
         }
         else
@@ -50,6 +52,7 @@ public class OrganView_UI_Animation : MonoBehaviour
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 0), TweenTime / 4);
             organView_Manager.toggleButtonsInteractive(true);
+            organView_Manager.PositionOrganIndicator(0);
         }
     }
 

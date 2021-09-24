@@ -5,6 +5,7 @@ using UnityEngine;
 public class NewPointsManager : MonoBehaviour
 {
     public double totalPoints;
+    public double pointsPerSecond;
     public int ComplexityPoints;
     public int ComplexityMaxPoints = 100;
     public int GoldenMolecules;
@@ -30,6 +31,7 @@ public class NewPointsManager : MonoBehaviour
         {
             yield return new WaitForSeconds(1f * PointDilation);
             ManagePoints(PointsPerSecond() * PointDilation);
+            pointsPerSecond = PointsPerSecond();
             updatePointButtons();
 
         }

@@ -48,16 +48,6 @@ public class TopUI_Manager : MonoBehaviour
     {
         PointsText.text = AbbreviationUtility.AbbreviateNumber(pointsManager.totalPoints);
         PointsPerSecondText.text = AbbreviationUtility.AbbreviateNumber(pointsManager.PointsPerSecond()) + " /s";
-
-        //Testing
-        if (Input.GetKeyDown(KeyCode.LeftArrow))
-        {
-            TransitionOut();
-        }
-        if (Input.GetKeyDown(KeyCode.RightArrow))
-        {
-            TransitionIn();
-        }
     }
     void TransitionIn()
     {

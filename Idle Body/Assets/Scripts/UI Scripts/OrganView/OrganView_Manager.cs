@@ -40,6 +40,16 @@ public class OrganView_Manager : MonoBehaviour
     }
     [Header("New Organ UI")]
     public bool newOrganUI;
+    [System.Serializable]
+    public class NewOrganObject
+    {
+        public string name;
+        public CanvasGroup EnergyCostCG;
+        public TextMeshProUGUI EnergyCost;
+        public TextMeshProUGUI ComplexityCost;
+        public GameObject Object;
+    }
+    [SerializeField] NewOrganObject[] newOrganObjects;
 
     [Header("Holders")]
     [SerializeField] List<OrganHolder> organHolders;
@@ -51,6 +61,7 @@ public class OrganView_Manager : MonoBehaviour
     [Header("Organ Indicator")]
     [SerializeField] GameObject[] organIndicators;
     [SerializeField] Vector2[] organIndicatorsPos;
+    [SerializeField] GameObject OrganIndicatorObject;
 
     [Header("Testing")]
     public string LeftOrganString;
@@ -74,6 +85,8 @@ public class OrganView_Manager : MonoBehaviour
         UpdateUnlockedOrgans();
         UpdateOrgans();
         UpdateButtons();
+        SetOrganIndicator();
+        UpdateNewOrganUI();
     }
 
     public void UpdateOrgans(bool anim = true)
@@ -256,6 +269,59 @@ public class OrganView_Manager : MonoBehaviour
         }
     }
 
+    public void newOrgan(int organType)
+    {
+        UpdateUnlockedOrgans();
+        int index = 12;
+        int[] Unlocked = UnlockedOrgans.ToArray();
+        if (UnlockedOrgans.Contains(organType))
+        {
+            index = System.Array.IndexOf(Unlocked, organType);
+        }
+        currentOrganType = index;
+        UpdateOrgans();
+        ToggleNewOrganUI();
+        SetOrganIndicator();
+        UpdateNewOrganUI();
+    }
+    private void UpdateNewOrganUI()
+    {
+        for (int i = 0; i < newOrganObjects.Length; i++)
+        {
+            if (organManager.organTypes[i].unlocked)
+            {
+                newOrganObjects[i].Object.SetActive(false);
+            }
+            else
+            {
+                newOrganObjects[i].ComplexityCost.text = organManager.organTypes[i].ComplexityCost[0].ToString();
+                newOrganObjects[i].EnergyCost.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[i].PointCost[0]);
+                newOrganObjects[i].Object.SetActive(true);
+                if (gameManager.pointsManager.totalPoints < organManager.organTypes[i].PointCost[0])
+                {
+                    newOrganObjects[i].EnergyCostCG.alpha = 0.7f;
+                }
+                else
+                {
+                    newOrganObjects[i].EnergyCostCG.alpha = 1;
+                }
+                int ComplexityCost = gameManager.pointsManager.ComplexityPoints + Mathf.FloorToInt(organManager.organTypes[i].ComplexityCost[0]);
+                newOrganObjects[i].Object.TryGetComponent(out CanvasGroup CG);
+                if (CG != null)
+                {
+                    if (ComplexityCost > gameManager.pointsManager.ComplexityMaxPoints)
+                    {
+                        CG.alpha = 0.5f;
+                    }
+                    else
+                    {
+                        CG.alpha = 1f;
+                    }
+                }
+
+            }
+        }
+    }
     public void UpdateOrganViews(bool left)
     {
 
@@ -343,6 +409,7 @@ public class OrganView_Manager : MonoBehaviour
             {
                 myOrganViewAnimation.GoToBuyOrganUI();
                 toggleButtonsInteractive(false);
+                PositionOrganIndicator(2);
             }
         }
         else
@@ -351,12 +418,128 @@ public class OrganView_Manager : MonoBehaviour
             {
                 myOrganViewAnimation.GoToNormalOrganUI();
                 toggleButtonsInteractive(true);
+                if (myOrganViewAnimation.UIHidden)
+                {
+                    PositionOrganIndicator(1, true);
+                }
+                else
+                {
+                    PositionOrganIndicator(0, true);
+                }
+
             }
 
         }
     }
 
-    public void UpdateOrganIndicator(bool left)
+    public void PositionOrganIndicator(int pos, bool delay = false)
+    {
+        float delayTime = 0;
+        if (delay)
+        {
+            delayTime = 0.5f;
+        }
+        switch (pos)
+        {
+            case 0: // normal
+                LeanTween.cancel(OrganIndicatorObject);
+                LeanTween.moveLocal(OrganIndicatorObject, new Vector3(0, -900, 0), 1f).setEase(LeanTweenType.easeOutElastic).setDelay(delayTime);
+                break;
+            case 1: // hidden
+                LeanTween.cancel(OrganIndicatorObject);
+                LeanTween.moveLocal(OrganIndicatorObject, new Vector3(0, -1300, 0), 1f).setEase(LeanTweenType.easeOutElastic).setDelay(delayTime);
+                break;
+            case 2: //new organ
+                LeanTween.cancel(OrganIndicatorObject);
+                LeanTween.moveLocal(OrganIndicatorObject, new Vector3(0, -700, 0), 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.5f);
+                break;
+        }
+    }
+
+    void SetOrganIndicator()
+    {
+        for (int i = 0; i < organIndicators.Length; i++)
+        {
+            organIndicators[i].TryGetComponent(out OrganIndicator ind);
+            if (ind != null)
+            {
+                int organTypeID = currentOrganType;
+                Vector2 scale = new Vector2();
+                Vector2 position = new Vector2();
+                Color color = new Color();
+                switch (ind.Pos)
+                {
+                    case -2:
+                        for (int o = 0; o < 2; o++)
+                        {
+                            organTypeID -= 1;
+                            if (organTypeID < 0)
+                            {
+                                organTypeID = UnlockedOrgans.Count - 1;
+                            }
+                        }
+                        scale = new Vector2(0f, 0f);
+                        position = organIndicatorsPos[0];
+                        color = new Color(1, 1, 1, 0f);
+                        break;
+                    case -1:
+                        organTypeID -= 1;
+                        if (organTypeID < 0)
+                        {
+                            organTypeID = UnlockedOrgans.Count - 1;
+                        }
+                        scale = new Vector2(152f, 173f);
+                        position = organIndicatorsPos[1];
+                        color = new Color(1, 1, 1, 0.5f);
+                        break;
+                    case 0:
+                        organTypeID = currentOrganType;
+                        scale = new Vector2(201f, 229f);
+                        position = organIndicatorsPos[2];
+                        color = new Color(1, 1, 1, 1);
+                        break;
+                    case 1:
+                        organTypeID += 1;
+                        if (organTypeID > UnlockedOrgans.Count - 1)
+                        {
+                            organTypeID = 0;
+                        }
+                        scale = new Vector2(152f, 173f);
+                        position = organIndicatorsPos[3];
+                        color = new Color(1, 1, 1, 0.5f);
+                        break;
+                    case 2:
+                        for (int o = 0; o < 2; o++)
+                        {
+                            organTypeID += 1;
+                            if (organTypeID > UnlockedOrgans.Count - 1)
+                            {
+                                organTypeID = 0;
+                            }
+                        }
+                        scale = new Vector2(0f, 0f);
+                        position = organIndicatorsPos[4];
+                        color = new Color(1, 1, 1, 0f);
+                        break;
+                }
+                ind.setImage(OrganSprites[UnlockedOrgans[organTypeID]]);
+                LeanTween.cancel(organIndicators[i]);
+                LeanTween.moveLocal(organIndicators[i], position, 0).setEase(LeanTweenType.easeInOutExpo);
+                organIndicators[i].TryGetComponent(out RectTransform rect);
+                if (rect != null)
+                {
+                    LeanTween.size(rect, scale, 0).setEase(LeanTweenType.easeInOutExpo);
+                }
+                organIndicators[i].TryGetComponent(out CanvasGroup cg);
+                if (cg != null)
+                {
+                    LeanTween.alphaCanvas(cg, color.a, 0);
+                }
+            }
+        }
+    }
+
+    public void UpdateOrganIndicator(bool left, float animTime = 0.5f)
     {
         for (int i = 0; i < organIndicators.Length; i++)
         {
@@ -365,16 +548,17 @@ public class OrganView_Manager : MonoBehaviour
             {
                 Vector2 scale = new Vector2();
                 Vector2 position = new Vector2();
+                Color color = new Color();
                 int newPos;
                 bool updateImage = false;
-                if (left)
+                if (!left)
                 {
                     newPos = ind.Pos - 1;
                     if (newPos < -2)
                     {
                         newPos = 2;
                         updateImage = true;
-                    } 
+                    }
                 }
                 else
                 {
@@ -391,64 +575,76 @@ public class OrganView_Manager : MonoBehaviour
                     case 0: //Middle
                         scale = new Vector2(201f, 229f);
                         position = organIndicatorsPos[2];
+                        color = new Color(1, 1, 1, 1);
                         break;
-                    case -1: //right
+                    case 1: //right
                         scale = new Vector2(152f, 173f);
                         position = organIndicatorsPos[3];
+                        color = new Color(1, 1, 1, 0.5f);
                         break;
-                    case -2: //right 2
+                    case 2: //right 2
                         scale = new Vector2(0f, 0f);
                         position = organIndicatorsPos[4];
+                        color = new Color(1, 1, 1, 0f);
                         break;
-                    case 1: //left
+                    case -1: //left
                         scale = new Vector2(152f, 173f);
                         position = organIndicatorsPos[1];
+                        color = new Color(1, 1, 1, 0.5f);
                         break;
-                    case 2: //left 2
+                    case -2: //left 2
                         scale = new Vector2(0f, 0f);
                         position = organIndicatorsPos[0];
+                        color = new Color(1, 1, 1, 0f);
                         break;
                 }
 
                 if (updateImage)
                 {
-                    if (newPos == 2)
-                    {
-                        int OrganFarRight = currentOrganType;
-                        for (int o = 0; o < 2; o++)
-                        {
-                            OrganFarRight -= 1;
-                            if (OrganFarRight < 0)
-                            {
-                                OrganFarRight = UnlockedOrgans.Count - 1;
-                            }
-                        }
-                        Debug.Log(OrganFarRight);
-                        Debug.Log("set image far right to: " + UnlockedOrgans[OrganFarRight]);
-                        ind.setImage(OrganSprites[OrganFarRight]);
-                    }
                     if (newPos == -2)
                     {
                         int OrganFarLeft = currentOrganType;
                         for (int o = 0; o < 2; o++)
                         {
-                            OrganFarLeft += 1;
-                            if (OrganFarLeft > UnlockedOrgans.Count - 1)
+                            OrganFarLeft -= 1;
+                            if (OrganFarLeft < 0)
                             {
-                                OrganFarLeft = 0;
+                                OrganFarLeft = UnlockedOrgans.Count - 1;
                             }
                         }
-                        Debug.Log(OrganFarLeft);
-                        Debug.Log("set image far left to: " + UnlockedOrgans[OrganFarLeft]);
+                        //Debug.Log(OrganFarRight);
+                        //Debug.Log("set image far right to: " + UnlockedOrgans[OrganFarRight]);
                         ind.setImage(OrganSprites[UnlockedOrgans[OrganFarLeft]]);
+                    }
+                    if (newPos == 2)
+                    {
+                        int OrganFarRight = currentOrganType;
+                        for (int o = 0; o < 2; o++)
+                        {
+                            OrganFarRight += 1;
+                            if (OrganFarRight > UnlockedOrgans.Count - 1)
+                            {
+                                OrganFarRight = 0;
+                            }
+                        }
+                        //Debug.Log(OrganFarLeft);
+                        //Debug.Log("set image far left to: " + UnlockedOrgans[OrganFarLeft]);
+                        ind.setImage(OrganSprites[UnlockedOrgans[OrganFarRight]]);
                     }
                 }
                 ind.Pos = newPos;
-                LeanTween.moveLocal(organIndicators[i], position, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                LeanTween.cancel(organIndicators[i]);
+                LeanTween.moveLocal(organIndicators[i], position, animTime).setEase(LeanTweenType.easeInOutExpo);
                 organIndicators[i].TryGetComponent(out RectTransform rect);
                 if (rect != null)
                 {
-                    LeanTween.size(rect, scale, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                    LeanTween.size(rect, scale, animTime).setEase(LeanTweenType.easeInOutExpo);
+                    LeanTween.alpha(organIndicators[i], color.a, animTime);
+                }
+                organIndicators[i].TryGetComponent(out CanvasGroup cg);
+                if (cg != null)
+                {
+                    LeanTween.alphaCanvas(cg, color.a, animTime);
                 }
 
             }

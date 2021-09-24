@@ -57,6 +57,12 @@ public class CellView_UI_Manager : MonoBehaviour
     "BigCellSlot"
     };
 
+
+    [Header("Background")]
+    [SerializeField] Image Border;
+    [SerializeField] Animator BorderAnimator;
+    [SerializeField] Image background;
+
     private void Awake()
     {
         MyUILeanTween = GetComponent<CellView_UI_Animations>();
@@ -307,6 +313,13 @@ public class CellView_UI_Manager : MonoBehaviour
             }
             yield return null;
         }
+    }
+
+    public void UpdateBackground(int organType)
+    {
+        Border.sprite = myOrganManager.organTypes[organType].organs[0].border;
+        background.color = myOrganManager.organTypes[organType].organs[0].backgroundColor;
+        BorderAnimator.runtimeAnimatorController = myOrganManager.organTypes[organType].organs[0].borderAnimation;
     }
 
 

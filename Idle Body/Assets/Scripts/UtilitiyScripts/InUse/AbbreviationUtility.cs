@@ -24,10 +24,11 @@ public static class AbbreviationUtility
             {
                 float roundedNumber = (float)(number / pair.Key);
                 //return roundedNumber.ToString("F2") + " " + pair.Value;
-                return (decimal.Truncate((decimal)roundedNumber * 100) / 100).ToString() + " " + pair.Value;
+                return (decimal.Truncate((decimal)roundedNumber * 100) / 100).ToString("F2") + " " + pair.Value;
             }
         }
-        return number.ToString();
+        return (decimal.Truncate((decimal)number * 100) / 100).ToString("F2");
+        //return number.ToString();
     }
 
 }
