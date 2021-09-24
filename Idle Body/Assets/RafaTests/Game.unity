@@ -448,12 +448,12 @@ PrefabInstance:
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.41705173
+      value: -1.68
       objectReference: {fileID: 0}
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.267066
+      value: 4.05
       objectReference: {fileID: 0}
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
@@ -572,7 +572,7 @@ PrefabInstance:
     - target: {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
@@ -794,10 +794,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c180b3a8214494b98b6e5e0f097733b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pathogenObjects:
-  - {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
-  - {fileID: 6859613298930572891, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea, type: 3}
-  - {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393, type: 3}
+  myOrganManager: {fileID: 0}
+  pathogenPrefabs: []
+  currentPathogens: []
 --- !u!4 &1303855326
 Transform:
   m_ObjectHideFlags: 0
@@ -936,7 +935,19 @@ MonoBehaviour:
   CanBuyCell: 1
   CellTypes:
   - name: Small red cell
-    CellSizes: []
+    CellSizes:
+    - name: 
+      Cells:
+      - {fileID: 0}
+      - {fileID: 0}
+      - {fileID: 0}
+      CellPrefab: {fileID: 0}
+    - name: 
+      Cells: []
+      CellPrefab: {fileID: 0}
+    - name: 
+      Cells: []
+      CellPrefab: {fileID: 0}
   - name: Medium red cell
     CellSizes: []
   - name: Big red cell
@@ -1051,9 +1062,105 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSpawner: {fileID: 0}
-  organTypes: []
+  organTypes:
+  - Name: 
+    PointCost: []
+    ComplexityCost: []
+    pointMultiplierCost: 0
+    pointsMultiplier: 0
+    unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    organs:
+    - name: 
+      id: 0
+      unlocked: 0
+      infectionChance: 100
+      CellTypes:
+      - name: 
+        id: 0
+        cellSizes:
+        - name: 
+          CellsInfos:
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+        - name: 
+          CellsInfos: []
+        - name: 
+          CellsInfos: []
+        initialCellCost: 0
+        currentCellCost: 0
+      - name: 
+        id: 0
+        cellSizes: []
+        initialCellCost: 0
+        currentCellCost: 0
+      - name: 
+        id: 0
+        cellSizes: []
+        initialCellCost: 0
+        currentCellCost: 0
+      pathogensList: []
+    - name: 
+      id: 0
+      unlocked: 0
+      infectionChance: 20
+      CellTypes:
+      - name: 
+        id: 0
+        cellSizes:
+        - name: 
+          CellsInfos:
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+          - health: 0
+            maxHealth: 0
+            timer: 0
+            alive: 0
+        - name: 
+          CellsInfos: []
+        - name: 
+          CellsInfos: []
+        initialCellCost: 0
+        currentCellCost: 0
+      - name: 
+        id: 0
+        cellSizes: []
+        initialCellCost: 0
+        currentCellCost: 0
+      - name: 
+        id: 0
+        cellSizes: []
+        initialCellCost: 0
+        currentCellCost: 0
+      pathogensList: []
   OrganOrder: 
-  activeOranType: 0
+  activeOrganType: 0
   activeOrganID: 0
 --- !u!1 &1974944013
 GameObject:
@@ -1132,6 +1239,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Fungi
+      objectReference: {fileID: 0}
+    - target: {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1219156927912206479, guid: 4510e36b238c948db8ea1948fc57e393,
         type: 3}
@@ -1260,7 +1372,7 @@ PrefabInstance:
     - target: {fileID: 6859613298930572891, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea, type: 3}

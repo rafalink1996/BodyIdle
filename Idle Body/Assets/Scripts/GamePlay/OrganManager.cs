@@ -17,6 +17,9 @@ public class OrganManager : MonoBehaviour
         public double pointMultiplierCost;
         public float pointsMultiplier;
         public bool unlocked;
+        public Sprite border;
+        public AnimatorOverrideController borderAnimation;
+        public Color backgroundColor;
 
         [System.Serializable]
         public class OrganInfo
@@ -24,10 +27,7 @@ public class OrganManager : MonoBehaviour
             public string name;
             public int id;
             public bool unlocked;
-            public Sprite border;
-            public AnimatorOverrideController borderAnimation;
-            public Color backgroundColor;
-
+            public float infectionChance;
             [System.Serializable]
             public class cellsType
             {
@@ -54,9 +54,17 @@ public class OrganManager : MonoBehaviour
                 public float currentCellCost;
 
             }
+            [System.Serializable]
+            public class Pathogens
+            {
+                public int id;
+                public float health = 1;
+                
+            }
             [Space(10)]
             [Header("Cells List")]
             public cellsType[] CellTypes;
+            public List<Pathogens> pathogensList;
         }
         public List<OrganInfo> organs = new List<OrganInfo>();
     }
