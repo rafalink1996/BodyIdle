@@ -9,6 +9,7 @@ public class Pathogen_Base : MonoBehaviour
     public float speed;
     protected bool move;
     protected PathogenSpawner pathogenSpawner;
+    public OrganManager myOrganManager;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,6 +17,7 @@ public class Pathogen_Base : MonoBehaviour
     }
     public virtual void PathogenStart()
     {
+        myOrganManager = GameManager.gameManager.organManager;
         pathogenSpawner = FindObjectOfType<PathogenSpawner>();
         StartCoroutine(MoveAgain());
         target = FindClosestCell();

@@ -8,6 +8,7 @@ public class PathogenSpawner : MonoBehaviour
     [SerializeField] GameObject[] pathogenPrefabs;
     [SerializeField] List<GameObject> currentPathogens;
     bool infecting;
+    float timeToInfect = 5f;
     // Start is called before the first frame update
     void Start()
     {
@@ -25,7 +26,7 @@ public class PathogenSpawner : MonoBehaviour
     }
     IEnumerator InfectOrgans()
     {
-        yield return new WaitForSeconds(5f);
+        yield return new WaitForSeconds(timeToInfect);
         int infectionId = Random.Range(0, 3);
         for (int o = 0; o < myOrganManager.organTypes.Length; o++)
         {
@@ -48,20 +49,31 @@ public class PathogenSpawner : MonoBehaviour
         newPathogen.health = 5;
         myOrganManager.organTypes[organType].organs[organ].pathogensList.Add(newPathogen);
     }
-    public void SpawnPathogen(int pathogenId, bool random = true, Transform myTransform = null)
-    { 
-        Vector3 spawnPosition;
-        Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
-        if (random)
+    public void SpawnPathogens(bool random = true, Transform myTransform = null)
+    {
+        for (int p = currentPathogens.Count; p < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].pathogensList.Count; p++)
         {
-            spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+            Vector3 spawnPosition;
+            Vector2 randomPosition = new Vector2(Random.Range(0.2f, 0.8f), Random.Range(0.2f, 0.8f));
+            if (random)
+            {
+                spawnPosition = Camera.main.ViewportToWorldPoint(randomPosition);
+            }
+            else
+            {
+                Vector3 offset = new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
+                spawnPosition = myTransform.position + offset;
+            }
+            GameObject pathogen = Instantiate(pathogenPrefabs[myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].pathogensList[p].id], spawnPosition, Quaternion.identity);
+            currentPathogens.Add(pathogen);
         }
-        else
+    }
+    public void DestroyPathogens()
+    {
+        for (int i = 0; i < currentPathogens.Count; i++)
         {
-            Vector3 offset = new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
-            spawnPosition = myTransform.position + offset;
+            Destroy(currentPathogens[i]);
         }
-        GameObject pathogen = Instantiate(pathogenPrefabs[pathogenId], spawnPosition, Quaternion.identity);
-        currentPathogens.Add(pathogen);
+        currentPathogens.Clear();
     }
 }

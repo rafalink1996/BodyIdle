@@ -572,7 +572,7 @@ PrefabInstance:
     - target: {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
@@ -795,7 +795,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myOrganManager: {fileID: 0}
-  pathogenPrefabs: []
+  pathogenPrefabs:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393, type: 3}
   currentPathogens: []
 --- !u!4 &1303855326
 Transform:
@@ -1010,6 +1013,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   totalPoints: 0
+  pointsPerSecond: 0
   ComplexityPoints: 0
   ComplexityMaxPoints: 100
   GoldenMolecules: 0
@@ -1062,6 +1066,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSpawner: {fileID: 0}
+  pathogenSpawner: {fileID: 1303855325}
   organTypes:
   - Name: 
     PointCost: []
@@ -1243,7 +1248,7 @@ PrefabInstance:
     - target: {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1219156927912206479, guid: 4510e36b238c948db8ea1948fc57e393,
         type: 3}

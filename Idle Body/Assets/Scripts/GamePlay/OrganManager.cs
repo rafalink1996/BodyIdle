@@ -6,6 +6,7 @@ public class OrganManager : MonoBehaviour
 {
     [HideInInspector]
     public CellSpawner cellSpawner;
+    public PathogenSpawner pathogenSpawner;
     Coroutine changeOrganCoroutine;
 
     [System.Serializable]
@@ -80,6 +81,7 @@ public class OrganManager : MonoBehaviour
     public void CustomStart()
     {
         cellSpawner = FindObjectOfType<CellSpawner>();
+        pathogenSpawner = FindObjectOfType<PathogenSpawner>();
         for (int o = 0; o < organTypes[activeOrganType].organs.Count; o++)
         {
             for(int t = 0; t < organTypes[activeOrganType].organs[o].CellTypes.Length; t++)

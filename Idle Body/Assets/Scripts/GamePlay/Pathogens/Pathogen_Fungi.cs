@@ -29,7 +29,12 @@ public class Pathogen_Fungi : Pathogen_Base
     }
     protected override void OnPathogenEffect()
     {
-        pathogenSpawner.SpawnPathogen(2, false, transform);
+        pathogenSpawner.AddPathogen(2, myOrganManager.activeOrganType, myOrganManager.activeOrganID);
+        pathogenSpawner.SpawnPathogens(false, transform);
+        //Vector3 spawnPosition;
+        //Vector3 offset = new Vector2(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
+        //spawnPosition = transform.position + offset;
+        //GameObject pathogen = Instantiate(GameManager.gameManager.organManager.pathogenSpawner.pathogenPrefabs[2], spawnPosition, Quaternion.identity);
     }
     IEnumerator Reproduce()
     {

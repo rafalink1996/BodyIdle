@@ -13286,7 +13286,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 2215.5916, y: -0.000030517578}
+  m_AnchoredPosition: {x: 2215.5916, y: 0}
   m_SizeDelta: {x: 0, y: -27.538513}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &727240861
@@ -15747,6 +15747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cellSpawner: {fileID: 0}
+  pathogenSpawner: {fileID: 0}
   organTypes:
   - Name: Hearts
     PointCost:
@@ -15764,6 +15765,9 @@ MonoBehaviour:
     pointMultiplierCost: 1000000
     pointsMultiplier: 1
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Stomach
     PointCost:
@@ -15781,6 +15785,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 1.2
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Lungs
     PointCost:
@@ -15798,6 +15805,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 1.5
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Gills
     PointCost:
@@ -15815,6 +15825,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 1.5
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Kidneys
     PointCost:
@@ -15832,6 +15845,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Intestines
     PointCost:
@@ -15849,6 +15865,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Liver
     PointCost:
@@ -15866,6 +15885,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Pancreas
     PointCost:
@@ -15883,6 +15905,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Bladder
     PointCost:
@@ -15900,6 +15925,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Brain
     PointCost:
@@ -15917,6 +15945,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Poison Gland
     PointCost:
@@ -15934,6 +15965,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   - Name: Bones
     PointCost:
@@ -15951,6 +15985,9 @@ MonoBehaviour:
     pointMultiplierCost: 0
     pointsMultiplier: 0
     unlocked: 0
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
     organs: []
   OrganOrder: 
   activeOrganType: 0
@@ -20234,7 +20271,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.37333336, y: 0.20475784}
   m_AnchorMax: {x: 0.6463542, y: 0.257}
-  m_AnchoredPosition: {x: -0.95999146, y: 0.8483887}
+  m_AnchoredPosition: {x: -0.95996094, y: 0.8483887}
   m_SizeDelta: {x: -2.1223145, y: 2.3032227}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1159932435
@@ -29846,6 +29883,7 @@ GameObject:
   - component: {fileID: 1814785190}
   - component: {fileID: 1814785191}
   - component: {fileID: 1814785192}
+  - component: {fileID: 1814785193}
   m_Layer: 0
   m_Name: CellManager
   m_TagString: Untagged
@@ -29943,6 +29981,24 @@ MonoBehaviour:
       Cells: []
       CellPrefab: {fileID: 6142831265295283307, guid: c606c8d19d5d34b54b63fe383ecd64e3,
         type: 3}
+--- !u!114 &1814785193
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1814785189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c180b3a8214494b98b6e5e0f097733b0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  myOrganManager: {fileID: 0}
+  pathogenPrefabs:
+  - {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
+  - {fileID: 6859613298930572891, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea, type: 3}
+  - {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393, type: 3}
+  currentPathogens: []
 --- !u!1 &1828823539
 GameObject:
   m_ObjectHideFlags: 0
@@ -31001,7 +31057,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.041520838, y: 0.040101565}
   m_AnchorMax: {x: 0.9765209, y: 0.20972657}
-  m_AnchoredPosition: {x: 0.7000122, y: 0.39990234}
+  m_AnchoredPosition: {x: 0.6999512, y: 0.39990234}
   m_SizeDelta: {x: -1.545166, y: 7.693207}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1877884873

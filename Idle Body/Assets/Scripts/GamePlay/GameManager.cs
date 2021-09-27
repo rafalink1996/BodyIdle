@@ -57,6 +57,7 @@ public class GameManager : MonoBehaviour
     public void changeView(int view)
     {
         organManager.cellSpawner.DestroyCells();
+        //organManager.pathogenSpawner.DestroyPathogens();
         switch (view)
         {
             case 0: // Cell_view
@@ -67,6 +68,7 @@ public class GameManager : MonoBehaviour
                 if (Organism_View_Holder != null)
                     Organism_View_Holder.SetActive(false);
                 organManager.cellSpawner.InstantiateCells();
+                organManager.pathogenSpawner.SpawnPathogens();
                 CellViewUI.StartChangeCell(0, true);
                 break;
             case 1: // organ_view

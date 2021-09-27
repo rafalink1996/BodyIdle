@@ -317,9 +317,9 @@ public class CellView_UI_Manager : MonoBehaviour
 
     public void UpdateBackground(int organType)
     {
-        Border.sprite = myOrganManager.organTypes[organType].organs[0].border;
-        background.color = myOrganManager.organTypes[organType].organs[0].backgroundColor;
-        BorderAnimator.runtimeAnimatorController = myOrganManager.organTypes[organType].organs[0].borderAnimation;
+        Border.sprite = myOrganManager.organTypes[organType].border;
+        background.color = myOrganManager.organTypes[organType].backgroundColor;
+        BorderAnimator.runtimeAnimatorController = myOrganManager.organTypes[organType].borderAnimation;
     }
 
 

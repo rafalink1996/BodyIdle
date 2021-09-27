@@ -22,7 +22,7 @@ public class Pathogen_Virus : Pathogen_Base
     }
     protected override void OnPathogenEffect()
     {
-
-        pathogenSpawner.SpawnPathogen(1, false, transform);
+        pathogenSpawner.AddPathogen(2, myOrganManager.activeOrganType, myOrganManager.activeOrganID);
+        pathogenSpawner.SpawnPathogens(false, transform);
     }
 }
