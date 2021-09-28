@@ -118,12 +118,13 @@ public class OrganView_Manager : MonoBehaviour
                     if (NewOrganScreen)
                     {
                         LeftOrganString = "New Organ";
+                        plateletManager.ClearScreen(0);
                     }
                     else
                     {
                         organType = UnlockedOrgans[t];
                         LeftOrganString = organManager.organTypes[UnlockedOrgans[t]].Name;
-                        plateletManager.InstantiatePlatalettes(0, UnlockedOrgans[t]);
+                        plateletManager.UpdatePlatelets(0, UnlockedOrgans[t]);
                     }
                     break;
                 case 1: // if position is Middle (Current in screen)
@@ -135,6 +136,8 @@ public class OrganView_Manager : MonoBehaviour
                             newOrganUI = true;
                             MiddleOrganString = "New Organ";
                             OrganName.text = "New Organ";
+                            plateletManager.ClearScreen(1);
+
                         }
                         else
                         {
@@ -143,7 +146,8 @@ public class OrganView_Manager : MonoBehaviour
                             organType = UnlockedOrgans[currentOrganType];
                             MiddleOrganString = organManager.organTypes[organType].Name;
                             OrganName.text = organManager.organTypes[organType].Name;
-                            plateletManager.InstantiatePlatalettes(1, organType);
+                            Debug.Log("Clearing Middle Shit");
+                            plateletManager.UpdatePlatelets(1, organType);
                         }
                     }
                     else
@@ -153,6 +157,7 @@ public class OrganView_Manager : MonoBehaviour
                         organType = UnlockedOrgans[currentOrganType];
                         MiddleOrganString = organManager.organTypes[organType].Name;
                         OrganName.text = organManager.organTypes[organType].Name;
+                       
                     }
                     break;
                 case 2: // if position is Right (next Organ)
@@ -173,12 +178,13 @@ public class OrganView_Manager : MonoBehaviour
                     if (NewOrganScreen)
                     {
                         RightOrganString = "New Organ";
+                        plateletManager.ClearScreen(2);
                     }
                     else
                     {
                         organType = UnlockedOrgans[t2];
                         RightOrganString = organManager.organTypes[organType].Name;
-                        plateletManager.InstantiatePlatalettes(2, UnlockedOrgans[t2]);
+                        plateletManager.UpdatePlatelets(2, UnlockedOrgans[t2]);
                     }
                     break;
             } // End case

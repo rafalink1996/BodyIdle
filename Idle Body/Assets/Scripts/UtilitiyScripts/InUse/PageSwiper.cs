@@ -32,7 +32,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         StartingPos = transform.position;
         transform.position = StartingPos;
 
-        WorldSidePos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width + (Screen.width / 2), Screen.height / 2));
+        WorldSidePos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width + (Screen.width / 2), Screen.height / 2), 0);
 
         SetWorldHoldersPositions();
         //Debug.Log(panelLocation);
@@ -157,7 +157,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             case 1: // Move Right 
                 transform.position = StartingPos;
                 if (WorldObjects)
-                    WorldHolder.position = StartingPos;
+                    WorldHolder.position = new Vector3(StartingPos.x, StartingPos.y, 0);
                 panelLocation = StartingPos;
                 Holders[0].transform.SetAsLastSibling();
                 Holders.Clear();
@@ -170,7 +170,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             case -1: // Move Left
                 transform.position = StartingPos;
                 if (WorldObjects)
-                    WorldHolder.position = StartingPos;
+                    WorldHolder.position = new Vector3(StartingPos.x, StartingPos.y, 0);
                 panelLocation = StartingPos;
                 Holders[2].transform.SetAsFirstSibling();
                 Holders.Clear();
@@ -186,7 +186,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void SwipeRight()
     {
-        Debug.Log("Swiped Right");
         gameManager.OrganViewUI.UpdateOrganViews(false);
         if (WorldObjects)
         {
@@ -201,7 +200,6 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void SwipeLeft()
     {
-        Debug.Log("Swiped Left");
         gameManager.OrganViewUI.UpdateOrganViews(true);
         if (WorldObjects)
         {

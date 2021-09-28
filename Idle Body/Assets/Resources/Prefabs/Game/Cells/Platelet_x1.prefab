@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 3812716675070732890}
   - component: {fileID: 7825343754512306400}
   - component: {fileID: 1222021389397029410}
-  - component: {fileID: 7433793679469233332}
-  - component: {fileID: 2731998958244178031}
   - component: {fileID: 1223294430235387936}
   - component: {fileID: 7421539764959152326}
+  - component: {fileID: 3654842831130958230}
   m_Layer: 9
   m_Name: Platelet_x1
   m_TagString: RedCells
@@ -116,7 +115,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 1
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -124,51 +123,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &7433793679469233332
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3812716675070732891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ba58562bb404c2eb2d5d5bab5d6862, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
-  canDie: 1
---- !u!114 &2731998958244178031
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3812716675070732891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b8c8c38421bc42bbb64e768cdbc4b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSize: 0
-  ID: 0
-  CellType: 0
-  CombineSprite: {fileID: 21300000, guid: 85a5bc51cab8a4cc9a50a57abc892ddc, type: 3}
-  myInfo:
-    health: 1
-    maxHealth: 1
-    timer: 0
-    alive: 1
-  target: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  combineTarget: {x: 0, y: 0}
-  myCellMerger: {fileID: 0}
-  myCellSpawner: {fileID: 0}
-  speed: 1
-  myParticleSystem: {fileID: 1223294430235387936}
-  myRigidbody2D: {fileID: 1222021389397029410}
-  myCollider2D: {fileID: 7825343754512306400}
-  TakeDamage: 0
 --- !u!198 &1223294430235387936
 ParticleSystem:
   m_ObjectHideFlags: 0
@@ -4891,3 +4845,18 @@ ParticleSystemRenderer:
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
   m_MaskInteraction: 0
+--- !u!114 &3654842831130958230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3812716675070732891}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc306284b0364bdfaf2ba55a6fd10d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
+  Move: 0
+  Stop: 0

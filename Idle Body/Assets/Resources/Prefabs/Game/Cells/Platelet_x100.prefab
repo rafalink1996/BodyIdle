@@ -12,10 +12,9 @@ GameObject:
   - component: {fileID: 2252819267106783028}
   - component: {fileID: 5666955190807051933}
   - component: {fileID: 7622874827222961806}
-  - component: {fileID: 5878850998267488115}
-  - component: {fileID: 4365027300431207068}
   - component: {fileID: 6499405846293509694}
   - component: {fileID: 8124273439902524593}
+  - component: {fileID: 911983141586038745}
   m_Layer: 0
   m_Name: Platelet_x100
   m_TagString: RedCells
@@ -116,7 +115,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 100
-  m_LinearDrag: 0
+  m_LinearDrag: 0.5
   m_AngularDrag: 0.05
   m_GravityScale: 0
   m_Material: {fileID: 0}
@@ -124,51 +123,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 0
---- !u!114 &5878850998267488115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252819267106783029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 60ba58562bb404c2eb2d5d5bab5d6862, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 5
-  canDie: 1
---- !u!114 &4365027300431207068
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2252819267106783029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1b8c8c38421bc42bbb64e768cdbc4b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  cellSize: 0
-  ID: 0
-  CellType: 0
-  CombineSprite: {fileID: 21300000, guid: 85a5bc51cab8a4cc9a50a57abc892ddc, type: 3}
-  myInfo:
-    health: 100
-    maxHealth: 100
-    timer: 0
-    alive: 1
-  target: {x: 0, y: 0}
-  currentPos: {x: 0, y: 0}
-  combineTarget: {x: 0, y: 0}
-  myCellMerger: {fileID: 0}
-  myCellSpawner: {fileID: 0}
-  speed: 0.8
-  myParticleSystem: {fileID: 0}
-  myRigidbody2D: {fileID: 0}
-  myCollider2D: {fileID: 0}
-  TakeDamage: 0
 --- !u!199 &6499405846293509694
 ParticleSystemRenderer:
   serializedVersion: 6
@@ -4891,3 +4845,18 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     vectorLabel1_3: W
+--- !u!114 &911983141586038745
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252819267106783029}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6fc306284b0364bdfaf2ba55a6fd10d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 40
+  Move: 0
+  Stop: 0

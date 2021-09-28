@@ -62,6 +62,7 @@ public class PlatletManager : MonoBehaviour
         public string name;
         public int position;
         public GameObject PlatletHolder;
+        public string Organ;
         public List<GameObject> SmallPlatelets;
         public List<GameObject> MediumPlatelets;
         public List<GameObject> BigPlatelets;
@@ -90,7 +91,7 @@ public class PlatletManager : MonoBehaviour
 
     private void Update()
     {
-        
+
         if (Input.GetKeyDown(KeyCode.P))
         {
             BuyPlatelet();
@@ -137,14 +138,27 @@ public class PlatletManager : MonoBehaviour
                 screenReference = i;
             }
         }
-
-        Debug.Log("Updating Screen " + screenReference + "-Position "+ plateletScreens[screenReference].position + "- With Organ Type " + organTypeId);
+        if(organTypeId != 12)
+        {
+            plateletScreens[screen].Organ = myOrganManager.organTypes[organTypeId].Name;
+        }
+        else
+        {
+            plateletScreens[screen].Organ = "New Organ";
+        }
+       
+        Debug.Log("Updating Screen " + screenReference + "-Position " + plateletScreens[screenReference].position + "- With Organ Type " + organTypeId);
         for (int s = plateletScreens[screenReference].SmallPlatelets.Count; s < myOrganManager.organTypes[organTypeId].platletSizes[0].Quantity; s++)
         {
             GameObject SmallPlatelet = SpawnFroomPool(platletTags[0] + screenReference);
             SmallPlatelet.transform.SetParent(plateletScreens[screenReference].PlatletHolder.transform);
             plateletScreens[screenReference].SmallPlatelets.Add(SmallPlatelet);
             SmallPlatelet.transform.position = plateletScreens[screenReference].PlatletHolder.transform.position + new Vector3(Random.Range(-1.7f, 1.7f), Random.Range(-3f, 3f));
+            SmallPlatelet.TryGetComponent(out Platelet platelet);
+            if (platelet != null)
+            {
+                platelet.CustomStart();
+            }
         }
         for (int m = plateletScreens[screenReference].MediumPlatelets.Count; m < myOrganManager.organTypes[organTypeId].platletSizes[1].Quantity; m++)
         {
@@ -152,6 +166,11 @@ public class PlatletManager : MonoBehaviour
             MedPlatelet.transform.SetParent(plateletScreens[screenReference].PlatletHolder.transform);
             plateletScreens[screenReference].MediumPlatelets.Add(MedPlatelet);
             MedPlatelet.transform.position = plateletScreens[screenReference].PlatletHolder.transform.position + new Vector3(Random.Range(-1.7f, 1.7f), Random.Range(-3f, 3f));
+            MedPlatelet.TryGetComponent(out Platelet platelet);
+            if (platelet != null)
+            {
+                platelet.CustomStart();
+            }
         }
         for (int b = plateletScreens[screenReference].BigPlatelets.Count; b < myOrganManager.organTypes[organTypeId].platletSizes[2].Quantity; b++)
         {
@@ -159,8 +178,68 @@ public class PlatletManager : MonoBehaviour
             BigPlatelet.transform.SetParent(plateletScreens[screenReference].PlatletHolder.transform);
             plateletScreens[screenReference].BigPlatelets.Add(BigPlatelet);
             BigPlatelet.transform.position = plateletScreens[screenReference].PlatletHolder.transform.position + new Vector3(Random.Range(-1.7f, 1.7f), Random.Range(-3f, 3f));
+            BigPlatelet.TryGetComponent(out Platelet platelet);
+            if(platelet != null)
+            {
+                platelet.CustomStart();
+            }
         }
 
+    }
+
+    public void UpdatePlatelets(int screen, int organTypeID)
+    {
+        Debug.Log("Organ Type Id = "+ organTypeID);
+        int screenReference = 0;
+        for (int i = 0; i < plateletScreens.Length; i++)
+        {
+            if (plateletScreens[i].position == screen)
+            {
+                screenReference = i;
+            }
+        }
+        ClearScreen(screen);
+        InstantiatePlatalettes(screen, organTypeID);
+    }
+
+    public void ClearScreen(int screen)
+    {
+        int screenReference = 0;
+        for (int i = 0; i < plateletScreens.Length; i++)
+        {
+            if (plateletScreens[i].position == screen)
+            {
+                screenReference = i;
+            }
+        }
+        for (int s = 0; s < plateletScreens[screenReference].SmallPlatelets.Count; s++)
+        {
+            plateletScreens[screenReference].SmallPlatelets[s].TryGetComponent(out Platelet platelet);
+            if(platelet != null)
+            {
+                platelet.Despawn();
+            }
+        }
+        plateletScreens[screenReference].SmallPlatelets.Clear();
+        for (int m = 0; m < plateletScreens[screenReference].MediumPlatelets.Count; m++)
+        {
+            plateletScreens[screenReference].MediumPlatelets[m].TryGetComponent(out Platelet platelet);
+            if (platelet != null)
+            {
+                platelet.Despawn();
+            }
+        }
+        plateletScreens[screenReference].MediumPlatelets.Clear();
+        for (int b = 0; b < plateletScreens[screenReference].BigPlatelets.Count; b++)
+        {
+            plateletScreens[screenReference].BigPlatelets[b].TryGetComponent(out Platelet platelet);
+            if (platelet != null)
+            {
+                platelet.Despawn();
+            }
+        }
+        Debug.Log("Cleared screen " + screenReference);
+        plateletScreens[screenReference].BigPlatelets.Clear();
     }
 
     IEnumerator CheckPlateletInstances()
@@ -195,12 +274,13 @@ public class PlatletManager : MonoBehaviour
     {
         for (int i = 0; i < plateletScreens.Length; i++)
         {
-            if (Left)
+            if (!Left)
             {
                 plateletScreens[i].position--;
                 if (plateletScreens[i].position < 0)
                 {
                     plateletScreens[i].position = 2;
+
                 }
             }
             else
@@ -213,6 +293,4 @@ public class PlatletManager : MonoBehaviour
             }
         }
     }
-
-
 }
