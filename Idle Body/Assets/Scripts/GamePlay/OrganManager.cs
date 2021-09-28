@@ -12,15 +12,35 @@ public class OrganManager : MonoBehaviour
     [System.Serializable]
     public class OrganType
     {
+        [Header("ID and sprites")]
         public string Name;
+        public Sprite border;
+        public AnimatorOverrideController borderAnimation;
+        public Color backgroundColor;
+
+        public bool unlocked;
+
+        [Space(10)]
+        [Header("Costs")]
+       
         public double[] PointCost;
         public float[] ComplexityCost;
         public double pointMultiplierCost;
         public float pointsMultiplier;
-        public bool unlocked;
-        public Sprite border;
-        public AnimatorOverrideController borderAnimation;
-        public Color backgroundColor;
+
+        [System.Serializable]
+        public class PlatletSize
+        {
+            public string name;
+            public int Quantity;
+        }
+        [Space(10)]
+        [Header("Platelets")]
+        public PlatletSize[] platletSizes;
+        public double plateletInitialCost;
+        public double plateletCost;
+
+
 
         [System.Serializable]
         public class OrganInfo
@@ -67,7 +87,9 @@ public class OrganManager : MonoBehaviour
             public cellsType[] CellTypes;
             public List<Pathogens> pathogensList;
         }
+        [Space(10)]
         public List<OrganInfo> organs = new List<OrganInfo>();
+       
     }
     public OrganType[] organTypes;
     public List<int> OrganOrder;
@@ -82,11 +104,15 @@ public class OrganManager : MonoBehaviour
     {
         cellSpawner = FindObjectOfType<CellSpawner>();
         pathogenSpawner = FindObjectOfType<PathogenSpawner>();
-        for (int o = 0; o < organTypes[activeOrganType].organs.Count; o++)
+
+        for (int i = 0; i < organTypes.Length; i++)
         {
-            for(int t = 0; t < organTypes[activeOrganType].organs[o].CellTypes.Length; t++)
+            for (int o = 0; o < organTypes[i].organs.Count; o++)
             {
-                organTypes[activeOrganType].organs[o].CellTypes[t].currentCellCost = CalculateCosts(o, t);
+                for (int t = 0; t < organTypes[i].organs[o].CellTypes.Length; t++)
+                {
+                    organTypes[i].organs[o].CellTypes[t].currentCellCost = CalculateCosts(o, t);
+                }
             }
         }
     }
@@ -109,6 +135,8 @@ public class OrganManager : MonoBehaviour
     }
     public void AsignNewOrganID(int id, out bool OrganUnlocked)
     {
+        Debug.Log(id);
+        Debug.Log(organTypes[activeOrganType].Name);
         OrganUnlocked = false;
         if (organTypes[activeOrganType].organs[id].unlocked)
         {
@@ -118,6 +146,7 @@ public class OrganManager : MonoBehaviour
     }
     IEnumerator ChangeOrganRoutine(int id)
     {
+       
         if (activeOrganID != id && organTypes[activeOrganType].organs[id].unlocked)
         {
             cellSpawner.DestroyCells();
@@ -154,73 +183,76 @@ public class OrganManager : MonoBehaviour
             unlocked = true,
             CellTypes = new OrganType.OrganInfo.cellsType[]
               {
-                   new OrganType.OrganInfo.cellsType
-                   {
-                       name = "Red Cells",
-                       cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
-                       {
-                           new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Small red blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                             new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Medium red blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                               new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Big red blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           }
-                       }
-                   },
-                   new OrganType.OrganInfo.cellsType
-                   {
-                       name = "White Cells",
-                       cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
-                       {
-                           new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Small White blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                             new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Medium White blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                               new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Big White blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           }
-                       }
-                   },
-                   new OrganType.OrganInfo.cellsType
-                   {
-                       name = "Helper Cells",
-                       cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
-                       {
-                           new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Small Helper blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                             new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Medium Helper blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           },
-                               new OrganType.OrganInfo.cellsType.CellSizes
-                           {
-                               name = "Big Helper blood cell",
-                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
-                           }
-                       }
-                   },
+                  new OrganType.OrganInfo.cellsType
+                  {
+                      name = "Red Cells",
+                      cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
+                      {
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Small red blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Medium red blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Big red blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          }
+                      }
+                  },
+                  new OrganType.OrganInfo.cellsType
+                  {
+                      name = "White Cells",
+                      cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
+                      {
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Small White blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Medium White blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Big White blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          }
+                      },
+
+
+                  },
+                  new OrganType.OrganInfo.cellsType
+                  {
+                      name = "Helper Cells",
+                      cellSizes = new List<OrganType.OrganInfo.cellsType.CellSizes>
+                      {
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Small Helper blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Medium Helper blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          },
+                          new OrganType.OrganInfo.cellsType.CellSizes
+                          {
+                              name = "Big Helper blood cell",
+                              CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
+                          }
+                      }
+                  },
               },
+            pathogensList = new List<OrganType.OrganInfo.Pathogens>(),
         };
         organTypes[organType].organs.Add(newOrgan);
     }

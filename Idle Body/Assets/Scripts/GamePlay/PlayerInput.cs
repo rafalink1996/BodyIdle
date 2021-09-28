@@ -83,7 +83,7 @@ public class PlayerInput : MonoBehaviour
         {
             Debug.Log("canchangeOrgan");
             myGameManager.topUIManager.ChangeView(0);
-            myGameManager.CellViewUI.UpdateBackground(myOrganManager.activeOrganID);
+            myGameManager.CellViewUI.UpdateBackground(myOrganManager.activeOrganType);
             myGameManager.OrganViewUI.ToggleOrgansButtons(false);
         }
     }
@@ -112,6 +112,11 @@ public class PlayerInput : MonoBehaviour
             Debug.Log("not enough energy");
             }
        
+    }
+
+    public void OnClickUpgradeMultiplier()
+    {
+
     }
 
     #endregion Organ View Interactions

@@ -11,6 +11,7 @@ public class CellView_UI_Manager : MonoBehaviour
 
     [SerializeField] Image BuyButton, BuyButtonCost, BuyButtonCellImage;
 
+
     [SerializeField] CellsSO RedBloodCell, WhiteBloodCell, HelperCell;
     [SerializeField] CellView_UI_Animations MyUILeanTween;
     [SerializeField] TextMeshProUGUI CellCost;
@@ -42,13 +43,13 @@ public class CellView_UI_Manager : MonoBehaviour
     };
 
     [System.Serializable]
-    public class pool
+    public class cellPool
     {
         public string tag;
         public GameObject prefab;
         public int size;
     }
-    public List<pool> pools;
+    public List<cellPool> pools;
     public Dictionary<string, Queue<GameObject>> PoolDictionary;
 
     string[] CellTag = new string[]{
@@ -62,13 +63,16 @@ public class CellView_UI_Manager : MonoBehaviour
     [SerializeField] Image Border;
     [SerializeField] Animator BorderAnimator;
     [SerializeField] Image background;
+    [SerializeField] Image backButtonImage;
+
+    [SerializeField] Sprite[] organSprites;
 
     private void Awake()
     {
         MyUILeanTween = GetComponent<CellView_UI_Animations>();
         PoolDictionary = new Dictionary<string, Queue<GameObject>>();
 
-        foreach (pool pool in pools)
+        foreach (cellPool pool in pools)
         {
             Queue<GameObject> ObjectPool = new Queue<GameObject>();
             for (int i = 0; i < pool.size; i++)
@@ -320,6 +324,7 @@ public class CellView_UI_Manager : MonoBehaviour
         Border.sprite = myOrganManager.organTypes[organType].border;
         background.color = myOrganManager.organTypes[organType].backgroundColor;
         BorderAnimator.runtimeAnimatorController = myOrganManager.organTypes[organType].borderAnimation;
+        backButtonImage.sprite = organSprites[myOrganManager.activeOrganType];
     }
 
 

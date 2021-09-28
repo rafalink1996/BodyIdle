@@ -15,6 +15,7 @@ public class PathogenSpawner : MonoBehaviour
         myOrganManager = GameManager.gameManager.organManager;
     }
 
+
     // Update is called once per frame
     void Update()
     {
@@ -51,6 +52,10 @@ public class PathogenSpawner : MonoBehaviour
     }
     public void SpawnPathogens(bool random = true, Transform myTransform = null)
     {
+        if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].pathogensList == null)
+        {
+            Debug.LogWarning("Organ manager is null!");
+        }
         for (int p = currentPathogens.Count; p < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].pathogensList.Count; p++)
         {
             Vector3 spawnPosition;

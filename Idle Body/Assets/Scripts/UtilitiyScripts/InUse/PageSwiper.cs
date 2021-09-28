@@ -16,7 +16,13 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     public List<GameObject> Holders;
     [SerializeField] bool CanChange = true;
     public bool Locked = false;
-    
+
+    [Header("World Object Settings")]
+    [SerializeField] bool WorldObjects;
+    [SerializeField] Transform WorldHolder;
+    [SerializeField] List<GameObject> WorldHolders;
+    Vector3 WorldSidePos;
+
 
 
     void Start()
@@ -25,7 +31,31 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         panelLocation = transform.position;
         StartingPos = transform.position;
         transform.position = StartingPos;
+
+        WorldSidePos = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width + (Screen.width / 2), Screen.height / 2));
+
+        SetWorldHoldersPositions();
         //Debug.Log(panelLocation);
+    }
+
+    void SetWorldHoldersPositions()
+    {
+
+        for (int i = 0; i < WorldHolders.Count; i++)
+        {
+            switch (i)
+            {
+                case 0: //Middle Holder
+                    WorldHolders[i].transform.position = Vector3.zero;
+                    break;
+                case 1: // Right holder
+                    WorldHolders[i].transform.position = WorldSidePos;
+                    break;
+                case 2: // Left Holder
+                    WorldHolders[i].transform.position = -WorldSidePos;
+                    break;
+            }
+        }
     }
     public void OnDrag(PointerEventData data)
     {
@@ -35,12 +65,17 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
             {
                 float difference = Camera.main.ScreenToWorldPoint(data.pressPosition).x - Camera.main.ScreenToWorldPoint(data.position).x;
                 transform.position = panelLocation - new Vector3(difference, 0, 0);
+                if (WorldObjects)
+                {
+                    WorldHolder.transform.position = panelLocation - new Vector3(difference, 0, 0);
+                }
             }
             else
             {
                 float difference = data.pressPosition.x - data.position.x;
                 transform.position = panelLocation - new Vector3(difference, 0, 0);
             }
+
         }
 
     }
@@ -85,16 +120,20 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 if (Left)
                 {
                     StartCoroutine(SmoothMove(transform.position, newLocation, easing, -1));
+
                 }
                 else
                 {
                     StartCoroutine(SmoothMove(transform.position, newLocation, easing, 1));
+
                 }
+
                 panelLocation = newLocation;
             }
             else
             {
                 StartCoroutine(SmoothMove(transform.position, panelLocation, easing, 0));
+
             }
         }
     }
@@ -107,6 +146,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
         {
             t += Time.deltaTime / seconds;
             transform.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0, 1f, t));
+            WorldHolder.position = Vector3.Lerp(startPos, endPos, Mathf.SmoothStep(0, 1f, t));
             yield return null;
         }
 
@@ -116,6 +156,8 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 break;
             case 1: // Move Right 
                 transform.position = StartingPos;
+                if (WorldObjects)
+                    WorldHolder.position = StartingPos;
                 panelLocation = StartingPos;
                 Holders[0].transform.SetAsLastSibling();
                 Holders.Clear();
@@ -127,6 +169,8 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 break;
             case -1: // Move Left
                 transform.position = StartingPos;
+                if (WorldObjects)
+                    WorldHolder.position = StartingPos;
                 panelLocation = StartingPos;
                 Holders[2].transform.SetAsFirstSibling();
                 Holders.Clear();
@@ -142,26 +186,34 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
     void SwipeRight()
     {
+        Debug.Log("Swiped Right");
         gameManager.OrganViewUI.UpdateOrganViews(false);
+        if (WorldObjects)
+        {
+            List<GameObject> newObjectPos = new List<GameObject>();
+            newObjectPos.Add(WorldHolders[1]);
+            newObjectPos.Add(WorldHolders[2]);
+            newObjectPos.Add(WorldHolders[0]);
+            WorldHolders = newObjectPos;
+            SetWorldHoldersPositions();
+        }
     }
 
     void SwipeLeft()
     {
-        //int UnlockedOrgans = 1;
-        //for (int i = 0; i < gameManager.organManager.organTypes.Length; i++)
-        //{
-        //    if (gameManager.organManager.organTypes[i].unlocked)
-        //    {
-        //        UnlockedOrgans++;
-        //    }
-        //}
-        //gameManager.organManager.activeOranType -= 1;
-        //if (gameManager.organManager.activeOranType < 0)
-        //{
-        //    gameManager.organManager.activeOranType = UnlockedOrgans;
-        //}
+        Debug.Log("Swiped Left");
         gameManager.OrganViewUI.UpdateOrganViews(true);
+        if (WorldObjects)
+        {
+            List<GameObject> newObjectPos = new List<GameObject>();
+            newObjectPos.Add(WorldHolders[2]);
+            newObjectPos.Add(WorldHolders[0]);
+            newObjectPos.Add(WorldHolders[1]);
+            WorldHolders = newObjectPos;
+            SetWorldHoldersPositions();
+        }
     }
+
 
 
 }

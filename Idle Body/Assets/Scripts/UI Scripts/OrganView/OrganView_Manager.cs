@@ -63,6 +63,8 @@ public class OrganView_Manager : MonoBehaviour
     [SerializeField] Vector2[] organIndicatorsPos;
     [SerializeField] GameObject OrganIndicatorObject;
 
+    [Header("Platelets")]
+    PlatletManager plateletManager;
     [Header("Testing")]
     public string LeftOrganString;
     public string MiddleOrganString;
@@ -74,6 +76,7 @@ public class OrganView_Manager : MonoBehaviour
         if (gameManager == null)
             gameManager = GameManager.gameManager;
         organManager = gameManager.organManager;
+        
 
     }
     public void CustomStart()
@@ -82,6 +85,9 @@ public class OrganView_Manager : MonoBehaviour
             gameManager = GameManager.gameManager;
         organManager = gameManager.organManager;
         myOrganViewAnimation = transform.GetComponent<OrganView_UI_Animation>();
+        plateletManager = FindObjectOfType<PlatletManager>();
+
+        plateletManager.CustomStart();
         UpdateUnlockedOrgans();
         UpdateOrgans();
         UpdateButtons();
@@ -117,6 +123,7 @@ public class OrganView_Manager : MonoBehaviour
                     {
                         organType = UnlockedOrgans[t];
                         LeftOrganString = organManager.organTypes[UnlockedOrgans[t]].Name;
+                        plateletManager.InstantiatePlatalettes(0, UnlockedOrgans[t]);
                     }
                     break;
                 case 1: // if position is Middle (Current in screen)
@@ -136,6 +143,7 @@ public class OrganView_Manager : MonoBehaviour
                             organType = UnlockedOrgans[currentOrganType];
                             MiddleOrganString = organManager.organTypes[organType].Name;
                             OrganName.text = organManager.organTypes[organType].Name;
+                            plateletManager.InstantiatePlatalettes(1, organType);
                         }
                     }
                     else
@@ -170,6 +178,7 @@ public class OrganView_Manager : MonoBehaviour
                     {
                         organType = UnlockedOrgans[t2];
                         RightOrganString = organManager.organTypes[organType].Name;
+                        plateletManager.InstantiatePlatalettes(2, UnlockedOrgans[t2]);
                     }
                     break;
             } // End case
@@ -279,10 +288,12 @@ public class OrganView_Manager : MonoBehaviour
             index = System.Array.IndexOf(Unlocked, organType);
         }
         currentOrganType = index;
+        organManager.activeOrganType = UnlockedOrgans[currentOrganType];
         UpdateOrgans();
         ToggleNewOrganUI();
         SetOrganIndicator();
         UpdateNewOrganUI();
+        
     }
     private void UpdateNewOrganUI()
     {
@@ -333,6 +344,7 @@ public class OrganView_Manager : MonoBehaviour
                 currentOrganType = UnlockedOrgans.Count - 1;
             }
             UpdateOrganIndicator(true);
+            plateletManager.UpdatePlateletHolderPosition(true);
 
         }
         else
@@ -343,6 +355,7 @@ public class OrganView_Manager : MonoBehaviour
                 currentOrganType = 0;
             }
             UpdateOrganIndicator(false);
+            plateletManager.UpdatePlateletHolderPosition(false);
         }
         organManager.activeOrganType = UnlockedOrgans[currentOrganType];
 
@@ -350,7 +363,7 @@ public class OrganView_Manager : MonoBehaviour
         {
             if (!left)
             {
-                Debug.Log("Move Left");
+                //Debug.Log("Move Left");
                 organHolders[i].position -= 1;
                 if (organHolders[i].position < 0)
                 {
@@ -360,7 +373,7 @@ public class OrganView_Manager : MonoBehaviour
             }
             else
             {
-                Debug.Log("Move right");
+                //Debug.Log("Move right");
                 organHolders[i].position += 1;
                 if (organHolders[i].position > 2)
                 {
