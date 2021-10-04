@@ -71,6 +71,9 @@ public class OrganView_Manager : MonoBehaviour
     public string RightOrganString;
     public bool AllOrgansUnlocked;
 
+    [Header("OrganInfo")]
+    OrganInfo organDispalyInfo;
+
     void Start()
     {
         if (gameManager == null)
@@ -86,6 +89,8 @@ public class OrganView_Manager : MonoBehaviour
         organManager = gameManager.organManager;
         myOrganViewAnimation = transform.GetComponent<OrganView_UI_Animation>();
         plateletManager = FindObjectOfType<PlatletManager>();
+        organDispalyInfo = FindObjectOfType<OrganInfo>();
+        
 
         plateletManager.CustomStart();
         UpdateUnlockedOrgans();
@@ -93,6 +98,7 @@ public class OrganView_Manager : MonoBehaviour
         UpdateButtons();
         SetOrganIndicator();
         UpdateNewOrganUI();
+        AudioManager.Instance.Play("Music");
     }
 
     public void UpdateOrgans(bool anim = true)
@@ -271,7 +277,7 @@ public class OrganView_Manager : MonoBehaviour
         {
             for (int i = 0; i < organHolders[o].OrganObjects.Length; i++)
             {
-                organHolders[o].OrganObjects[i].TryGetComponent(out Button button);
+                organHolders[o].OrganObjects[i].TryGetComponent(out ButtonHold button);
                 if (Interactable)
                 {
                     button.interactable = true;
@@ -698,6 +704,7 @@ public class OrganView_Manager : MonoBehaviour
         {
             BuyOrganButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].PointCost[organManager.organTypes[organManager.activeOrganType].organs.Count]);
             UpgradeMultiplierButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].pointMultiplierCost);
+            PlatletBuyButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].plateletCost);
         }
     }
     private void UpdateButtonColors()
@@ -743,7 +750,18 @@ public class OrganView_Manager : MonoBehaviour
                 UpgradeMultiplierButton.MainButton.colors = CB;
             }
         }
+    }
+    public void BuyPlatelet()
+    {
 
+        plateletManager.BuyPlatelet();
+        UpdateCosts();
+    }
+
+    public void ShowOrganInfo(int OrganType, int OrganNumber)
+    {
+        organDispalyInfo.SetInfo(OrganType, OrganNumber);
+        organDispalyInfo.Show();
     }
 
     #region backupCode

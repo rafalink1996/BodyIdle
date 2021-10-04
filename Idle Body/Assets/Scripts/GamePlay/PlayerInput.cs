@@ -102,6 +102,7 @@ public class PlayerInput : MonoBehaviour
                 myOrganManager.organTypes[organType].unlocked = true;
                 myOrganManager.AddNewOrgan(organType);
                 myGameManager.OrganViewUI.newOrgan(organType);
+
             }
             else
             {
@@ -114,6 +115,11 @@ public class PlayerInput : MonoBehaviour
        
     }
 
+
+    public void OnClickBuyPlatelet()
+    {
+        myGameManager.OrganViewUI.BuyPlatelet();
+    }
     public void OnClickUpgradeMultiplier()
     {
 

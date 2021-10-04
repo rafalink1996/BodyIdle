@@ -142,7 +142,7 @@ ParticleSystemRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 792ed4b9c546643c697ae603da494a4e, type: 2}
+  - {fileID: 2100000, guid: 5649a9eacf94541e7942372131e20af4, type: 2}
   - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
@@ -4860,3 +4860,7 @@ MonoBehaviour:
   speed: 40
   Move: 0
   Stop: 0
+  mySprites:
+  - {fileID: 21300000, guid: 89733053e7aa14595bec4094d021e37d, type: 3}
+  - {fileID: 21300000, guid: 27b176db69d954844a29fdd444ed8222, type: 3}
+  MergeReady: 0

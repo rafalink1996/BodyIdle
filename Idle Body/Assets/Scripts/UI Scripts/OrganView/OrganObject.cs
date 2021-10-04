@@ -40,6 +40,13 @@ public class OrganObject : MonoBehaviour
         gameManager.playerInput.OnClickOrgan(ID);
     }
 
+
+    public void OnLongClickOrgan()
+    {
+        Debug.Log("Show info of  " + organManager.organTypes[organManager.activeOrganType].Name + " number " + ID);
+        gameManager.OrganViewUI.ShowOrganInfo(organManager.activeOrganType, ID);
+    }
+
     void UpdateOrgan(Sprite OrganSprite, Vector2 eyePos, bool Lungs)
     {
         OrganImage.sprite = OrganSprite;
