@@ -443,17 +443,17 @@ PrefabInstance:
     - target: {fileID: 9196088673389811172, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.68
+      value: -0.03
       objectReference: {fileID: 0}
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.05
+      value: 2.21
       objectReference: {fileID: 0}
     - target: {fileID: 9196088673389811174, guid: 482f27a1cf4c5420696ca4b1ab3086c0,
         type: 3}
@@ -572,7 +572,7 @@ PrefabInstance:
     - target: {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
@@ -796,8 +796,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myOrganManager: {fileID: 0}
   pathogenPrefabs:
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 7166412757840408063, guid: c0362d0478b3745c18d51f5e028fea50, type: 3}
+  - {fileID: 6859613298930572891, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea, type: 3}
   - {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393, type: 3}
   currentPathogens: []
 --- !u!4 &1303855326
@@ -1069,19 +1069,22 @@ MonoBehaviour:
   pathogenSpawner: {fileID: 1303855325}
   organTypes:
   - Name: 
+    border: {fileID: 0}
+    borderAnimation: {fileID: 0}
+    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    unlocked: 0
     PointCost: []
     ComplexityCost: []
     pointMultiplierCost: 0
     pointsMultiplier: 0
-    unlocked: 0
-    border: {fileID: 0}
-    borderAnimation: {fileID: 0}
-    backgroundColor: {r: 0, g: 0, b: 0, a: 0}
+    platletSizes: []
+    plateletInitialCost: 0
+    plateletCost: 0
     organs:
     - name: 
       id: 0
       unlocked: 0
-      infectionChance: 100
+      infectionChance: 0
       CellTypes:
       - name: 
         id: 0
@@ -1124,7 +1127,7 @@ MonoBehaviour:
     - name: 
       id: 0
       unlocked: 0
-      infectionChance: 20
+      infectionChance: 0
       CellTypes:
       - name: 
         id: 0
@@ -1248,7 +1251,7 @@ PrefabInstance:
     - target: {fileID: 1219156927912206475, guid: 4510e36b238c948db8ea1948fc57e393,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1219156927912206479, guid: 4510e36b238c948db8ea1948fc57e393,
         type: 3}
@@ -1377,7 +1380,7 @@ PrefabInstance:
     - target: {fileID: 6859613298930572891, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea,
         type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ed4d2819d3534b10ba26bc29ab4e3ea, type: 3}
