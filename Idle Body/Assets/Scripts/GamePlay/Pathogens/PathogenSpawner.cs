@@ -45,9 +45,11 @@ public class PathogenSpawner : MonoBehaviour
     }
     public void AddPathogen(int pathogenId, int organType, int organ)
     {
-        OrganManager.OrganType.OrganInfo.Pathogens newPathogen = new OrganManager.OrganType.OrganInfo.Pathogens();
-        newPathogen.id = pathogenId;
-        newPathogen.health = 5;
+        OrganManager.OrganType.OrganInfo.Pathogens newPathogen = new OrganManager.OrganType.OrganInfo.Pathogens
+        {
+            id = pathogenId,
+            health = 5
+        };
         myOrganManager.organTypes[organType].organs[organ].pathogensList.Add(newPathogen);
     }
     public void SpawnPathogens(bool random = true, Transform myTransform = null)
