@@ -1,16 +1,25 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿
 using UnityEngine;
-using System.Linq;
+using System;
+
 
 
 public class GameData : MonoBehaviour
 {
-    public float energyPoints;
+    [Header ("Data")]
+    public double energyPoints;
+    public double SavedPointsPerSecond;
+    public DateTime lastSesionTime;
+    public int saveNumber;
+
+    [Header("Instance")]
     public static GameData data;
+
+    [Header("References")]
     OrganManager myOrganManager;
     SaveObject LoadedObject;
-  
+
+    public bool PlayfabLogin;
 
     private void Awake()
     {
@@ -42,6 +51,8 @@ public class GameData : MonoBehaviour
         string json = JsonUtility.ToJson(saveObject);
         SaveSystem.Save(json);
         Debug.Log("Saved Data");
+
+        // guardar en la nube
     }
 
     private void Load()
@@ -57,7 +68,6 @@ public class GameData : MonoBehaviour
         {
             Debug.LogWarning("No save");
         }
- 
     }
 
     void SetStats()
@@ -66,7 +76,10 @@ public class GameData : MonoBehaviour
         {
             if(LoadedObject.Organs != null)
             {
-                myOrganManager.organTypes = LoadedObject.Organs;
+                if(myOrganManager != null)
+                {
+                    myOrganManager.organTypes = LoadedObject.Organs;
+                }  
             }
             energyPoints = LoadedObject.energyPoints;
         }
@@ -74,7 +87,7 @@ public class GameData : MonoBehaviour
 
     private class SaveObject
     {
-        public float energyPoints;
+        public double energyPoints;
         public OrganManager.OrganType[] Organs;
         
     }
@@ -82,22 +95,22 @@ public class GameData : MonoBehaviour
 
     /// DELETE THIS METHOD////TODO
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.S))
-        {
-            save();
-        }
-        if (Input.GetKeyDown(KeyCode.L))
-        {
-            Load();
-        }
-        if(Input.GetKeyDown(KeyCode.M))
-        {
-            SetStats();
-        }
+    //private void Update()
+    //{
+    //    if (Input.GetKeyDown(KeyCode.S))
+    //    {
+    //        save();
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.L))
+    //    {
+    //        Load();
+    //    }
+    //    if(Input.GetKeyDown(KeyCode.M))
+    //    {
+    //        SetStats();
+    //    }
      
-    }
+    //}
 
 
 

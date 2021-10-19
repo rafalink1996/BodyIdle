@@ -135,8 +135,8 @@ public class OrganManager : MonoBehaviour
     }
     public void AsignNewOrganID(int id, out bool OrganUnlocked)
     {
-        Debug.Log(id);
-        Debug.Log(organTypes[activeOrganType].Name);
+        //Debug.Log(id);
+        //Debug.Log(organTypes[activeOrganType].Name);
         OrganUnlocked = false;
         if (organTypes[activeOrganType].organs[id].unlocked)
         {

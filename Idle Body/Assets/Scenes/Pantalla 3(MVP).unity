@@ -1009,7 +1009,7 @@ MonoBehaviour:
       type: 2}
     clip: {fileID: 8300000, guid: 8a41296ac73074c7c9f9d17c3c6fc404, type: 3}
     volume: 1
-    pitch: 1
+    pitch: 1.45
     priority: 0
     loop: 0
     source: {fileID: 0}
@@ -1019,7 +1019,7 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: c7f828d24fb96462a9a964948795e37a, type: 3}
     volume: 1
     pitch: 1
-    priority: 0
+    priority: 203
     loop: 0
     source: {fileID: 0}
 --- !u!1 &26793096
@@ -3144,12 +3144,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -3182,6 +3184,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &108754663
 MonoBehaviour:
@@ -3443,7 +3446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myOrgan: {fileID: 0}
-  ID: 0
+  ID: 2
   OrganImage: {fileID: 113922454}
   Eyes: {fileID: 1222696247}
   SecondLungEyes: {fileID: 106345911}
@@ -3459,12 +3462,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -3497,6 +3502,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &113922454
 MonoBehaviour:
@@ -3567,6 +3573,7 @@ RectTransform:
   - {fileID: 924472462}
   - {fileID: 1215241826}
   - {fileID: 1912924746}
+  - {fileID: 691319190}
   m_Father: {fileID: 976053795}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3588,6 +3595,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TransitionObject: {fileID: 591169261}
+  TransitionHolderObject: {fileID: 1912924745}
   TransitionImageMask: {fileID: 1912924746}
   TweenTimeTransition: 1
   PointsText: {fileID: 213766872}
@@ -4377,6 +4385,8 @@ MonoBehaviour:
   cell_View_Holder: {fileID: 1740383774}
   organ_View_Holder: {fileID: 238439367}
   Organism_View_Holder: {fileID: 884135174}
+  test: {fileID: 5743637283524775933, guid: 9521ddece4f4e47d9a3e5d05dab6ba4f, type: 3}
+  testcanvas: {fileID: 976053794}
 --- !u!114 &170848549
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4570,12 +4580,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -4608,6 +4620,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &176115627
 MonoBehaviour:
@@ -5167,12 +5180,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -5205,6 +5220,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &204780713
 MonoBehaviour:
@@ -5447,12 +5463,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -5485,6 +5503,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &214656743
 MonoBehaviour:
@@ -10894,12 +10913,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -10932,6 +10953,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &459474404
 MonoBehaviour:
@@ -14412,6 +14434,95 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 691002042}
   m_CullTransparentMesh: 0
+--- !u!1 &691319189
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 691319190}
+  - component: {fileID: 691319193}
+  - component: {fileID: 691319192}
+  - component: {fileID: 691319191}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!224 &691319190
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691319189}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 2127621485}
+  m_Father: {fileID: 124304080}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 178, y: 208.8}
+  m_SizeDelta: {x: 455.90625, y: 517.5438}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &691319191
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691319189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 31a19414c41e5ae4aae2af33fee712f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShowMaskGraphic: 1
+--- !u!114 &691319192
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691319189}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: 7e3650eaa94674104aaec627a722f88c, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &691319193
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 691319189}
+  m_CullTransparentMesh: 0
 --- !u!1 &709814411
 GameObject:
   m_ObjectHideFlags: 0
@@ -14545,7 +14656,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myOrgan: {fileID: 0}
-  ID: 0
+  ID: 3
   OrganImage: {fileID: 711789360}
   Eyes: {fileID: 1363730615}
   SecondLungEyes: {fileID: 2146624991}
@@ -14561,12 +14672,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -14599,6 +14712,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &711789360
 MonoBehaviour:
@@ -20002,12 +20116,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -20040,6 +20156,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!1 &1014752846
 GameObject:
@@ -21651,7 +21768,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myOrgan: {fileID: 0}
-  ID: 0
+  ID: 4
   OrganImage: {fileID: 1086191190}
   Eyes: {fileID: 602627650}
   SecondLungEyes: {fileID: 1591792842}
@@ -21667,12 +21784,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -21705,6 +21824,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1086191190
 MonoBehaviour:
@@ -23169,6 +23289,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   energyPoints: 0
+  SavedPointsPerSecond: 0
+  PlayfabLogin: 0
 --- !u!4 &1143014514
 Transform:
   m_ObjectHideFlags: 0
@@ -24538,12 +24660,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -24576,6 +24700,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1204560910
 MonoBehaviour:
@@ -29436,12 +29561,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -29474,6 +29601,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1449597695
 MonoBehaviour:
@@ -31265,12 +31393,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -31303,6 +31433,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1558340190
 MonoBehaviour:
@@ -31725,12 +31856,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -31763,6 +31896,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1578123388
 MonoBehaviour:
@@ -32106,6 +32240,7 @@ MonoBehaviour:
   - {fileID: 249803125}
   CanChange: 1
   Locked: 0
+  Dragging: 0
   WorldObjects: 1
   WorldHolder: {fileID: 900805361}
   WorldHolders:
@@ -32950,12 +33085,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -32988,6 +33125,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &1739236118
 MonoBehaviour:
@@ -38124,7 +38262,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   myOrgan: {fileID: 0}
-  ID: 0
+  ID: 1
   OrganImage: {fileID: 2003326988}
   Eyes: {fileID: 41966216}
   SecondLungEyes: {fileID: 1983690407}
@@ -38140,12 +38278,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
-    m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
-    m_PressedColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    m_HighlightedColor: {r: 0.9, g: 0.9, b: 0.9, a: 1}
+    m_PressedColor: {r: 0.8, g: 0.8, b: 0.8, a: 1}
     m_SelectedColor: {r: 1, g: 1, b: 1, a: 1}
     m_DisabledColor: {r: 1, g: 1, b: 1, a: 0.5}
     m_ColorMultiplier: 0
@@ -38178,6 +38318,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  percentageTest: 0
   fillImage: {fileID: 0}
 --- !u!114 &2003326988
 MonoBehaviour:
@@ -38981,7 +39122,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.06673346, y: 0.19483823}
   m_AnchorMax: {x: 0.44030175, y: 0.39338577}
-  m_AnchoredPosition: {x: 377.39966, y: 3.800293}
+  m_AnchoredPosition: {x: 377.3997, y: 3.800293}
   m_SizeDelta: {x: 2.9390259, y: 2.0457458}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2073726964
@@ -39902,6 +40043,80 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2127442175}
   m_CullTransparentMesh: 0
+--- !u!1 &2127621484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2127621485}
+  - component: {fileID: 2127621487}
+  - component: {fileID: 2127621486}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &2127621485
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127621484}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 691319190}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 188, y: -207.08}
+  m_SizeDelta: {x: 412.16364, y: 414.15192}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2127621486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127621484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a39b17706ebc443ebbc67e822152da22, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &2127621487
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2127621484}
+  m_CullTransparentMesh: 0
 --- !u!1 &2136357442
 GameObject:
   m_ObjectHideFlags: 0
@@ -39991,8 +40206,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 519ff40d8569444529c0ffe6c5b1e2bd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Dragged: 0
   requierdHoldTime: 1
   interactable: 1
+  perecentThreshold: 0.2
   colorBlock:
     m_NormalColor: {r: 0.6039216, g: 0.30588236, b: 0.023529414, a: 1}
     m_HighlightedColor: {r: 0.7, g: 0.7, b: 0.7, a: 1}
@@ -40018,6 +40235,7 @@ MonoBehaviour:
   OnShortClick:
     m_PersistentCalls:
       m_Calls: []
+  percentageTest: 0
   fillImage: {fileID: 264351145}
 --- !u!1 &2138537575
 GameObject:

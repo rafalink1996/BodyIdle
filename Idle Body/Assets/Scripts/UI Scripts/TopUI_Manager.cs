@@ -8,6 +8,7 @@ using System.Linq;
 public class TopUI_Manager : MonoBehaviour
 {
     [SerializeField] RectTransform TransitionObject;
+    [SerializeField] GameObject TransitionHolderObject;
     [SerializeField] RectTransform TransitionImageMask;
     Image transitionImage;
     [SerializeField] float TweenTimeTransition;
@@ -32,16 +33,23 @@ public class TopUI_Manager : MonoBehaviour
 
         transitionImage = TransitionObject.GetComponent<Image>();
         SetTransitionImage();
-        TransitionOut();
     }
 
     void SetTransitionImage()
     {
+        TransitionHolderObject.SetActive(true);
         TransitionObject.anchorMax = new Vector2(0.5f, 0.5f);
         TransitionObject.anchorMin = new Vector2(0.5f, 0.5f);
         TransitionObject.anchoredPosition = new Vector2(0, 0);
         float screenHeight = (Screen.height * 1920) / Screen.width;
         TransitionObject.sizeDelta = new Vector2(1920, screenHeight);
+        TransitionHolderObject.TryGetComponent(out Mask mask);
+        if(mask != null)
+        {
+            mask.showMaskGraphic = true;
+            mask.showMaskGraphic = false;
+        }
+
     }
 
     private void Update()

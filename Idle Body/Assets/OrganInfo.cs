@@ -56,7 +56,7 @@ public class OrganInfo : MonoBehaviour
 
         OrganImage.sprite = organSprites[organType];
         OrganName.text = OM.organTypes[organType].Name;
-        OrganDisplayNumber.text = "#" + OrganNumber;
+        OrganDisplayNumber.text = "#" + (OrganNumber + 1);
 
         int RedCells = countCells(organType, OrganNumber, 0);
         int WhiteCells = countCells(organType, OrganNumber, 1);
@@ -139,16 +139,16 @@ public class OrganInfo : MonoBehaviour
     }
     public void Close()
     {
-        LeanTween.cancel(Holder.gameObject);
+        //LeanTween.cancel(Holder.gameObject);
         LeanTween.scale(Holder, Vector2.zero, 1).setEase(LeanTweenType.easeInOutExpo);
-        LeanTween.cancel(this.gameObject);
-        LTDescr l = LeanTween.alphaCanvas(myCanvasGroup, 0, 0).setDelay(0.7f);
+        //LeanTween.cancel(this.gameObject);
+        LTDescr l = LeanTween.alphaCanvas(myCanvasGroup, 0, 1).setDelay(0.7f);
         l.setOnComplete(DisableCanvas);
         void DisableCanvas()
         {
             myCanvasGroup.interactable = false;
             myCanvasGroup.blocksRaycasts = false;
-        }  
+        }
     }
 
     public void Show()

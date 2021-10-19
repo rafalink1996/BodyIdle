@@ -250,7 +250,7 @@ public class CellView_UI_Manager : MonoBehaviour
 
         if (myOrganManager.organTypes[myOrganManager.activeOrganType].organs.Count != 0)
         {
-            Debug.Log(myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
+            //Debug.Log(myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].name);
             for (int c = 0; c < myOrganManager.organTypes[myOrganManager.activeOrganType].organs[myOrganManager.activeOrganID].CellTypes[CellType].cellSizes.Count; c++)
             {
 

@@ -16,6 +16,7 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     public List<GameObject> Holders;
     [SerializeField] bool CanChange = true;
     public bool Locked = false;
+    public bool Dragging;
 
     [Header("World Object Settings")]
     [SerializeField] bool WorldObjects;
@@ -61,6 +62,16 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     {
         if (CanChange && !Locked)
         {
+            float percentage = (data.pressPosition.x - data.position.x) / Screen.width;
+            if (percentage > 0.1)
+            {
+                Dragging = true;
+            }
+            if (percentage < 0.1)
+            {
+                Dragging = true;
+            }
+
             if (ScreenSpace)
             {
                 float difference = Camera.main.ScreenToWorldPoint(data.pressPosition).x - Camera.main.ScreenToWorldPoint(data.position).x;
@@ -75,12 +86,13 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 float difference = data.pressPosition.x - data.position.x;
                 transform.position = panelLocation - new Vector3(difference, 0, 0);
             }
-
+            
+  
         }
-
     }
     public void OnEndDrag(PointerEventData data)
     {
+        Dragging = false;
         if (CanChange && !Locked)
         {
             float percentage = (data.pressPosition.x - data.position.x) / Screen.width;

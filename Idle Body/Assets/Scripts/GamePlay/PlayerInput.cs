@@ -34,7 +34,7 @@ public class PlayerInput : MonoBehaviour
     public void OnClickBackToOrgan()
     {
         myGameManager.topUIManager.ChangeView(1);
-        
+
     }
     #endregion Cell View Interactions
     #region Organ View Interactions
@@ -81,7 +81,7 @@ public class PlayerInput : MonoBehaviour
         myGameManager.organManager.AsignNewOrganID(id, out bool canChangeOrgan);
         if (canChangeOrgan)
         {
-            Debug.Log("canchangeOrgan");
+            //Debug.Log("canchangeOrgan");
             myGameManager.topUIManager.ChangeView(0);
             myGameManager.CellViewUI.UpdateBackground(myOrganManager.activeOrganType);
             myGameManager.OrganViewUI.ToggleOrgansButtons(false);
@@ -92,12 +92,12 @@ public class PlayerInput : MonoBehaviour
     {
         if (myGameManager.pointsManager.totalPoints >= myOrganManager.organTypes[organType].PointCost[0])
         {
-            Debug.Log("Total points = " + myGameManager.pointsManager.totalPoints);
-            Debug.Log("cost = " + myOrganManager.organTypes[organType].ComplexityCost[0]);
+            // Debug.Log("Total points = " + myGameManager.pointsManager.totalPoints);
+            //Debug.Log("cost = " + myOrganManager.organTypes[organType].ComplexityCost[0]);
             int complexityGain = myGameManager.pointsManager.ComplexityPoints + Mathf.FloorToInt(myOrganManager.organTypes[organType].ComplexityCost[0]);
             if (complexityGain <= myGameManager.pointsManager.ComplexityMaxPoints)
             {
-                Debug.Log("created new organ");
+                //Debug.Log("created new organ");
                 myGameManager.pointsManager.ManagePoints(-myOrganManager.organTypes[organType].ComplexityCost[0]);
                 myOrganManager.organTypes[organType].unlocked = true;
                 myOrganManager.AddNewOrgan(organType);
@@ -108,11 +108,12 @@ public class PlayerInput : MonoBehaviour
             {
                 Debug.Log("not enough complexity available");
             }
-        }else
-            {
+        }
+        else
+        {
             Debug.Log("not enough energy");
-            }
-       
+        }
+
     }
 
 

@@ -23,6 +23,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject cell_View_Holder;
     [SerializeField] GameObject organ_View_Holder;
     [SerializeField] GameObject Organism_View_Holder;
+
+
+
+    [Header("Testing")]
+    [SerializeField] GameObject test;
+    [SerializeField] GameObject testcanvas;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -48,11 +54,17 @@ public class GameManager : MonoBehaviour
         CellViewUI.CustomStart();
         OrganViewUI.CustomStart();
         playerInput.CustomStart();
+        topUIManager.TransitionOut();
+        Camera.main.Render();
 
+    }
 
-        //End Start
+    IEnumerator Wait(float seconds)
+    {
+        yield return new WaitForSeconds(seconds);
         topUIManager.TransitionOut();
     }
+
 
     public void changeView(int view)
     {
