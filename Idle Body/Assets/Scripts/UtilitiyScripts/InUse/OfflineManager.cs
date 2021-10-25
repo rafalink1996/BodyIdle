@@ -42,7 +42,7 @@ public class OfflineManager : MonoBehaviour
     {
         if (GameData.data.PlayfabLogin)
         {
-            manager.playFab.GetPlayfabTime();
+         
         }
         else
         {

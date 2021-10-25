@@ -9,10 +9,12 @@ public class Manager : MonoBehaviour
     [SerializeField] GameObject LoadingScreen;
 
     [Header("Script Referneces")]
-    public PlayFabLogin playFab;
+    //public PlayFabLogin playFab;
+    public PlayfabNoEmailLogin playFabLogin;
     public OfflineManager offlineManager;
     public InternetManager internetManager;
     public GameLoader gameloader;
+    public PopupManager popupManager;
 
     private void Awake()
     {
@@ -40,9 +42,7 @@ public class Manager : MonoBehaviour
 
     public void playfabstart()
     {
-        playFab.GetReferences();
-        playFab.Initialize();
-        //offlineManager.GetReferences();
+        playFabLogin.Initialize();
     }
 
     public void CheckData()
@@ -58,8 +58,10 @@ public class Manager : MonoBehaviour
     void GetReferences()
     {
         offlineManager = FindObjectOfType<OfflineManager>();
-        playFab = FindObjectOfType<PlayFabLogin>();
+        playFabLogin = FindObjectOfType<PlayfabNoEmailLogin>();
+        // playFab = FindObjectOfType<PlayFabLogin>();
         internetManager = FindObjectOfType<InternetManager>();
         gameloader = FindObjectOfType<GameLoader>();
+        popupManager = FindObjectOfType<PopupManager>();
     }
 }

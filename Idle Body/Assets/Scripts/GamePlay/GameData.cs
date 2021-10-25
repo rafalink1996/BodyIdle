@@ -18,8 +18,11 @@ public class GameData : MonoBehaviour
     [Header("References")]
     OrganManager myOrganManager;
     SaveObject LoadedObject;
+    public SaveObject LoadedPlayfabObject1;
+    public SaveObject LoadedPlayfabObject2;
 
     public bool PlayfabLogin;
+    public bool FacebookLogin;
 
     private void Awake()
     {
@@ -85,7 +88,7 @@ public class GameData : MonoBehaviour
         }
     }
 
-    private class SaveObject
+    public class SaveObject
     {
         public double energyPoints;
         public OrganManager.OrganType[] Organs;
