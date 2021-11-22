@@ -6,7 +6,7 @@ using System.Collections;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
-
+using AppleAuth.Editor;
 using Facebook.Unity;
 using LoginResult = PlayFab.ClientModels.LoginResult;
 
@@ -363,7 +363,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
             var unlinkIOSRequest = new UnlinkIOSDeviceIDRequest { DeviceId = GetMobileID() };
-            PlayFabClientAPI.UnlinkIOSDeviceID(unlinkIOSRequest, success => {
+            PlayFabClientAPI.UnlinkIOSDeviceID(unlinkIOSRequest, success =>
+            {
                 PlayFabClientAPI.ForgetAllCredentials();
                 mobileLogin = false;
                 if (facebook)
@@ -374,12 +375,14 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 {
                     //Login con google
                 }
-            }, failure => {
+            }, failure =>
+            {
                 DisplayError(ErrorCode.errorFacebookLoginIn, failure.Error.ToString());
             });
-        }else if(Application.platform == RuntimePlatform.Android)
+        }
+        else if (Application.platform == RuntimePlatform.Android)
         {
-            
+
         }
     }
 
@@ -625,6 +628,12 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
 
     #endregion FACEBOOK
+    #region Apple
+    void SignInWithApple()
+    {
+        var request = new LoginWithAppleRequest { };
+    }
+    #endregion Apple
     #region Other Methods
     void ShowSignInScreen()
     {
