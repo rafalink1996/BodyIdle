@@ -6,7 +6,6 @@ using System.Collections;
 using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
-using AppleAuth.Editor;
 using Facebook.Unity;
 using LoginResult = PlayFab.ClientModels.LoginResult;
 
@@ -27,6 +26,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [Header("Buttons")]
     [SerializeField] GameObject ConfirmFacebookAccountButton;
     [SerializeField] GameObject ConfirmGoogleAccountButton;
+    [SerializeField] GameObject ConfirmAppleAccountButton;
 
     [Header("Status Bools")]
     [SerializeField] bool mobileLogin;
@@ -41,6 +41,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [SerializeField] bool hasGoogleLinked;
     [SerializeField] bool GoogleLoginChecked;
 
+    [Header("Refrences")]
+    [SerializeField] AppleAuthentication appleAuth;
 
     [Header("Retry")]
     int loginRetryCount = 0;
@@ -54,6 +56,24 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     private void Start()
     {
         Debug.Log("Start");
+        if (Application.platform == RuntimePlatform.Android)
+        {
+            ConfirmAppleAccountButton.SetActive(false);
+            ConfirmGoogleAccountButton.SetActive(true);
+
+        }
+        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            ConfirmAppleAccountButton.SetActive(true);
+            ConfirmGoogleAccountButton.SetActive(false);
+
+        }
+        else
+        {
+            //ConfirmAppleAccountButton.SetActive(false);
+            //ConfirmGoogleAccountButton.SetActive(false);
+
+        }
         // ShowErrorScreen(ErrorScreenType.Google, ErrorScreenCode.errorLoginIn);
     }
 
@@ -429,8 +449,9 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID() };
             PlayFabClientAPI.LinkIOSDeviceID(linkIOSRequest, result =>
             {
-                EndLogin();
                 Debug.Log("Linked Mobile ID");
+                EndLogin();
+
             }, failed =>
             {
                 switch (failed.Error)
@@ -458,6 +479,12 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     public void OnClickSignInWithGoogle()
     {
 
+    }
+
+    public void OnClickSignInWithApple()
+    {
+        SignInWithApple();
+        Debug.Log("Sign in with apple started");
     }
     public void OnClickSkip()
     {
@@ -629,9 +656,24 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     #endregion FACEBOOK
     #region Apple
-    void SignInWithApple()
+    public void SignInWithApple()
     {
-        var request = new LoginWithAppleRequest { };
+        appleAuth.ApplesSignin(this);
+
+    }
+
+    public void PlayfabAppleSignIn(string Itoken)
+    {
+        var request = new LoginWithAppleRequest { IdentityToken = Itoken };
+        PlayFabClientAPI.LoginWithApple(request,
+            Complete =>
+            {
+                Debug.Log("Apple Playfab login success: " + "\n");
+            },
+            Failed =>
+            {
+                Debug.Log("Apple Playfab login failed: " + Failed.Error + "\n");
+            });
     }
     #endregion Apple
     #region Other Methods
@@ -673,6 +715,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     void EndLogin()
     {
+
         Debug.Log("End Loggin");
     }
 }

@@ -16,9 +16,9 @@ MonoBehaviour:
   clientTokens:
   - 
   appIds:
-  - 0
+  - 1543676329300867
   appLabels:
-  - App Name
+  - cellrush
   cookie: 1
   logging: 1
   status: 1

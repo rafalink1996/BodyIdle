@@ -40,6 +40,7 @@ SpriteAtlas:
       allowAlphaSplitting: 0
       enableRotation: 0
       enableTightPacking: 0
+    secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
     - {fileID: 2800000, guid: 5e25bb42de3e544c1882d8d1b658a027, type: 3}
@@ -51,8 +52,9 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 206e87088be5f4f7992587e2a5c31ec0, type: 3}
     - {fileID: 2800000, guid: e0b66f54ce6d34fdf9ef8211559b6ae1, type: 3}
     - {fileID: 2800000, guid: aad17ff014c9843168afb4d52736583b, type: 3}
-    totalSpriteSurfaceArea: 9000000
     bindAsDefault: 1
+    isAtlasV2: 0
+    cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
   - {fileID: 21300000, guid: aad17ff014c9843168afb4d52736583b, type: 3}
@@ -74,5 +76,6 @@ SpriteAtlas:
   - HelperT_x3
   - RedBlood_x1
   - RedBlood_x100
+  m_RenderDataMap: {}
   m_Tag: CellsSpriteAtlas
   m_IsVariant: 0
