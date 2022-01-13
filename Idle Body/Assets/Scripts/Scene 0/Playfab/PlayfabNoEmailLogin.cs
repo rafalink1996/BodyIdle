@@ -7,11 +7,14 @@ using PlayFab;
 using PlayFab.ClientModels;
 using TMPro;
 using Facebook.Unity;
+using UnityEngine.SceneManagement;
 using LoginResult = PlayFab.ClientModels.LoginResult;
 
 
 public class PlayfabNoEmailLogin : MonoBehaviour
 {
+    [Header("Instance")]
+    public static PlayfabNoEmailLogin instance;
 
     [Header("Screens")]
     [SerializeField] GameObject SignInScreen;
@@ -19,6 +22,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     [Header("Texts")]
     [SerializeField] TextMeshProUGUI LoginErrorMessage;
+    [SerializeField] TextMeshProUGUI welcomeMessage;
     [Space(5)]
     [SerializeField] TextMeshProUGUI ConfirmCreateAccountBody1;
     [SerializeField] TextMeshProUGUI ConfirmCreateAccountBody2;
@@ -40,17 +44,32 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [SerializeField] bool GoogleLogin;
     [SerializeField] bool hasGoogleLinked;
     [SerializeField] bool GoogleLoginChecked;
+    [Space(5)]
+    [SerializeField] bool AppleLogin;
+    [SerializeField] bool hasAppleLinked;
+    [SerializeField] bool appleLoginChecked;
 
     [Header("Refrences")]
     [SerializeField] AppleAuthentication appleAuth;
+    [SerializeField] GameObject loadingCircle;
 
     [Header("Retry")]
     int loginRetryCount = 0;
+    [Header("Other")]
+    [SerializeField]string username;
+
 
 
     private void Awake()
     {
-
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
     }
 
     private void Start()
@@ -472,6 +491,10 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     public void OnClickSignInWithFacebook()
     {
         LoginWithFacebook();
+        loadingCircle.SetActive(true);
+        HideSignInScreen();
+
+
     }
 
 
@@ -484,7 +507,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     public void OnClickSignInWithApple()
     {
         SignInWithApple();
-        Debug.Log("Sign in with apple started");
+        loadingCircle.SetActive(true);
+        HideSignInScreen();
     }
     public void OnClickSkip()
     {
@@ -606,6 +630,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                        MobileLogin(true, true, false);
                        break;
                    default:
+                       ShowSignInScreen();
+                       PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
                        DisplayError(ErrorCode.errorLoginIn, OnPlayfabFacebookAuthFailed.Error.ToString());
                        break;
                }
@@ -639,7 +665,20 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         // If result has no errors, it means we have authenticated in Facebook successfully
         if (result == null || string.IsNullOrEmpty(result.Error))
         {
+            if(AccessToken.CurrentAccessToken == null)
+            {
+                Debug.Log("acess token null");
+                ShowSignInScreen();
+                PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
+                DisplayError(ErrorCode.errorFacebookLoginIn, "User cancelled login, access token is null");
+                return;
+            }
+
             Debug.Log("Facebook Auth Complete! Access Token: " + AccessToken.CurrentAccessToken.TokenString + "\nLogging into PlayFab...");
+            if (result.ResultDictionary.ContainsKey("first_name"))
+            {
+                username = "" + result.ResultDictionary["first_name"];
+            }
             GameData.data.FacebookLogin = true;
             CheckFacebookPlayfabAccount();
         }
@@ -648,6 +687,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             // If Facebook authentication failed, we stop the cycle with the message
             FacebookLoginChecked = false;
             Debug.Log("Facebook Auth Failed: " + result.Error + "\n" + result.RawResult);
+            ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
             DisplayError(ErrorCode.errorFacebookLoginIn, result.Error.ToString());
         }
     }
@@ -662,34 +703,88 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     }
 
-    public void PlayfabAppleSignIn(string Itoken)
+    public void CheckPlayfabAppleAccount(string Itoken, string username)
     {
-        var request = new LoginWithAppleRequest { IdentityToken = Itoken };
+        if (mobileLogin && !hasAppleLinked)
+        {
+            LinkAppleAccount(Itoken, username);
+        }
+        else if (FacebookLogin)
+        {
+            LinkAppleAccount(Itoken, username);
+        }
+        else if (GoogleLogin)
+        {
+            LinkAppleAccount(Itoken, username);
+        }
+        else
+        {
+            PlayfabAppleSignIn(Itoken, username, true);
+        }
+    }
+    void LinkAppleAccount(string Itoken, string username)
+    {
+        var request = new LinkAppleRequest { IdentityToken = Itoken };
+        PlayFabClientAPI.LinkApple(request, sucess => {
+            this.username = username;
+            EndLogin();
+
+        }, Failed => {
+            DisplayError(ErrorCode.errorAppleLogin, " Message: " + Failed.ErrorMessage + " Error: " + Failed.Error + " details: " + Failed.ErrorDetails);
+            ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
+        });
+    }
+    void PlayfabAppleSignIn(string Itoken, string username, bool createAccount)
+    {
+        var request = new LoginWithAppleRequest { IdentityToken = Itoken , CreateAccount = createAccount};
         PlayFabClientAPI.LoginWithApple(request,
             Complete =>
             {
+                this.username = username;
+                EndLogin();
                 Debug.Log("Apple Playfab login success: " + "\n");
             },
             Failed =>
             {
-                Debug.Log("Apple Playfab login failed: " + Failed.Error + "\n");
+                DisplayError(ErrorCode.errorAppleLogin, " Message: " + Failed.ErrorMessage + " Error: " + Failed.Error + " details: " + Failed.ErrorDetails);
+                ShowSignInScreen();
+                PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
             });
     }
     #endregion Apple
     #region Other Methods
-    void ShowSignInScreen()
+    public void ShowSignInScreen()
     {
         if (!SignInScreen.activeSelf)
         {
+            Debug.Log("activating screen");
             SignInScreen.SetActive(true);
             SignInScreen.transform.localScale = Vector3.zero;
             LeanTween.scale(SignInScreen, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+        }
+        else
+        {
+            Debug.Log("Screen is active");
+        }
+    }
+
+    void HideSignInScreen()
+    {
+        if (SignInScreen.activeSelf)
+        {
+            SignInScreen.SetActive(false);
+            LeanTween.scale(SignInScreen, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+            {
+                SignInScreen.SetActive(false);
+            });
         }
     }
     enum ErrorCode
     {
         errorLoginIn,
         errorFacebookLoginIn,
+        errorAppleLogin,
     }
 
     void DisplayError(ErrorCode errorCode, string ErrorMessage)
@@ -706,6 +801,9 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             case ErrorCode.errorFacebookLoginIn:
                 ErrorStart = "<color=#FF4747>Error loging in with facebook:</color> ";
                 break;
+            case ErrorCode.errorAppleLogin:
+                ErrorStart = "Error loging in with Apple:";
+                break;
 
         }
         LoginErrorMessage.text = ErrorStart + ErrorMessage;
@@ -715,8 +813,22 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     void EndLogin()
     {
-
+        
+        if (string.IsNullOrEmpty(username))
+        {
+            welcomeMessage.text = "welcome " + username;
+        }
+        else
+        {
+            welcomeMessage.text = "welcome";
+        }
+        PopupManager.instance.ShowPopUp(PopupManager.PopUp.welcome);
         Debug.Log("End Loggin");
+    }
+
+    public void StartGame()
+    {
+        SceneManager.LoadScene(2);
     }
 }
 

@@ -5,12 +5,18 @@ using TMPro;
 
 public class PopupManager : MonoBehaviour
 {
+
+    [Header("instance")]
+    public static PopupManager instance;
+    [Space(10)]
     [SerializeField] GameObject popUpManager;
     [Space(10)]
     [Header("PopUp Objects")]
     [SerializeField] GameObject DisclaimerPopUp;
     [SerializeField] GameObject NoAccountconfirmPopUp;
     [SerializeField] GameObject ConnectionErrorPopUp;
+    [SerializeField] GameObject SigninErrorPopUp;
+    [SerializeField] GameObject WelcomePopUp;
 
     [Header("PopUp Buttons")]
     [SerializeField] GameObject accountConfimrGoogle;
@@ -27,17 +33,29 @@ public class PopupManager : MonoBehaviour
     string GoogleNameWithColors = "<color=#4185F4>G</color><color=#E94234>O</color><color=#FBBC04>O</color><color=#4185F4>G</color><color=#33A853>L</color><color=#E94234>E</color>";
     string FacebookNameWithColors = "<color=#3b5998>Facebook</color>";
 
-
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 
     public void ClosePopUps()
     {
+        PlayfabNoEmailLogin.instance.ShowSignInScreen();
         DisclaimerPopUp.SetActive(false);
         NoAccountconfirmPopUp.SetActive(false);
         ConnectionErrorPopUp.SetActive(false);
+        SigninErrorPopUp.SetActive(false);
         popUpManager.SetActive(false);
     }
 
-    public enum PopUp {Disclaimer, ConfirmCreate, connectionError};
+    public enum PopUp {Disclaimer, ConfirmCreate, connectionError, LoginError, welcome};
     public void ShowPopUp(PopUp popType)
     {
         GameObject popUp = null;
@@ -51,6 +69,12 @@ public class PopupManager : MonoBehaviour
                 break;
             case PopUp.connectionError:
                 popUp = ConnectionErrorPopUp;
+                break;
+            case PopUp.LoginError:
+                popUp = SigninErrorPopUp;
+                break;
+            case PopUp.welcome:
+                popUp = WelcomePopUp;
                 break;
         }
         DisclaimerBody.text = "By not signing in with a " + FacebookNameWithColors + " or " + GoogleNameWithColors + " account, you risk your data being lost. Are you sure you want to continue?";

@@ -15,6 +15,7 @@ public class AppleAuthentication : MonoBehaviour
     public string IToken;
     public string userId;
     public bool isLoggedInwithApple;
+    
 
     [Header("Debug")]
     [SerializeField] TextMeshProUGUI ErrorObject;
@@ -52,6 +53,8 @@ public class AppleAuthentication : MonoBehaviour
         if (appleAuthManager == null)
         {
             ErrorObject.text = "Error: AppleAuthIsNull";
+            PlayfabNoEmailLogin.instance.ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
             return;
 
         }
@@ -91,6 +94,8 @@ public class AppleAuthentication : MonoBehaviour
         {
             Debug.Log("Error: AppleAuthIsNul");
             ErrorObject.text = "Error: AppleAuthIsNull";
+            PlayfabNoEmailLogin.instance.ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
             return;
 
         }
@@ -99,6 +104,7 @@ public class AppleAuthentication : MonoBehaviour
         this.appleAuthManager.LoginWithAppleId(loginArgs,
               credential =>
               {
+                  ErrorObject.text = "success login apple";
                   isLoggedInwithApple = true;
                   // Obtained credential, cast it to IAppleIDCredential
                   var appleIdCredential = credential as IAppleIDCredential;
@@ -115,12 +121,13 @@ public class AppleAuthentication : MonoBehaviour
                       var identityToken = Encoding.UTF8.GetString(appleIdCredential.IdentityToken,
                               0, appleIdCredential.IdentityToken.Length);
 
+
                       IToken = identityToken;
                       // Authorization code
                       var authorizationCode = Encoding.UTF8.GetString(appleIdCredential.AuthorizationCode,
                               0, appleIdCredential.AuthorizationCode.Length);
                       // And now you have all the information to create/login a user in yo
-                      loginCallback.PlayfabAppleSignIn(identityToken);
+                      loginCallback.CheckPlayfabAppleAccount(identityToken, userId);
                   }
               },
         error =>
@@ -128,6 +135,8 @@ public class AppleAuthentication : MonoBehaviour
             // Something went wrong
             ErrorObject.text = "Error: Login Failed";
             var authorizationErrorCode = error.GetAuthorizationErrorCode();
+            PlayfabNoEmailLogin.instance.ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
         });
 
     }
