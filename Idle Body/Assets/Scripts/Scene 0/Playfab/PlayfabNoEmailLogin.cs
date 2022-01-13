@@ -665,6 +665,15 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         // If result has no errors, it means we have authenticated in Facebook successfully
         if (result == null || string.IsNullOrEmpty(result.Error))
         {
+            if (result.Cancelled)
+            {
+                Debug.Log("acess token null");
+                ShowSignInScreen();
+                PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
+                DisplayError(ErrorCode.errorFacebookLoginIn, "User cancelled login, access token is null");
+                return;
+
+            }
             if(AccessToken.CurrentAccessToken == null)
             {
                 Debug.Log("acess token null");
