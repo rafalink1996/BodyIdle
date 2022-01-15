@@ -56,7 +56,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [Header("Retry")]
     int loginRetryCount = 0;
     [Header("Other")]
-    [SerializeField]string username;
+    [SerializeField] string username;
 
 
 
@@ -146,16 +146,58 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 Debug.Log("Google not Linked");
                 hasGoogleLinked = false;
             }
-
-            if (hasGoogleLinked && hasFacebookLinked)
+            if (result.AccountInfo.AppleAccountInfo != null)
             {
-                Debug.Log("Everything linked");
-                EndLogin();
+                Debug.Log("Has Apple Linked");
+                hasAppleLinked = true;
             }
             else
             {
-                ShowSignInScreen();
+                Debug.Log("Apple not Linked");
+                hasAppleLinked = false;
             }
+
+            // check if user has pending links
+            if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad"))
+            {
+                if (hasFacebookLinked && hasAppleLinked)
+                {
+                    Debug.Log("Everything linked");
+                    EndLogin();
+                }
+                else
+                {
+                    ShowSignInScreen();
+                }
+            }
+            else if (Application.platform == RuntimePlatform.Android)
+            {
+                if (hasGoogleLinked && hasFacebookLinked)
+                {
+                    Debug.Log("Everything linked");
+                    EndLogin();
+                }
+                else
+                {
+                    ShowSignInScreen();
+                }
+            }
+            else
+            {
+                if (hasFacebookLinked)
+                {
+                    Debug.Log("Everything linked");
+                    EndLogin();
+                }
+                else
+                {
+                    ShowSignInScreen();
+                }
+
+            }
+
+
+
         },
         failure =>
         {
@@ -223,7 +265,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 Debug.Log("Initial Mobile login error");
             });
         }
-        else if (Application.platform == RuntimePlatform.IPhonePlayer)
+        else if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad")) // tratar de poner ipad
         {
             var requestIOS = new LoginWithIOSDeviceIDRequest { DeviceId = GetMobileID(), CreateAccount = false };
             PlayFabClientAPI.LoginWithIOSDeviceID(requestIOS, result =>
@@ -254,36 +296,44 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 Debug.Log("Initial Mobile login error");
             });
         }
-        else // Editor: Remove this in build
+        else // Editor: Remove this in build todo
         {
-            var requestEditor = new LoginWithIOSDeviceIDRequest { DeviceId = GetMobileID(), CreateAccount = false };
-            PlayFabClientAPI.LoginWithIOSDeviceID(requestEditor, result =>
+            if (Application.isEditor)
             {
-                Debug.Log("Initial Mobile login was a success");
-                GameData.data.PlayfabLogin = true;
-                loginRetryCount = 0;
-                mobileLogin = true;
-                CheckUserAccountInfo(result.PlayFabId);
-            }, PlayFabError =>
-            {
-                switch (PlayFabError.Error)
+                var requestEditor = new LoginWithIOSDeviceIDRequest { DeviceId = GetMobileID(), CreateAccount = false };
+                PlayFabClientAPI.LoginWithIOSDeviceID(requestEditor, result =>
                 {
-                    case PlayFabErrorCode.APIClientRequestRateLimitExceeded:
-                    case PlayFabErrorCode.APIConcurrentRequestLimitExceeded:
-                    case PlayFabErrorCode.ConcurrentEditError:
-                    case PlayFabErrorCode.DataUpdateRateExceeded:
-                    case PlayFabErrorCode.DownstreamServiceUnavailable:
-                    case PlayFabErrorCode.OverLimit:
-                    case PlayFabErrorCode.ServiceUnavailable:
-                        StartCoroutine(MobileLoginRetry(true, PlayFabError.Error.ToString()));
-                        break;
-                    default:
-                        loginRetryCount = 0;
-                        ShowSignInScreen();
-                        break;
-                }
-                Debug.Log("Initial Mobile login error");
-            });
+                    Debug.Log("Initial Mobile login was a success");
+                    GameData.data.PlayfabLogin = true;
+                    loginRetryCount = 0;
+                    mobileLogin = true;
+                    CheckUserAccountInfo(result.PlayFabId);
+                }, PlayFabError =>
+                {
+                    switch (PlayFabError.Error)
+                    {
+                        case PlayFabErrorCode.APIClientRequestRateLimitExceeded:
+                        case PlayFabErrorCode.APIConcurrentRequestLimitExceeded:
+                        case PlayFabErrorCode.ConcurrentEditError:
+                        case PlayFabErrorCode.DataUpdateRateExceeded:
+                        case PlayFabErrorCode.DownstreamServiceUnavailable:
+                        case PlayFabErrorCode.OverLimit:
+                        case PlayFabErrorCode.ServiceUnavailable:
+                            StartCoroutine(MobileLoginRetry(true, PlayFabError.Error.ToString()));
+                            break;
+                        default:
+                            loginRetryCount = 0;
+                            ShowSignInScreen();
+                            break;
+                    }
+                    Debug.Log("Initial Mobile login error");
+                });
+            }
+            else
+            {
+                Manager.instance.gameloader.LoadGameScene();
+            }
+             
         }
     }
     void MobileLogin(bool MobileCreateAccount = false, bool facebookLink = false, bool googleLink = false, bool skip = false)
@@ -347,31 +397,34 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         }
         else // Editor: Remove this in build
         {
-            var requestEditor = new LoginWithIOSDeviceIDRequest { DeviceId = GetMobileID(), CreateAccount = MobileCreateAccount };
-            PlayFabClientAPI.LoginWithIOSDeviceID(requestEditor, result =>
+            if (Application.isEditor)
             {
-                GameData.data.PlayfabLogin = true;
-                mobileLogin = true;
-                if (skip)
+                var requestEditor = new LoginWithIOSDeviceIDRequest { DeviceId = GetMobileID(), CreateAccount = MobileCreateAccount };
+                PlayFabClientAPI.LoginWithIOSDeviceID(requestEditor, result =>
                 {
-                    EndLogin();
-                }
-                else
+                    GameData.data.PlayfabLogin = true;
+                    mobileLogin = true;
+                    if (skip)
+                    {
+                        EndLogin();
+                    }
+                    else
+                    {
+                        LinkAccounts();
+                    }
+                }, PlayFabError =>
                 {
-                    LinkAccounts();
-                }
-            }, PlayFabError =>
-            {
-                if (skip)
-                {
-                    EndLogin();
-                }
-                else
-                {
-                    DisplayError(ErrorCode.errorLoginIn, PlayFabError.Error.ToString());
-                }
+                    if (skip)
+                    {
+                        EndLogin();
+                    }
+                    else
+                    {
+                        DisplayError(ErrorCode.errorLoginIn, PlayFabError.Error.ToString());
+                    }
 
-            });
+                });
+            }
         }
 
         void LinkAccounts()
@@ -399,7 +452,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     }
     void UnlinkMobileID(bool facebook)
     {
-        if (Application.platform == RuntimePlatform.IPhonePlayer)
+        if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad"))
         {
             var unlinkIOSRequest = new UnlinkIOSDeviceIDRequest { DeviceId = GetMobileID() };
             PlayFabClientAPI.UnlinkIOSDeviceID(unlinkIOSRequest, success =>
@@ -421,6 +474,23 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         }
         else if (Application.platform == RuntimePlatform.Android)
         {
+            var unlinkAndroidRequest = new UnlinkAndroidDeviceIDRequest { AndroidDeviceId = GetMobileID() };
+            PlayFabClientAPI.UnlinkAndroidDeviceID(unlinkAndroidRequest, sucess =>
+            {
+                PlayFabClientAPI.ForgetAllCredentials();
+                mobileLogin = false;
+
+            }, failure =>
+            {
+                if (facebook)
+                {
+                    PlayfabLoginWithFacebook();
+                }
+                else
+                {
+                    //Login con google
+                }
+            });
 
         }
     }
@@ -429,7 +499,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     {
         if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID() };
+            var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID(), ForceLink = true};
             PlayFabClientAPI.LinkIOSDeviceID(linkIOSRequest, result =>
             {
                 EndLogin();
@@ -438,16 +508,19 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             {
                 switch (failed.Error)
                 {
+                    case PlayFabErrorCode.DeviceAlreadyLinked:
+
+                        break;
                     default:
                         EndLogin();
                         break;
                 }
                 Debug.Log("failed to link Mobile ID");
-            });
-        }
+                });
+            }
         else if (Application.platform == RuntimePlatform.Android)
         {
-            var linkAndroidRequest = new LinkAndroidDeviceIDRequest { AndroidDeviceId = GetMobileID() };
+            var linkAndroidRequest = new LinkAndroidDeviceIDRequest { AndroidDeviceId = GetMobileID(), ForceLink = true };
             PlayFabClientAPI.LinkAndroidDeviceID(linkAndroidRequest, result =>
             {
                 EndLogin();
@@ -465,22 +538,25 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         }
         else
         {
-            var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID() };
-            PlayFabClientAPI.LinkIOSDeviceID(linkIOSRequest, result =>
+            if (Application.isEditor)
             {
-                Debug.Log("Linked Mobile ID");
-                EndLogin();
-
-            }, failed =>
-            {
-                switch (failed.Error)
+                var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID() , ForceLink = true};
+                PlayFabClientAPI.LinkIOSDeviceID(linkIOSRequest, result =>
                 {
-                    default:
-                        EndLogin();
-                        break;
-                }
-                Debug.Log("failed to link Mobile ID");
-            });
+                    Debug.Log("Linked Mobile ID");
+                    EndLogin();
+
+                }, failed =>
+                {
+                    switch (failed.Error)
+                    {
+                        default:
+                            EndLogin();
+                            break;
+                    }
+                    Debug.Log("failed to link Mobile ID");
+                });
+            }
         }
     }
 
@@ -493,8 +569,6 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         LoginWithFacebook();
         loadingCircle.SetActive(true);
         HideSignInScreen();
-
-
     }
 
 
@@ -521,6 +595,16 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             MobileLogin(true, false, false, true);
         }
     }
+
+    public void OnClickFirstSkip()
+    {
+      PopupManager.instance.ShowPopUp(PopupManager.PopUp.Disclaimer);
+    }
+
+    public void OnClickBackToLoginScreen()
+    {
+    }
+
     #endregion OnClick Methods
     #region Get Methods
     public static string GetMobileID()
@@ -594,7 +678,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 FacebookLoginChecked = true;
                 FacebookLogin = true;
                 Debug.Log("Has Facebook Linked");
-                EndLogin();
+                return;
             }
             else
             {
@@ -609,7 +693,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     void PlayfabLoginWithFacebook()
     {
-        PlayFabClientAPI.LoginWithFacebook(new LoginWithFacebookRequest { CreateAccount = false, AccessToken = AccessToken.CurrentAccessToken.TokenString },
+        PlayFabClientAPI.LoginWithFacebook(new LoginWithFacebookRequest { CreateAccount = true, AccessToken = AccessToken.CurrentAccessToken.TokenString },
            OnPlayfabFacebookAuthComplete =>
            {
                FacebookLoginChecked = true;
@@ -626,9 +710,6 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                Debug.Log("No facebook nor mobile account" + OnPlayfabFacebookAuthFailed.Error);
                switch (OnPlayfabFacebookAuthFailed.Error)
                {
-                   case PlayFabErrorCode.AccountNotFound:
-                       MobileLogin(true, true, false);
-                       break;
                    default:
                        ShowSignInScreen();
                        PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
@@ -639,7 +720,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     }
     void LinkFacebookAccount()
     {
-        PlayFabClientAPI.LinkFacebookAccount(new LinkFacebookAccountRequest { AccessToken = AccessToken.CurrentAccessToken.TokenString },
+        PlayFabClientAPI.LinkFacebookAccount(new LinkFacebookAccountRequest { AccessToken = AccessToken.CurrentAccessToken.TokenString},
         Result =>
         {
             Debug.Log("Facebook Account Link Completed");
@@ -651,7 +732,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             switch (Error.Error)
             {
                 case PlayFabErrorCode.LinkedAccountAlreadyClaimed:
-                    UnlinkMobileID(true);
+                    PlayFabClientAPI.ForgetAllCredentials();
+                    PlayfabLoginWithFacebook();
                     break;
                 default:
                     DisplayError(ErrorCode.errorFacebookLoginIn, Error.Error.ToString());
@@ -674,7 +756,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 return;
 
             }
-            if(AccessToken.CurrentAccessToken == null)
+            if (AccessToken.CurrentAccessToken == null)
             {
                 Debug.Log("acess token null");
                 ShowSignInScreen();
@@ -734,11 +816,13 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     void LinkAppleAccount(string Itoken, string username)
     {
         var request = new LinkAppleRequest { IdentityToken = Itoken };
-        PlayFabClientAPI.LinkApple(request, sucess => {
+        PlayFabClientAPI.LinkApple(request, sucess =>
+        {
             this.username = username;
             EndLogin();
 
-        }, Failed => {
+        }, Failed =>
+        {
             DisplayError(ErrorCode.errorAppleLogin, " Message: " + Failed.ErrorMessage + " Error: " + Failed.Error + " details: " + Failed.ErrorDetails);
             ShowSignInScreen();
             PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
@@ -746,7 +830,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     }
     void PlayfabAppleSignIn(string Itoken, string username, bool createAccount)
     {
-        var request = new LoginWithAppleRequest { IdentityToken = Itoken , CreateAccount = createAccount};
+        var request = new LoginWithAppleRequest { IdentityToken = Itoken, CreateAccount = createAccount };
         PlayFabClientAPI.LoginWithApple(request,
             Complete =>
             {
@@ -822,7 +906,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     void EndLogin()
     {
-        
+        //Revisar data
         if (string.IsNullOrEmpty(username))
         {
             welcomeMessage.text = "welcome " + username;

@@ -58,6 +58,7 @@ public class PopupManager : MonoBehaviour
     public enum PopUp {Disclaimer, ConfirmCreate, connectionError, LoginError, welcome};
     public void ShowPopUp(PopUp popType)
     {
+       
         GameObject popUp = null;
         switch(popType)
         {
