@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.iOS;
+using UnityEngine.UI; 
 using System.Collections.Generic;
 using System;
 using System.Collections;
@@ -28,10 +29,17 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [SerializeField] TextMeshProUGUI ConfirmCreateAccountBody2;
 
     [Header("Buttons")]
-    [SerializeField] GameObject ConfirmFacebookAccountButton;
-    [SerializeField] GameObject ConfirmGoogleAccountButton;
-    [SerializeField] GameObject ConfirmAppleAccountButton;
-
+    [SerializeField] Button ConfirmFacebookAccountButton;
+    [SerializeField]  Button ConfirmGoogleAccountButton;
+    [SerializeField] Button ConfirmAppleAccountButton;
+    [Space(5)]
+    [SerializeField] GameObject skipButton;
+    [SerializeField] Button playButton;
+ 
+    [Header("CheckMarks")]
+    [SerializeField] GameObject facebookCheckmark;
+    [SerializeField] GameObject googleCheckmark;
+    [SerializeField] GameObject appleCheckmark;
     [Header("Status Bools")]
     [SerializeField] bool mobileLogin;
     [SerializeField] bool signInScreenShown;
@@ -49,6 +57,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     [SerializeField] bool hasAppleLinked;
     [SerializeField] bool appleLoginChecked;
 
+   
     [Header("Refrences")]
     [SerializeField] AppleAuthentication appleAuth;
     [SerializeField] GameObject loadingCircle;
@@ -77,14 +86,14 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         Debug.Log("Start");
         if (Application.platform == RuntimePlatform.Android)
         {
-            ConfirmAppleAccountButton.SetActive(false);
-            ConfirmGoogleAccountButton.SetActive(true);
+            ConfirmAppleAccountButton.gameObject.SetActive(false);
+            ConfirmGoogleAccountButton.gameObject.SetActive(true);
 
         }
         else if (Application.platform == RuntimePlatform.IPhonePlayer)
         {
-            ConfirmAppleAccountButton.SetActive(true);
-            ConfirmGoogleAccountButton.SetActive(false);
+            ConfirmAppleAccountButton.gameObject.SetActive(true);
+            ConfirmGoogleAccountButton.gameObject.SetActive(false);
 
         }
         else
@@ -130,9 +139,19 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                     }
                 }
                 hasFacebookLinked = true;
+                facebookCheckmark.SetActive(true);
+                skipButton.gameObject.SetActive(false);
+                playButton.gameObject.SetActive(true);
+                if (FB.IsLoggedIn)
+                {
+                    ConfirmFacebookAccountButton.interactable = false;
+                }
             }
             else
             {
+                facebookCheckmark.SetActive(false);
+                skipButton.gameObject.SetActive(true);
+                playButton.gameObject.SetActive(true);
                 Debug.Log("facebook not Linked");
                 hasFacebookLinked = false;
             }
@@ -140,9 +159,17 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             {
                 Debug.Log("Has Google Linked");
                 hasGoogleLinked = true;
+                googleCheckmark.SetActive(true);
+                skipButton.gameObject.SetActive(false);
+                playButton.gameObject.SetActive(true);
+
+
             }
             else
             {
+                googleCheckmark.SetActive(false);
+                skipButton.gameObject.SetActive(true);
+                playButton.gameObject.SetActive(true);
                 Debug.Log("Google not Linked");
                 hasGoogleLinked = false;
             }
@@ -150,53 +177,61 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             {
                 Debug.Log("Has Apple Linked");
                 hasAppleLinked = true;
+                appleCheckmark.SetActive(true);
+                skipButton.gameObject.SetActive(false);
+                playButton.gameObject.SetActive(true);
             }
             else
             {
+                appleCheckmark.SetActive(false);
+                skipButton.gameObject.SetActive(true);
+                playButton.gameObject.SetActive(true);
                 Debug.Log("Apple not Linked");
                 hasAppleLinked = false;
             }
 
+            ShowSignInScreen();
             // check if user has pending links
-            if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad"))
+            void CheckIfDone()
             {
-                if (hasFacebookLinked && hasAppleLinked)
+                if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad"))
                 {
-                    Debug.Log("Everything linked");
-                    EndLogin();
+                    if (hasFacebookLinked && hasAppleLinked)
+                    {
+                        Debug.Log("Everything linked");
+                        EndLogin();
+                    }
+                    else
+                    {
+                        ShowSignInScreen();
+                    }
+                }
+                else if (Application.platform == RuntimePlatform.Android)
+                {
+                    if (hasGoogleLinked && hasFacebookLinked)
+                    {
+                        Debug.Log("Everything linked");
+                        EndLogin();
+                    }
+                    else
+                    {
+                        ShowSignInScreen();
+                    }
                 }
                 else
                 {
-                    ShowSignInScreen();
+                    if (hasFacebookLinked)
+                    {
+                        Debug.Log("Everything linked");
+                        EndLogin();
+                    }
+                    else
+                    {
+                        ShowSignInScreen();
+                    }
+
                 }
             }
-            else if (Application.platform == RuntimePlatform.Android)
-            {
-                if (hasGoogleLinked && hasFacebookLinked)
-                {
-                    Debug.Log("Everything linked");
-                    EndLogin();
-                }
-                else
-                {
-                    ShowSignInScreen();
-                }
-            }
-            else
-            {
-                if (hasFacebookLinked)
-                {
-                    Debug.Log("Everything linked");
-                    EndLogin();
-                }
-                else
-                {
-                    ShowSignInScreen();
-                }
-
-            }
-
-
 
         },
         failure =>
@@ -502,6 +537,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             var linkIOSRequest = new LinkIOSDeviceIDRequest { DeviceId = GetMobileID(), ForceLink = true};
             PlayFabClientAPI.LinkIOSDeviceID(linkIOSRequest, result =>
             {
+                mobileLogin = true;
                 EndLogin();
                 Debug.Log("Linked Mobile ID");
             }, failed =>
@@ -571,8 +607,6 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         HideSignInScreen();
     }
 
-
-
     public void OnClickSignInWithGoogle()
     {
 
@@ -586,14 +620,16 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     }
     public void OnClickSkip()
     {
-        if (mobileLogin)
-        {
-            EndLogin();
-        }
-        else
-        {
-            MobileLogin(true, false, false, true);
-        }
+        //if (mobileLogin)
+        //{
+        //    EndLogin();
+        //}
+        //else
+        //{
+        //    EndLogin();
+        //    //MobileLogin(true, false, false, true);
+        //}
+        StartGame();
     }
 
     public void OnClickFirstSkip()
@@ -603,6 +639,11 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     public void OnClickBackToLoginScreen()
     {
+    }
+
+    public void OnClickPlay()
+    {
+        StartGame();
     }
 
     #endregion OnClick Methods
@@ -685,6 +726,10 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 LinkFacebookAccount();
             }
         }
+        else if (AppleLogin || GoogleLogin)
+        {
+            LinkFacebookAccount();
+        }
         else
         {
             PlayfabLoginWithFacebook();
@@ -694,11 +739,15 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     void PlayfabLoginWithFacebook()
     {
         PlayFabClientAPI.LoginWithFacebook(new LoginWithFacebookRequest { CreateAccount = true, AccessToken = AccessToken.CurrentAccessToken.TokenString },
-           OnPlayfabFacebookAuthComplete =>
+           Complete =>
            {
                FacebookLoginChecked = true;
                FacebookLogin = true;
                hasFacebookLinked = true;
+               facebookCheckmark.SetActive(true);
+               skipButton.SetActive(false);
+               playButton.gameObject.SetActive(true);
+               CheckUserAccountInfo(Complete.PlayFabId);
                Debug.Log("Facebook Account Login Completed with no mobile id linked");
                LinkMobileID();
 
@@ -723,6 +772,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         PlayFabClientAPI.LinkFacebookAccount(new LinkFacebookAccountRequest { AccessToken = AccessToken.CurrentAccessToken.TokenString},
         Result =>
         {
+            facebookCheckmark.SetActive(true);
             Debug.Log("Facebook Account Link Completed");
             EndLogin();
 
@@ -790,8 +840,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     #region Apple
     public void SignInWithApple()
     {
-        appleAuth.ApplesSignin(this);
-
+        appleAuth.ApplesSignin(this);   
     }
 
     public void CheckPlayfabAppleAccount(string Itoken, string username)
@@ -818,6 +867,10 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         var request = new LinkAppleRequest { IdentityToken = Itoken };
         PlayFabClientAPI.LinkApple(request, sucess =>
         {
+            appleCheckmark.SetActive(true);
+            skipButton.SetActive(false);
+            playButton.gameObject.SetActive(true);
+            
             this.username = username;
             EndLogin();
 
@@ -834,8 +887,13 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         PlayFabClientAPI.LoginWithApple(request,
             Complete =>
             {
+                appleCheckmark.SetActive(true);
+                skipButton.SetActive(false);
+                playButton.gameObject.SetActive(true);
+                CheckUserAccountInfo(Complete.PlayFabId);
+                AppleLogin = true;
+                LinkMobileID();
                 this.username = username;
-                EndLogin();
                 Debug.Log("Apple Playfab login success: " + "\n");
             },
             Failed =>
@@ -921,7 +979,16 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     public void StartGame()
     {
-        SceneManager.LoadScene(2);
+        HideSignInScreen();
+        if (PlayFabClientAPI.IsClientLoggedIn())
+        {
+            GameData.data.PlayfabLogin = true;
+        }
+        else
+        {
+            GameData.data.PlayfabLogin = false;
+        }
+        Manager.instance.gameloader.LoadGameScene();
     }
 }
 

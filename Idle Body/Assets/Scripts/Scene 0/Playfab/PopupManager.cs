@@ -32,6 +32,7 @@ public class PopupManager : MonoBehaviour
     [Header("Strings")]
     string GoogleNameWithColors = "<color=#4185F4>G</color><color=#E94234>O</color><color=#FBBC04>O</color><color=#4185F4>G</color><color=#33A853>L</color><color=#E94234>E</color>";
     string FacebookNameWithColors = "<color=#3b5998>Facebook</color>";
+    string AppleNameWithColors = "<color=#989898> Apple </color>";
 
     private void Awake()
     {
@@ -44,7 +45,10 @@ public class PopupManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
+    private void Start()
+    {
+        SetTexts();
+    }
     public void ClosePopUps()
     {
         PlayfabNoEmailLogin.instance.ShowSignInScreen();
@@ -53,6 +57,20 @@ public class PopupManager : MonoBehaviour
         ConnectionErrorPopUp.SetActive(false);
         SigninErrorPopUp.SetActive(false);
         popUpManager.SetActive(false);
+    }
+
+    void SetTexts()
+    {
+        if(Application.platform == RuntimePlatform.IPhonePlayer)
+        {
+            DisclaimerBody.text = "By not signing in with a " + FacebookNameWithColors + " or " + AppleNameWithColors + " account, you risk your data being lost. Are you sure you want to continue?";
+        }else if(Application.platform == RuntimePlatform.Android)
+        {
+            DisclaimerBody.text = "By not signing in with a " + FacebookNameWithColors + " or " + GoogleNameWithColors + " account, you risk your data being lost. Are you sure you want to continue?";
+        }else
+        {
+            DisclaimerBody.text = "By not signing in with a " + FacebookNameWithColors + " account, you risk your data being lost. Are you sure you want to continue?";
+        }
     }
 
     public enum PopUp {Disclaimer, ConfirmCreate, connectionError, LoginError, welcome};
@@ -78,7 +96,7 @@ public class PopupManager : MonoBehaviour
                 popUp = WelcomePopUp;
                 break;
         }
-        DisclaimerBody.text = "By not signing in with a " + FacebookNameWithColors + " or " + GoogleNameWithColors + " account, you risk your data being lost. Are you sure you want to continue?";
+        
         popUpManager.SetActive(true);
         popUp.SetActive(true);
         popUp.transform.localScale = Vector3.zero;
