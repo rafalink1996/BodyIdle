@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 {
@@ -24,8 +25,15 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
     [SerializeField] List<GameObject> WorldHolders;
     Vector3 WorldSidePos;
 
+    [SerializeField] GridLayoutGroup gridGroup;
+    [SerializeField] RectTransform PanelHolder;
 
+    private void Awake()
+    {
 
+        SetGridGroup();
+
+    }
     void Start()
     {
         gameManager = GameManager.gameManager;
@@ -37,6 +45,40 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
 
         SetWorldHoldersPositions();
         //Debug.Log(panelLocation);
+    }
+    void SetGridGroup()
+    {
+        float PanelHeight = PanelHolder.rect.height;
+        Debug.Log("height= " + PanelHeight);
+
+        if (PanelHeight > 1080) return;
+
+        var CellSize = gridGroup.cellSize;
+        CellSize.y = PanelHeight;
+        CellSize.x = PanelHeight;
+        gridGroup.cellSize = CellSize;
+
+        var Spacing = gridGroup.spacing;
+        Spacing.x = 1080 - PanelHeight;
+        gridGroup.spacing = Spacing;
+    }
+    float GetCanvasHeight()
+    {
+
+        float S_Width = Screen.width;
+        float S_Height = Screen.height;
+
+        float Ratio = 0;
+        if (S_Height < S_Width)
+        {
+            Ratio = S_Width / S_Height;
+        }
+        else
+        {
+            Ratio = S_Height / S_Width;
+        }
+        return Ratio * 1080;
+
     }
 
     void SetWorldHoldersPositions()
@@ -86,8 +128,8 @@ public class PageSwiper : MonoBehaviour, IDragHandler, IEndDragHandler
                 float difference = data.pressPosition.x - data.position.x;
                 transform.position = panelLocation - new Vector3(difference, 0, 0);
             }
-            
-  
+
+
         }
     }
     public void OnEndDrag(PointerEventData data)

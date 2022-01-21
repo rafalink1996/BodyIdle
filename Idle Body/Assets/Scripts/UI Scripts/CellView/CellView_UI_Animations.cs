@@ -9,7 +9,7 @@ public class CellView_UI_Animations : MonoBehaviour
     private bool UIHidden = false;
 
     // Change Cell Type UI
-   
+
     public GameObject CellTypeBar;
     RectTransform CellTypeBarTransform;
     public GameObject CellSlotsMask;
@@ -24,27 +24,28 @@ public class CellView_UI_Animations : MonoBehaviour
 
     private void Start()
     {
+        Debug.Log("Canvas Height = " + GetCanvasHeight());
         CellTypeBarTransform = CellTypeBar.GetComponent<RectTransform>();
         MyCellViewUiManager = GetComponent<CellView_UI_Manager>();
         gridLayoutGroup = CellTypeBar.GetComponent<GridLayoutGroup>();
     }
     public void CustomStart()
     {
-        ChangeSelectedCellType(1);    
+        ChangeSelectedCellType(1);
     }
     public void UiTabToggle()
     {
         if (!UIHidden)
         {
-            
+
             LeanTween.cancel(bottom_UI);
-            LeanTween.moveLocal(bottom_UI, new Vector3(0, -400, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
+            LeanTween.moveLocal(bottom_UI, new Vector3(0, -400, 0), TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = true;
 
             LeanTween.cancel(StickyImage);
             LeanTween.scaleY(StickyImage, .3f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
 
-            
+
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 180), TweenTime / 4);
 
@@ -52,19 +53,36 @@ public class CellView_UI_Animations : MonoBehaviour
         else
         {
             LeanTween.cancel(bottom_UI);
-           
-            LeanTween.moveLocal(bottom_UI, new Vector3(0, 0, 0), TweenTime/1.5f).setEase(LeanTweenType.easeOutElastic);
+
+            LeanTween.moveLocal(bottom_UI, new Vector3(0, 0, 0), TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = false;
             LeanTween.cancel(StickyImage);
             LeanTween.scaleY(StickyImage, 1f, TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
-            
+
             LeanTween.cancel(ArrowTabIndicator);
             LeanTween.rotate(ArrowTabIndicator, new Vector3(0, 0, 0), TweenTime / 4);
 
 
         }
     }
+    float GetCanvasHeight()
+    {
+   
+        float S_Width= Screen.width;
+        float S_Height = Screen.height;
 
+        float Ratio = 0;
+        if(S_Height < S_Width)
+        {
+           Ratio = S_Width / S_Height;
+        }
+        else
+        {
+            Ratio = S_Height / S_Width;
+        }
+        return Ratio * 1080;
+       
+    }
     public void ChangeSelectedCellType(int CellType, bool ChangeView = false)
     {
 
@@ -76,25 +94,25 @@ public class CellView_UI_Animations : MonoBehaviour
         ScrollRect CellSlotsScrollRect = CellSlotsMask.GetComponent<ScrollRect>();
         CellSlotsScrollRect.movementType = ScrollRect.MovementType.Unrestricted;
         CellSlotsScrollRect.enabled = false;
-     
-        
+
+
         LeanTween.cancel(CellTypeBar);
 
         float CellSize = ((gridLayoutGroup.cellSize.x * Mathf.Abs(MyCellViewUiManager.CheckCellSlotTotal(MyCellViewUiManager.previousCellType))) + 120);
         float CellTypePos = CellSize + ((1420 - CellSize) / 2);
         //print(CellTypePos + " :CellTypePos" + " - CellType " + previousCellType);
 
-        LTDescr d = LeanTween.moveLocal(CellTypeBar, new Vector3(-CellTypePos, 0,0), TweenTime/4).setEase(LeanTweenType.easeInQuad);
-     
+        LTDescr d = LeanTween.moveLocal(CellTypeBar, new Vector3(-CellTypePos, 0, 0), TweenTime / 4).setEase(LeanTweenType.easeInQuad);
+
 
         BuyCellButton.GetComponent<Button>().interactable = false;
-        LeanTween.scale(BuyCellButton, new Vector3(0, 0, 0), TweenTime/4).setEase(LeanTweenType.easeInExpo);
+        LeanTween.scale(BuyCellButton, new Vector3(0, 0, 0), TweenTime / 4).setEase(LeanTweenType.easeInExpo);
 
 
         MyCellViewUiManager.CurrentCellType = CellType;
         d.setOnComplete(ChangeCells);
 
-       // Invoke("ChangeCells", 1f);
+        // Invoke("ChangeCells", 1f);
     }
 
 
@@ -133,10 +151,4 @@ public class CellView_UI_Animations : MonoBehaviour
         LeanTween.scale(BuyCellButton, new Vector3(1, 1, 1), TweenTime / 4).setEase(LeanTweenType.easeInExpo).setDelay(TweenTime / 4);
     }
 
-
-
-
-
-
-   
 }

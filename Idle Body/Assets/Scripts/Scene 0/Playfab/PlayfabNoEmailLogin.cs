@@ -1,5 +1,10 @@
 ﻿using UnityEngine;
+
+#if UNITY_IOS
 using UnityEngine.iOS;
+#elif UNITY_ANDROID
+
+#endif
 using UnityEngine.UI; 
 using System.Collections.Generic;
 using System;
@@ -10,6 +15,11 @@ using TMPro;
 using Facebook.Unity;
 using UnityEngine.SceneManagement;
 using LoginResult = PlayFab.ClientModels.LoginResult;
+#if UNITY_ANDROID
+using GooglePlayGames;
+using GooglePlayGames.BasicApi;
+using UnityEngine.SocialPlatforms;
+#endif
 
 
 public class PlayfabNoEmailLogin : MonoBehaviour
@@ -66,6 +76,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     int loginRetryCount = 0;
     [Header("Other")]
     [SerializeField] string username;
+    [SerializeField] TextMeshProUGUI GoogleDebugText;
 
 
 
@@ -83,6 +94,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
     private void Start()
     {
+        // Google Play services 
         Debug.Log("Start");
         if (Application.platform == RuntimePlatform.Android)
         {
@@ -105,9 +117,28 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         // ShowErrorScreen(ErrorScreenType.Google, ErrorScreenCode.errorLoginIn);
     }
 
+    void InitializeGooglePlayServices()
+    {
+#if UNITY_ANDROID
+        PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder()
+.AddOauthScope("profile")
+.RequestServerAuthCode(false)
+.Build();
+        PlayGamesPlatform.InitializeInstance(config);
+
+        //PlayGamesClientConfiguration config = new PlayGamesClientConfiguration.Builder().RequestIdToken().RequestServerAuthCode(false).Build();
+        //PlayGamesPlatform.InitializeInstance(config);
+        PlayGamesPlatform.DebugLogEnabled = true;
+
+        PlayGamesPlatform.Activate();
+#endif
+
+    }
+   
+
     public void Initialize()
     {
-
+        InitializeGooglePlayServices();
         FB.Init(OnFBInitComplete, OnFBHideUnity => { });
         PlayerPrefs.DeleteAll();
         if (string.IsNullOrEmpty(PlayFabSettings.staticSettings.TitleId))
@@ -118,10 +149,11 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             */
             PlayFabSettings.staticSettings.TitleId = "231EE";
         }
+
         InitialMobileLogin();
     }
 
-    #region API Methods
+#region API Methods
     void CheckUserAccountInfo(string PlayfabID)
     {
         var Request = new GetAccountInfoRequest { PlayFabId = PlayfabID };
@@ -194,6 +226,7 @@ public class PlayfabNoEmailLogin : MonoBehaviour
             // check if user has pending links
             void CheckIfDone()
             {
+
                 if (Application.platform == RuntimePlatform.IPhonePlayer || SystemInfo.deviceModel.StartsWith("IPad"))
                 {
                     if (hasFacebookLinked && hasAppleLinked)
@@ -598,8 +631,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
 
 
-    #endregion API Methods
-    #region OnClick Methods
+#endregion API Methods
+#region OnClick Methods
     public void OnClickSignInWithFacebook()
     {
         LoginWithFacebook();
@@ -610,6 +643,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
     public void OnClickSignInWithGoogle()
     {
 
+            SignInToGooglePlayGames();
+        
     }
 
     public void OnClickSignInWithApple()
@@ -646,15 +681,18 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         StartGame();
     }
 
-    #endregion OnClick Methods
-    #region Get Methods
+#endregion OnClick Methods
+#region Get Methods
     public static string GetMobileID()
     {
         string MobileId;
         if ((Application.platform == RuntimePlatform.IPhonePlayer) || SystemInfo.deviceModel.Contains("iPad"))
         {
+#if UNITY_IOS
             string DeviceID = Device.vendorIdentifier;
             MobileId = DeviceID;
+#endif
+            MobileId = null;
         }
         else if (Application.platform == RuntimePlatform.Android)
         {
@@ -668,8 +706,68 @@ public class PlayfabNoEmailLogin : MonoBehaviour
         }
         return MobileId;
     }
-    #endregion Get Methods
-    #region FACEBOOK
+#endregion Get Methods
+#region Google
+    private void SignInToGooglePlayGames()
+    {
+        //PlayGamesPlatform.Instance.Authenticate(SignInInteractivity.CanPromptOnce, (result) => {
+        //    // Loogedin 
+        //});
+#if UNITY_ANDROID
+        Social.localUser.Authenticate((bool success) =>
+        {
+            if (success)
+            {
+                var ServerAuthCode = PlayGamesPlatform.Instance.GetServerAuthCode();
+                if (PlayFabClientAPI.IsClientLoggedIn())
+                {
+                    PlayfabLinkGoogleAccount(ServerAuthCode);
+                }
+                else
+                {
+                    
+                    PlayfabSignInWithGoogle(ServerAuthCode);
+                }
+               
+            }
+        });
+#endif
+    }
+
+    void PlayfabSignInWithGoogle(string serverAuthCode)
+    {
+        var request = new LoginWithGoogleAccountRequest { TitleId = PlayFabSettings.TitleId, ServerAuthCode = serverAuthCode, CreateAccount = false };
+        PlayFabClientAPI.LoginWithGoogleAccount(request, sucess =>
+        {
+            EndLogin();
+        }, Failure =>
+        {
+            ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
+            DisplayError(ErrorCode.errorLoginIn, Failure.Error.ToString());
+            GoogleDebugText.text = "error = " + Failure.Error + ", Message " + Failure.ErrorMessage + ", Details " + Failure.ErrorDetails;
+            
+        });
+    }
+
+    void PlayfabLinkGoogleAccount(string serverAuthCode)
+    {
+        var request = new LinkGoogleAccountRequest { ServerAuthCode = serverAuthCode };
+        PlayFabClientAPI.LinkGoogleAccount(request, sucess =>
+        {
+            EndLogin();
+        }, Failure =>
+        {
+            ShowSignInScreen();
+            PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
+            GoogleDebugText.text = "error = " + Failure.Error + ", Message " + Failure.ErrorMessage + ", Details " + Failure.ErrorDetails;
+            DisplayError(ErrorCode.errorLoginIn, Failure.Error.ToString());
+
+        });
+
+    }
+#endregion Google
+#region FACEBOOK
 
     private void OnFBInitComplete()
     {
@@ -836,8 +934,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
 
 
 
-    #endregion FACEBOOK
-    #region Apple
+#endregion FACEBOOK
+#region Apple
     public void SignInWithApple()
     {
         appleAuth.ApplesSignin(this);   
@@ -903,8 +1001,8 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 PopupManager.instance.ShowPopUp(PopupManager.PopUp.LoginError);
             });
     }
-    #endregion Apple
-    #region Other Methods
+#endregion Apple
+#region Other Methods
     public void ShowSignInScreen()
     {
         if (!SignInScreen.activeSelf)
@@ -957,10 +1055,11 @@ public class PlayfabNoEmailLogin : MonoBehaviour
                 break;
 
         }
+        LoginErrorMessage.gameObject.SetActive(true);
         LoginErrorMessage.text = ErrorStart + ErrorMessage;
     }
 
-    #endregion Other Methods
+#endregion Other Methods
 
     void EndLogin()
     {

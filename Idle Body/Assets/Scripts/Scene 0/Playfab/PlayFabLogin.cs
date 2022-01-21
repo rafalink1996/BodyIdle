@@ -4,8 +4,12 @@ using PlayFab.ClientModels;
 using PlayFab.AuthenticationModels;
 using TMPro;
 using System;
+
+#if UNITY_IOS
 using UnityEngine.iOS;
 using UnityEngine.SocialPlatforms.GameCenter;
+#endif
+
 
 
 public class PlayFabLogin : MonoBehaviour
@@ -762,8 +766,12 @@ public class PlayFabLogin : MonoBehaviour
         string MobileId;
         if ((Application.platform == RuntimePlatform.IPhonePlayer) || SystemInfo.deviceModel.Contains("iPad"))
         {
-            string DeviceID = Device.vendorIdentifier;
+#if UNITY_IOS
+string DeviceID = Device.vendorIdentifier;
             MobileId = DeviceID;
+#endif
+            MobileId = null;
+
         }
         else if (Application.platform == RuntimePlatform.Android)
         {
@@ -787,8 +795,8 @@ public class PlayFabLogin : MonoBehaviour
         PlayFabClientAPI.GetTime(new GetTimeRequest(), result => { }, error => { });
     }
 
-    #endregion GetMethods
-    #region OtherMethods
+#endregion GetMethods
+#region OtherMethods
 
     void DisplayError(PlayFabError error, bool login)
     {
@@ -1076,7 +1084,7 @@ public class PlayFabLogin : MonoBehaviour
         ConfirmPasswordInputField.text = "";
     }
 
-    #endregion OtherMethods
+#endregion OtherMethods
 
 
 

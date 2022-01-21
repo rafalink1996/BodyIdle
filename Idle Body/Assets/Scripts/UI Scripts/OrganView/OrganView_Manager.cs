@@ -476,7 +476,7 @@ public class OrganView_Manager : MonoBehaviour
                 break;
             case 2: //new organ
                 LeanTween.cancel(OrganIndicatorObject);
-                LeanTween.moveLocal(OrganIndicatorObject, new Vector3(0, -700, 0), 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.5f);
+                LeanTween.moveLocal(OrganIndicatorObject, new Vector3(0, -500, 0), 1f).setEase(LeanTweenType.easeOutElastic).setDelay(0.5f);
                 break;
         }
     }
@@ -513,13 +513,13 @@ public class OrganView_Manager : MonoBehaviour
                         {
                             organTypeID = UnlockedOrgans.Count - 1;
                         }
-                        scale = new Vector2(152f, 173f);
+                        scale = new Vector2(90f, 103f);
                         position = organIndicatorsPos[1];
                         color = new Color(1, 1, 1, 0.5f);
                         break;
                     case 0:
                         organTypeID = currentOrganType;
-                        scale = new Vector2(201f, 229f);
+                        scale = new Vector2(126f, 141f);
                         position = organIndicatorsPos[2];
                         color = new Color(1, 1, 1, 1);
                         break;
@@ -529,7 +529,7 @@ public class OrganView_Manager : MonoBehaviour
                         {
                             organTypeID = 0;
                         }
-                        scale = new Vector2(152f, 173f);
+                        scale = new Vector2(90f, 103f);
                         position = organIndicatorsPos[3];
                         color = new Color(1, 1, 1, 0.5f);
                         break;
@@ -598,12 +598,12 @@ public class OrganView_Manager : MonoBehaviour
                 switch (newPos)
                 {
                     case 0: //Middle
-                        scale = new Vector2(201f, 229f);
+                        scale = new Vector2(126f, 141f);
                         position = organIndicatorsPos[2];
                         color = new Color(1, 1, 1, 1);
                         break;
                     case 1: //right
-                        scale = new Vector2(152f, 173f);
+                        scale = new Vector2(90f, 103f);
                         position = organIndicatorsPos[3];
                         color = new Color(1, 1, 1, 0.5f);
                         break;
@@ -613,7 +613,7 @@ public class OrganView_Manager : MonoBehaviour
                         color = new Color(1, 1, 1, 0f);
                         break;
                     case -1: //left
-                        scale = new Vector2(152f, 173f);
+                        scale = new Vector2(90f, 103f);
                         position = organIndicatorsPos[1];
                         color = new Color(1, 1, 1, 0.5f);
                         break;
@@ -702,7 +702,7 @@ public class OrganView_Manager : MonoBehaviour
     {
         if (organManager.activeOrganType < 12)
         {
-            BuyOrganButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].PointCost[organManager.organTypes[organManager.activeOrganType].organs.Count]);
+            BuyOrganButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].PointCost[organManager.organTypes[organManager.activeOrganType].organs.Count -1]);
             UpgradeMultiplierButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].pointMultiplierCost);
             PlatletBuyButton.CostText.text = AbbreviationUtility.AbbreviateNumber(organManager.organTypes[organManager.activeOrganType].plateletCost);
         }
@@ -711,7 +711,7 @@ public class OrganView_Manager : MonoBehaviour
     {
         if (organManager.activeOrganType < 12)
         {
-            if (gameManager.pointsManager.totalPoints < organManager.organTypes[organManager.activeOrganType].PointCost[organManager.organTypes[organManager.activeOrganType].organs.Count])
+            if (gameManager.pointsManager.totalPoints < organManager.organTypes[organManager.activeOrganType].PointCost[organManager.organTypes[organManager.activeOrganType].organs.Count -1])
             {
                 BuyOrganButton.EnergyCostObject.TryGetComponent(out CanvasGroup canvasGroup);
                 canvasGroup.alpha = 0.7f;

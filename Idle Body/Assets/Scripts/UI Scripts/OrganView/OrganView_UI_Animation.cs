@@ -10,23 +10,31 @@ public class OrganView_UI_Animation : MonoBehaviour
     [SerializeField] GameObject ArrowTabIndicator;
     public bool UIHidden = false;
     [SerializeField] float TweenTime = 2f;
-    [SerializeField] GameObject UIObject;
-    [SerializeField] GameObject UIBuyObject;
+    [SerializeField] RectTransform UIObject;
+    [SerializeField] RectTransform UIBuyObject;
     OrganView_Manager organView_Manager;
 
+    [SerializeField]RectTransform canvasRect;
+    float CanvasY;
 
+
+    private void Awake()
+    {
+        CanvasY = (GetCanvasSize().y / 2);
+    }
     private void Start()
     {
-        LeanTween.moveLocal(UIBuyObject, new Vector3(0, -900, 0), 0);
+        
+        LeanTween.moveLocal(UIBuyObject.gameObject, new Vector3(0, (-CanvasY) - (UIBuyObject.sizeDelta.y), 0), 0);
         organView_Manager = GameManager.gameManager.OrganViewUI;
     }
     public void UiTabToggle()
     {
         if (!UIHidden)
         {
-            
+            float MoveDistance = Screen.height;
             LeanTween.cancel(bottom_UI);
-            LeanTween.moveLocal(bottom_UI, new Vector3(0, -400, 0), TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
+            LeanTween.moveLocal(bottom_UI, new Vector3(0, -(UIObject.sizeDelta.y /2), 0), TweenTime / 1.5f).setEase(LeanTweenType.easeOutElastic);
             UIHidden = true;
 
             LeanTween.cancel(StickyImage);
@@ -58,20 +66,27 @@ public class OrganView_UI_Animation : MonoBehaviour
 
     public void GoToBuyOrganUI()
     {
+        
         //Debug.Log("Time to buy new organ");
         LeanTween.cancel(UIObject);
-        LeanTween.moveLocal(UIObject, new Vector3(0, -900, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+       LeanTween.moveLocal(UIObject.gameObject, new Vector3(0, (-CanvasY) - (UIObject.sizeDelta.y), 0), 0.5f).setEase(LeanTweenType.easeInExpo);
 
         LeanTween.cancel(UIBuyObject);
-        LeanTween.moveLocal(UIBuyObject, new Vector3(0, 0, 0), 0.5f).setEase(LeanTweenType.easeInExpo);  
+        LeanTween.moveLocal(UIBuyObject.gameObject, new Vector3(0, -CanvasY, 0), 0.5f).setEase(LeanTweenType.easeInExpo);  
     }
     public void GoToNormalOrganUI()
     {
+        
         //Debug.Log("back to normal Organ");
         LeanTween.cancel(UIBuyObject);
-        LeanTween.moveLocal(UIBuyObject, new Vector3(0, -900, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+        LeanTween.moveLocal(UIBuyObject.gameObject, new Vector3(0, (-CanvasY) - (UIBuyObject.sizeDelta.y), 0), 0.5f).setEase(LeanTweenType.easeInExpo);
 
         LeanTween.cancel(UIObject);
-        LeanTween.moveLocal(UIObject, new Vector3(0, 0, 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+        LeanTween.moveLocal(UIObject.gameObject, new Vector3(0, (-CanvasY), 0), 0.5f).setEase(LeanTweenType.easeInExpo);
+    }
+
+    public Vector2 GetCanvasSize()
+    {
+        return canvasRect.sizeDelta;
     }
 }
