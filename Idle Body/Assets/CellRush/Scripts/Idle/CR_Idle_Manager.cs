@@ -49,12 +49,11 @@ namespace Idle
         void Start()
         {
 
-            // Custom Starts
             _cellViewManager.CustomStart();
             _overlayUI.CustomStart();
-           // _organismViewManager.CustomStart();
 
-            ChangeState(GameState.OrganismView);
+            // ChangeState(GameState.OrganismView);
+            ChangeState(GameState.OrganView);
         }
 
         public void ChangeState(GameState state)
