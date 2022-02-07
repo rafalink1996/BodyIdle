@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Idle;
+using BreakInfinity;
 public class CR_Data : MonoBehaviour
 {
-
     [System.Serializable]
     public class OrganType
     {
@@ -26,17 +26,11 @@ public class CR_Data : MonoBehaviour
         public double pointMultiplierCost;
         public float pointsMultiplier;
 
-        [System.Serializable]
-        public class PlatletSize
-        {
-            public string name;
-            public int Quantity;
-        }
         [Space(20)]
         [Header("PLATLETES")]
-        public PlatletSize[] platletSizes;
-        public double plateletInitialCost;
-        public double plateletCost;
+        public int platletNumber;
+        public BigDouble plateletInitialCost;
+        public BigDouble plateletCost;
 
 
 
@@ -92,8 +86,8 @@ public class CR_Data : MonoBehaviour
     public static CR_Data data;
 
 
-    public double _energy { get; private set; }
-    public double _energyPerSecond { get; private set; }
+    public BigDouble _energy { get; private set; }
+    public BigDouble _energyPerSecond { get; private set; }
     public int _complexity { get; private set; }
     public int _maxComplexity { get; private set; } = 100;
     public double _premium { get; private set; }
@@ -116,15 +110,13 @@ public class CR_Data : MonoBehaviour
             Destroy(gameObject);
         }
     }
-
-
     #region SET METHODS
-    public void SetEnergy(double energy)
+    public void SetEnergy(BigDouble energy)
     {
         _energy = energy;
         if (CR_Idle_Manager.instance != null) CR_Idle_Manager.instance._overlayUI.UpdateEnergy();
     }
-    public void SetEnergyPerSecond(double energyPerSecond)
+    public void SetEnergyPerSecond(BigDouble energyPerSecond)
     {
         _energyPerSecond = energyPerSecond;
         if (CR_Idle_Manager.instance != null) CR_Idle_Manager.instance._overlayUI.UpdateEnergy();

@@ -43,8 +43,8 @@ namespace Idle
         }
         public void UpdateEnergy()
         {
-            _energyText.text = AbbreviationUtility.AbbreviateNumber(CR_Data.data._energy);
-            _energyPerSecondText.text = AbbreviationUtility.AbbreviateNumber(CR_Data.data._energyPerSecond) + "/s";
+            _energyText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(CR_Data.data._energy);
+            _energyPerSecondText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(CR_Data.data._energyPerSecond) + "/s";
         }
         public void UpdateComplexity()
         {

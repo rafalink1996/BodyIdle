@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Threading.Tasks;
+using System.Threading;
 
 namespace Idle
 {
@@ -26,129 +27,133 @@ namespace Idle
             if (rectP != null)
             {
                 pupilsRectTransofrm = rectP;
+                delay = StartCoroutine(waitDelay());
             }
-        }
-        private void Start()
-        {
-
         }
         void OnEnable()
         {
-            delay = StartCoroutine(waitDelay());
+          
+            StartCoroutine(RandomAnimation());
         }
         private void OnDisable()
         {
+            LeanTween.cancelAll();
             rectTransform.localPosition = OriginalPos;
+            rectTransform.localScale = Vector3.one;
             pupilsRectTransofrm.localPosition = Vector3.zero;
-            StopCoroutine(delay);
+            StopAllCoroutines();
         }
+
         IEnumerator waitDelay()
         {
             yield return new WaitForEndOfFrame();
-            OriginalPos = rectTransform.localPosition;
-            RandomAnimation();
-
+            OriginalPos = rectTransform.localPosition; 
         }
-
-
-        async void RandomAnimation()
+        void PlayEyeAnimation(int animation)
         {
-            await WaitForAnimation();
-            int random = Random.Range(0, 6);
-            Animation(random);
-        }
-
-
-
-        void Animation(int animation)
-        {
-            switch (animation)
+            if (gameObject != null)
             {
-                case 0:
-                case 1:
-                    LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
-                    {
-                        LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+                switch (animation)
+                {
+                    case 0:
+                    case 1:
+                        LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
                         {
-                            RandomAnimation();
-                        });
-                    });
-                    break;
-                case 2: // mira derecha
-
-                    LeanTween.moveLocalX(gameObject, OriginalPos.x + 15, 0.5f).setEase(LeanTweenType.easeInOutExpo);
-                    LeanTween.moveLocalX(Pupils.gameObject, 15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
-                    {
-                        LeanTween.moveLocalX(gameObject, OriginalPos.x, 0.5f).setEase(LeanTweenType.easeInOutExpo);
-                        LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
-                        {
-                            RandomAnimation();
-                        });
-                    });
-
-
-                    break;
-                case 3: // mira izquierda
-                    LeanTween.moveLocalX(gameObject, OriginalPos.x - 15, 0.5f).setEase(LeanTweenType.easeInOutExpo);
-                    LeanTween.moveLocalX(Pupils.gameObject, -15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
-                    {
-                        LeanTween.moveLocalX(gameObject, OriginalPos.x, 0.5f).setEase(LeanTweenType.easeInOutExpo);
-                        LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
-                        {
-                            RandomAnimation();
-                        });
-                    });
-                    break;
-
-                case 4:
-                    LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
-                    {
-                        LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
-                        {
-                            LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
+                            LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
                             {
-                                LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
-                                {
-                                    RandomAnimation();
-                                });
+                                AnimationEnd();
                             });
                         });
-                    });
-                    break;
+                        break;
+                    case 2: // mira derecha
 
-                case 5:
-                    LeanTween.scaleY(gameObject, 0.5f, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
-                    {
-                        LeanTween.moveLocalX(Pupils.gameObject, -15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setLoopOnce().setOnComplete(complete =>
+                        LeanTween.moveLocalX(gameObject, OriginalPos.x + 15, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                        LeanTween.moveLocalX(Pupils.gameObject, 15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
                         {
-                            LeanTween.moveLocalX(Pupils.gameObject, 15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                            LeanTween.moveLocalX(gameObject, OriginalPos.x, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                            LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
                             {
-                                LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                                AnimationEnd();
+                            });
+                        });
+
+
+                        break;
+                    case 3: // mira izquierda
+                        LeanTween.moveLocalX(gameObject, OriginalPos.x - 15, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                        LeanTween.moveLocalX(Pupils.gameObject, -15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                        {
+                            LeanTween.moveLocalX(gameObject, OriginalPos.x, 0.5f).setEase(LeanTweenType.easeInOutExpo);
+                            LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                            {
+                                AnimationEnd();
+                            });
+                        });
+                        break;
+
+                    case 4:
+                        LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
+                        {
+                            LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+                            {
+                                LeanTween.scaleY(gameObject, 0.2f, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
                                 {
-                                    LeanTween.scaleY(gameObject, 1f, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+                                    LeanTween.scaleY(gameObject, 1f, 0.2f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
                                     {
-                                        RandomAnimation();
+                                        AnimationEnd();
                                     });
                                 });
                             });
-
                         });
-                    });
-                    break;
-                default:
-                    RandomAnimation();
-                    break;
+                        break;
 
+                    case 5:
+                        LeanTween.scaleY(gameObject, 0.5f, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(complete =>
+                        {
+                            LeanTween.moveLocalX(Pupils.gameObject, -15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setLoopOnce().setOnComplete(complete =>
+                            {
+                                LeanTween.moveLocalX(Pupils.gameObject, 15, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                                {
+                                    LeanTween.moveLocalX(Pupils.gameObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(complete =>
+                                    {
+                                        LeanTween.scaleY(gameObject, 1f, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+                                        {
+                                            AnimationEnd();
+                                        });
+                                    });
+                                });
+
+                            });
+                        });
+                        break;
+                    default:
+                        AnimationEnd();
+                        break;
+
+                }
             }
         }
 
-        async Task WaitForAnimation()
+        void AnimationEnd()
+        {
+            StartCoroutine(RandomAnimation());
+        }
+
+        IEnumerator RandomAnimation()
+        {
+            yield return waitForAnim();
+            int random = Random.Range(0, 6);
+            PlayEyeAnimation(random);
+        }
+
+        IEnumerator waitForAnim()
         {
             float RandomTime = Random.Range(3, 6);
             var end = Time.time + RandomTime;
             while (Time.time < end)
             {
-                await Task.Yield();
+             yield return null;
+                
             }
         }
     }

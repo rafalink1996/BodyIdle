@@ -7,21 +7,39 @@ public class CR_OrganismView_Anim : MonoBehaviour
 {
 
     [SerializeField] RectTransform BuyUI;
+    [SerializeField] RectTransform SeeOrganButton;
+    [SerializeField] RectTransform OrganBuy;
+
+
     [SerializeField] Vector2 BuyUiStartingPos;
+    [SerializeField] Vector2 seeOrganButtonStartingPos;
+    [SerializeField] Vector2 OrganBuyUiStartingPos;
+
+    bool PosGotten;
     private void Start()
     {
         StartCoroutine(WaitForEndFarme());
     }
     IEnumerator WaitForEndFarme()
     {
+        yield return new WaitForSeconds(0.1f);
         yield return new WaitForEndOfFrame();
-        BuyUiStartingPos = BuyUI.localPosition;
+        //GetPos();
+        //HideUI();
     }
-
+    public void GetPos()
+    {
+        if (!PosGotten)
+        {
+            BuyUiStartingPos = BuyUI.localPosition;
+            seeOrganButtonStartingPos = SeeOrganButton.localPosition;
+        }
+    }
     public void HideUI()
     {
         LeanTween.cancel(BuyUI.gameObject);
-        LeanTween.moveLocalY(BuyUI.gameObject, BuyUiStartingPos.y , 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>{
+        LeanTween.moveLocalY(BuyUI.gameObject, BuyUiStartingPos.y - BuyUI.rect.height, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+        {
 
         });
     }
@@ -29,9 +47,33 @@ public class CR_OrganismView_Anim : MonoBehaviour
     public void ShowUI()
     {
         LeanTween.cancel(BuyUI.gameObject);
-        LeanTween.moveLocalY(BuyUI.gameObject, BuyUiStartingPos.y + BuyUI.rect.height, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete => {
+        LeanTween.moveLocalY(BuyUI.gameObject, BuyUiStartingPos.y, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+        {
 
         });
+    }
+
+    public void toggleSeeOrganObjects(bool show)
+    {
+        if (show)
+        {
+            SeeOrganButton.GetComponent<Button>().interactable = true;
+            LeanTween.moveLocalX(OrganBuy.gameObject, OrganBuyUiStartingPos.x - 180, 0.5f).setEase(LeanTweenType.easeOutExpo);
+            LeanTween.moveLocalX(SeeOrganButton.gameObject, seeOrganButtonStartingPos.x, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+            {
+
+            });
+        }
+        else
+        {
+            SeeOrganButton.GetComponent<Button>().interactable = false;
+            LeanTween.moveLocalX(OrganBuy.gameObject, OrganBuyUiStartingPos.x, 0.5f).setEase(LeanTweenType.easeOutExpo);
+            LeanTween.moveLocalX(SeeOrganButton.gameObject, seeOrganButtonStartingPos.x - SeeOrganButton.rect.width, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+            {
+
+            });
+        }
+
     }
 
     float GetCanvasHeight()

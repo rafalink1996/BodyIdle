@@ -64,17 +64,18 @@ namespace Idle
                 OrganismHolder.SetActive(false);
                 return;
             }
+           
+            OrganismHolder.SetActive(true);
+            _organismView_Anim.GetPos();
+            _organismView_Anim.HideUI();
             UpdateOrganVisuals();
         }
 
-        //public void CustomStart()
-        //{
-        //    UpdateOrganVisuals();
-        //}
 
 
         public void SelectOrgan(int organType)
         {
+           
             if (!CR_Data.data.organTypes[organSelected].unlocked)
             {
                 organObjects[organSelected].MainObject.ChangeColor(new Color(0.3f, 0.3f, 0.3f, 1));
@@ -95,7 +96,7 @@ namespace Idle
                     organObjects[i].Eyes.gameObject.SetActive(true);
                     if (organObjects[i].Eyes_2 != null) { organObjects[i].Eyes_2.gameObject.SetActive(true); }
                     organObjects[i].CounterText.transform.parent.gameObject.SetActive(true);
-                    organObjects[i].CounterText.text = data.organTypes[i].organs.Count.ToString();
+                    organObjects[i].CounterText.text = "x" + data.organTypes[i].organs.Count.ToString();
                 }
                 else
                 {
@@ -115,44 +116,87 @@ namespace Idle
             OrganImage.sprite = data.organTypes[organSelected].OrganSprite;
             organTitleText.text = "Buy " + data.organTypes[organSelected].Name;
             int OrganNumber = data.organTypes[organSelected].organs.Count;
-            energyCostText.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[organSelected].PointCost[OrganNumber]);
-            complexityCostText.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[organSelected].ComplexityCost[OrganNumber]);
+            if(data.organTypes[organSelected].PointCost.Length > OrganNumber)
+            {
+                energyCostText.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[organSelected].PointCost[OrganNumber]);
+            }
+            else
+            {
+                energyCostText.text = "MAX";
+            }
+            if(data.organTypes[organSelected].ComplexityCost.Length > OrganNumber)
+            {
+                complexityCostText.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[organSelected].ComplexityCost[OrganNumber]);
+            }
+            else
+            {
+                complexityCostText.text = "MAX";
+            }
+            if (CR_Data.data.organTypes[organSelected].unlocked)
+            {
+                _organismView_Anim.toggleSeeOrganObjects(true);
+            }
+            else
+            {
+                _organismView_Anim.toggleSeeOrganObjects(false);
+            }
         }
 
         public void OnClickBuyOrgan()
         {
             var data = CR_Data.data;
-            int OrganNumber = data.organTypes[organSelected].organs.Count;
-            double energyCost = data.organTypes[organSelected].PointCost[OrganNumber];
-            int ComplexityCost = data.organTypes[organSelected].ComplexityCost[OrganNumber];
-            if (data._energy >= energyCost)
+            if(data.organTypes[organSelected].organs.Count < 6)
             {
-                if (data._complexity + ComplexityCost <= data._maxComplexity)
+                int OrganNumber = data.organTypes[organSelected].organs.Count;
+                double energyCost = data.organTypes[organSelected].PointCost[OrganNumber];
+                int ComplexityCost = data.organTypes[organSelected].ComplexityCost[OrganNumber];
+                if (data._energy >= energyCost)
                 {
-                    data.SetEnergy(data._energy - energyCost);
-                    data.SetComplexity(data._complexity + ComplexityCost);
-                    CR_Data.data.AddNewOrgan(organSelected);
-                    UpdateOrganInfo();
-                    UpdateOrganVisuals();
+                    if (data._complexity + ComplexityCost <= data._maxComplexity)
+                    {
+                        data.SetEnergy(data._energy - energyCost);
+                        data.SetComplexity(data._complexity + ComplexityCost);
+                        CR_Data.data.AddNewOrgan(organSelected);
+
+                        organObjects[organSelected].Eyes.gameObject.SetActive(true);
+                        if (organObjects[organSelected].Eyes_2 != null) { organObjects[organSelected].Eyes_2.gameObject.SetActive(true); }
+                        organObjects[organSelected].CounterText.transform.parent.gameObject.SetActive(true);
+                        UpdateOrganInfo();
+
+                        var OrganCounterObj = organObjects[organSelected].CounterText.transform.parent.gameObject;
+                        LeanTween.cancel(OrganCounterObj);
+                        LeanTween.scale(OrganCounterObj, new Vector3(1.3f, 1.3f, 1.3f), 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done => {
+                            UpdateOrganVisuals();
+                            LeanTween.scale(OrganCounterObj, Vector2.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+                        });
+                    }
+                    else
+                    {
+                        print("Not enough complexity");
+                        // not enough complexity
+                    }
+
                 }
                 else
+                    print("Not enough energy" + "- Energy Cost: " + energyCost + " Current Energy: " + data._energy);
                 {
-                    print("Not enough complexity");
-                    // not enough complexity
+                    // not enough points
                 }
-
-            }
-            else
-                print("Not enough energy" + "- Energy Cost: " + energyCost + " Current Energy: " + data._energy);
-            {
-                // not enough points
             }
         }
 
         public void OnClickSeeOrgans()
         {
-            CR_Idle_Manager.instance.currentOrganLoaded = organSelected;
-            CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.GameState.OrganView);
+            if(CR_Data.data.organTypes[organSelected].organs.Count != 0)
+            {
+                CR_Idle_Manager.instance.currentOrganLoaded = organSelected;
+                StartCoroutine(CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.GameState.OrganView));
+            }
+            else
+            {
+                // Organ not bought
+            }
+           
         }
     }
 }
