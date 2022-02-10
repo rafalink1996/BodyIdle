@@ -13,6 +13,7 @@ public class ButtonHold : Button
     [Header("BOOLS")]
     public bool Expand = false;
     public bool useColor = true;
+    public bool useFillImage = false;
 
 
     [Header("PARAMS")]
@@ -20,11 +21,13 @@ public class ButtonHold : Button
     public float perecentThreshold = 0.2f;
     public float expandAmount = 1.2f;
 
+    [Header("REFEREMNCES")]
+    public Image fillImage;
+
 
     [Header("PRIVATE")]
     private bool pointerDown;
     private float pointerDownTimer;
-
 
     [Serializable]
     public class HoldButtonEvent : UnityEvent { }
@@ -45,6 +48,7 @@ public class ButtonHold : Button
             if (pointerDown)
             {
                 pointerDownTimer += Time.deltaTime;
+                if (useFillImage) FillImage();
                 if (pointerDownTimer >= requierdHoldTime)
                 {
                     if (OnLongClick != null)
@@ -79,6 +83,18 @@ public class ButtonHold : Button
 
     }
 
+    void FillImage()
+    {
+        if (fillImage == null) return;
+        float Percentage = (pointerDownTimer) / requierdHoldTime;
+        fillImage.fillAmount = Percentage;
+    }
+    void ResetImage()
+    {
+        if (fillImage == null) return;
+        fillImage.fillAmount = 0;
+    }
+
     public override void OnPointerDown(PointerEventData eventData)
     {
         base.OnPointerDown(eventData);
@@ -95,6 +111,7 @@ public class ButtonHold : Button
         CheckTime();
         transform.localScale = Vector3.one;
         ResetParams();
+        ResetImage();
         
     }
 }

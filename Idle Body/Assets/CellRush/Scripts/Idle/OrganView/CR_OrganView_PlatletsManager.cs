@@ -132,8 +132,8 @@ namespace Idle
         void SpawnPlatlets()
         {
             var data = CR_Data.data;
-            int CurrentOrgan = CR_Idle_Manager.instance.currentOrganLoaded;
-            int platletNumber = data.organTypes[CurrentOrgan].platletNumber;
+            int CurrentOrgan = CR_Idle_Manager.instance.CurrentOrganType;
+            int platletNumber = data.organTypes[CurrentOrgan].plateletInfo.platletNumber;
             //int platletNumber = DebugPlatletNumber;
 
             int BigPlatlets = 0;
@@ -177,23 +177,23 @@ namespace Idle
         {
             if (!canBuy) return;
             var data = CR_Data.data;
-            int CurrentOrgan = CR_Idle_Manager.instance.currentOrganLoaded;
-            if (data.organTypes[CurrentOrgan].platletNumber < 125)
+            int CurrentOrgan = CR_Idle_Manager.instance.CurrentOrganType;
+            if (data.organTypes[CurrentOrgan].plateletInfo.platletNumber < 125)
             {
                 if (true) //data._energy >= data.organTypes[CurrentOrgan].plateletCost todo
                 {
-                    data.organTypes[CurrentOrgan].platletNumber++;
+                    data.organTypes[CurrentOrgan].plateletInfo.platletNumber++;
                     //SpawnPlatlet(0);
                     Debug.Log("buy");
                     StartCoroutine(CheckPlatlets());
-                    data.organTypes[CurrentOrgan].plateletCost = data.organTypes[CurrentOrgan].plateletInitialCost * BigDouble.Pow(_platletCostMultiplier, data.organTypes[CurrentOrgan].platletNumber);
+                    data.organTypes[CurrentOrgan].plateletInfo.plateletCost = data.organTypes[CurrentOrgan].plateletInfo.plateletInitialCost * BigDouble.Pow(_platletCostMultiplier, data.organTypes[CurrentOrgan].plateletInfo.platletNumber);
                     CR_OrganView_Manager.instance.UpdateUI();
                    
 
                 }
                 else
                 {
-                    Debug.Log("Not enough energy: " + data._energy + "/" + data.organTypes[CurrentOrgan].plateletCost);
+                    Debug.Log("Not enough energy: " + data._energy + "/" + data.organTypes[CurrentOrgan].plateletInfo.plateletCost);
                 }
             }
             else

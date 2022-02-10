@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using BreakInfinity;
 
 namespace Idle
 {
@@ -34,10 +35,6 @@ namespace Idle
             public CR_EyeAnimator Eyes_2;
         }
         [SerializeField] List<organObject> organObjects;
-
-
-
-
 
         private void Awake()
         {
@@ -112,13 +109,12 @@ namespace Idle
         void UpdateOrganInfo()
         {
             var data = CR_Data.data;
-
-            OrganImage.sprite = data.organTypes[organSelected].OrganSprite;
-            organTitleText.text = "Buy " + data.organTypes[organSelected].Name;
+            OrganImage.sprite = CR_Idle_Manager.instance.organTypeAsstes[organSelected].organSprite;
+            organTitleText.text = "Buy " + LanguageManager.instance.translateOrgan(organSelected, CR_Data.data._language, true);
             int OrganNumber = data.organTypes[organSelected].organs.Count;
             if(data.organTypes[organSelected].PointCost.Length > OrganNumber)
             {
-                energyCostText.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[organSelected].PointCost[OrganNumber]);
+                energyCostText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.organTypes[organSelected].PointCost[OrganNumber]);
             }
             else
             {
@@ -148,7 +144,7 @@ namespace Idle
             if(data.organTypes[organSelected].organs.Count < 6)
             {
                 int OrganNumber = data.organTypes[organSelected].organs.Count;
-                double energyCost = data.organTypes[organSelected].PointCost[OrganNumber];
+                BigDouble energyCost = data.organTypes[organSelected].PointCost[OrganNumber];
                 int ComplexityCost = data.organTypes[organSelected].ComplexityCost[OrganNumber];
                 if (data._energy >= energyCost)
                 {
@@ -189,7 +185,7 @@ namespace Idle
         {
             if(CR_Data.data.organTypes[organSelected].organs.Count != 0)
             {
-                CR_Idle_Manager.instance.currentOrganLoaded = organSelected;
+                CR_Idle_Manager.instance.CurrentOrganType = organSelected;
                 StartCoroutine(CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.GameState.OrganView));
             }
             else

@@ -1,9 +1,6 @@
 ﻿
 using UnityEngine;
 using System;
-
-
-
 public class GameData : MonoBehaviour
 {
     [Header ("Data")]

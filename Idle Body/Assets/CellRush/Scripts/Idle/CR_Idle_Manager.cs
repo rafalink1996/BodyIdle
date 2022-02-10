@@ -15,7 +15,8 @@ namespace Idle
         public CR_CellViewManager _cellViewManager;
         public CR_OrganismViewManager _organismViewManager;
         public TransitionAnimation _TransitionAnimation;
-
+        [Header("ORGAN TYPE INFO")]
+        public OrganTypeAsstes[] organTypeAsstes;
 
         public static event Action<GameState> onGameStateChange;
         public enum GameState
@@ -26,7 +27,8 @@ namespace Idle
         }
         public GameState gameState;
 
-        public int currentOrganLoaded;
+        public int CurrentOrganType;
+        public int CurrentOrganNumber;
 
         private void Awake()
         {
@@ -92,6 +94,19 @@ namespace Idle
         }
 
 
+
+
+
+
+
+        [System.Serializable]
+        public class OrganTypeAsstes
+        {
+            public string name;
+            public Sprite organSprite;
+            public Sprite OrganBorder;
+            public Animator OrganAnimator;
+        }
 
     }
 }

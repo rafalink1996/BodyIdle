@@ -14,9 +14,11 @@ namespace Idle
         public int ID;
 
 
+
+        //[SerializeField] protected CR_Data.OrganType.OrganInfo.cellsType.CellSizes.CellInfo myInfo;
         [SerializeField] Sprite CombineSprite = null;
-        [SerializeField] protected CR_Data.OrganType.OrganInfo.cellsType.CellSizes.CellInfo myInfo;
         [SerializeField] protected SpriteRenderer _renderer;
+        [SerializeField] protected ParticleSystem _particles;
 
         [SerializeField] protected bool _move;
         [SerializeField] protected float _speed = 2f;
@@ -40,7 +42,14 @@ namespace Idle
         public virtual void StartCell()
         {
             _move = true;
+            if (_particles != null) _particles.Play();
+            Invoke("StopParticles", 0.5f);
             StartCoroutine(CellMovementStart());
+        }
+
+        void StopParticles()
+        {
+            if (_particles != null) _particles.Stop();
         }
 
         protected IEnumerator CellMovementStart()
