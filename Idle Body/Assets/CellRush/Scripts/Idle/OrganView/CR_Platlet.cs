@@ -10,13 +10,22 @@ namespace Idle
         [SerializeField] Sprite[] _platletSprites;
         float[] _platletSizes = new float[] { 0.006f, 0.008f, 0.01f };
 
-        public void SetPlatlet(int platletSize)
+        public override void InitializeCell(CellSize cellSize)
         {
-            float size = _platletSizes[(int)platletSize];
+            _move = true;
+            float size = _platletSizes[(int)cellSize];
             transform.localScale = new Vector3(size, size, size);
-            _renderer.sprite = _platletSprites[(int)platletSize];
+            _renderer.sprite = _platletSprites[(int)cellSize];
+            base.InitializeCell(cellSize);
         }
 
+        public override void StartCell()
+        {
+            Vector3 DesiredSize = transform.localScale;
+            transform.localScale = Vector3.zero;
+            LeanTween.scale(gameObject, DesiredSize, 0.3f).setEase(LeanTweenType.easeOutExpo);
+            base.StartCell();
+        }
 
     }
 }

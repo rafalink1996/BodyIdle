@@ -9,28 +9,35 @@ namespace Idle
     public class CR_OrganView_Manager : MonoBehaviour
     {
         public static CR_OrganView_Manager instance;
-        [SerializeField] GameObject organViewHolder;
+        [SerializeField] GameObject _organViewHolder;
 
-        [SerializeField] CR_OrganView_Organ[] organView_Organs;
-        [SerializeField] Transform OrganParentObject;
+        [SerializeField] CR_OrganView_Organ[] _organView_Organs;
+        [SerializeField] Transform _0rganParentObject;
 
         [Header("UI")]
-        [SerializeField] TextMeshProUGUI ShadowText;
-        [SerializeField] TextMeshProUGUI MainText;
-        [SerializeField] TextMeshProUGUI multiplierText;
-        [SerializeField] TextMeshProUGUI multiplierUpgradeCost;
-        [SerializeField] TextMeshProUGUI platletAmount;
-        [SerializeField] TextMeshProUGUI platletCost;
+        [SerializeField] TextMeshProUGUI _shadowText;
+        [SerializeField] TextMeshProUGUI _mainText;
+        [SerializeField] TextMeshProUGUI _multiplierText;
+        [SerializeField] TextMeshProUGUI _multiplierUpgradeCost;
+        [SerializeField] TextMeshProUGUI _platletAmount;
+        [SerializeField] TextMeshProUGUI _platletCost;
+
+
+        [Header("REFERENCES")]
+        [SerializeField] CR_OrganView_PlatletsManager _platletManager;
 
         private List<CR_OrganView_Organ> currentOrgans = new List<CR_OrganView_Organ>();
         public int DebugOrganType;
+        
 
         private void Awake()
         {
             if (instance == null)
             {
                 instance = this;
+                _platletManager = FindObjectOfType<CR_OrganView_PlatletsManager>();
                 CR_Idle_Manager.onGameStateChange += CR_Idle_Manager_onGameStateChange;
+
                 //Rest of Awake code
             }
             else if (instance != this)
@@ -47,12 +54,15 @@ namespace Idle
         {
             if (obj != CR_Idle_Manager.GameState.OrganView)
             {
-                organViewHolder.SetActive(false);
+                _organViewHolder.SetActive(false);
                 return;
             }
-            organViewHolder.SetActive(true);
+            _organViewHolder.SetActive(true);
             SetUI();
             SpawnOrgans();
+            SetupPlatlets();
+            
+            
 
         }
 
@@ -101,23 +111,31 @@ namespace Idle
                     OrganName = "Organs";
                     break;
             }
-            ShadowText.text = OrganName;
-            MainText.text = OrganName;
+            _shadowText.text = OrganName;
+            _mainText.text = OrganName;
             UpdateUI();
 
 
         }
 
-        private void UpdateUI()
+        public void UpdateUI()
         {
             int CurrentOrganType = CR_Idle_Manager.instance.currentOrganLoaded;
             int OrganAmount = CR_Data.data.organTypes[CurrentOrganType].organs.Count;
             var data = CR_Data.data;
 
-            multiplierText.text = data.organTypes[CurrentOrganType].pointsMultiplier.ToString("F2");
-            multiplierUpgradeCost.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[CurrentOrganType].pointMultiplierCost);
-            platletAmount.text = data.organTypes[CurrentOrganType].platletNumber.ToString();
-            platletCost.text = data.organTypes[CurrentOrganType].plateletCost.ToString();
+            _multiplierText.text = data.organTypes[CurrentOrganType].pointsMultiplier.ToString("F2");
+            _multiplierUpgradeCost.text = AbbreviationUtility.AbbreviateNumber(data.organTypes[CurrentOrganType].pointMultiplierCost);
+            _platletAmount.text = data.organTypes[CurrentOrganType].platletNumber.ToString();
+            if(data.organTypes[CurrentOrganType].platletNumber == 125)
+            {
+                _platletCost.text = "MAX";
+            }
+            else
+            {
+                _platletCost.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.organTypes[CurrentOrganType].plateletCost);
+            }
+           
         }
 
         void SpawnOrgans()
@@ -133,11 +151,16 @@ namespace Idle
             currentOrgans.Clear();
             for (int o = 0; o < CR_Data.data.organTypes[CurrentOrganType].organs.Count; o++)
             {
-                CR_OrganView_Organ organ = Instantiate(organView_Organs[CurrentOrganType], OrganParentObject);
+                CR_OrganView_Organ organ = Instantiate(_organView_Organs[CurrentOrganType], _0rganParentObject);
                 organ.SetOrgan(o);
                 currentOrgans.Add(organ);
             }
 
+        }
+
+        void SetupPlatlets()
+        {
+            _platletManager.InitializeOrgan();
         }
 
         public void OnClickBackToOrganism()

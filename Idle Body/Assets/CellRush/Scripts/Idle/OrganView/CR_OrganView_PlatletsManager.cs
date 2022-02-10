@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BreakInfinity;
 
 namespace Idle
 {
@@ -9,11 +10,13 @@ namespace Idle
         Vector2 MaxSpawnPos = new Vector2(4f, 4f);
         [SerializeField] int DebugPlatletNumber;
 
+        bool canBuy = true;
+
         [System.Serializable]
         public class PlatletSizes
         {
             public string name;
-            public List<CR_Platlet> ObjectsReferences = new List<CR_Platlet>();
+            public List<CR_CellBase> ObjectsReferences = new List<CR_CellBase>();
         }
         public PlatletSizes[] platletsLists = new PlatletSizes[] {
             new PlatletSizes{
@@ -34,33 +37,35 @@ namespace Idle
             Big
         }
 
-
+        [SerializeField] Transform _platletMergePF;
+        [SerializeField] float _platletCostMultiplier;
 
         // ======= Pooling variables ======//
 
-        [SerializeField] CR_Platlet platletPF;
+        [SerializeField] CR_CellBase platletPF;
         [SerializeField] Transform platletHolder;
         [SerializeField] int platletSizeCount;
-        public Dictionary<string, Queue<CR_Platlet>> PoolDictionary;
+        public Dictionary<string, Queue<CR_CellBase>> PoolDictionary;
         string[] platletTag = new string[] { "PS", "PM", "PB" };
         // ===== end Pooling variables ====//
 
 
         private void Awake()
         {
-            PoolDictionary = new Dictionary<string, Queue<CR_Platlet>>();
+            PoolDictionary = new Dictionary<string, Queue<CR_CellBase>>();
             InsantiatePools();
         }
+
         void InsantiatePools()
         {
             var data = CR_Data.data;
             for (int p = 0; p < platletTag.Length; p++)
             {
-                Queue<CR_Platlet> ObjectPool = new Queue<CR_Platlet>();
+                Queue<CR_CellBase> ObjectPool = new Queue<CR_CellBase>();
                 for (int i = 0; i < platletSizeCount; i++)
                 {
-                    CR_Platlet obj = Instantiate(platletPF);
-                    obj.SetPlatlet(p);
+                    CR_CellBase obj = Instantiate(platletPF);
+                    obj.InitializeCell((CR_CellBase.CellSize)p);
                     obj.gameObject.SetActive(false);
                     obj.transform.SetParent(platletHolder.transform);
                     obj.transform.localPosition = Vector3.zero;
@@ -74,14 +79,14 @@ namespace Idle
 
         }
 
-        CR_Platlet SpawnFroomPool(string tag)
+        CR_CellBase SpawnFroomPool(string tag)
         {
             if (!PoolDictionary.ContainsKey(tag))
             {
                 Debug.LogWarning("pool With tag" + tag + " doesn't exist");
                 return null;
             }
-            CR_Platlet ObjectToSpawn = PoolDictionary[tag].Dequeue();
+            CR_CellBase ObjectToSpawn = PoolDictionary[tag].Dequeue();
             ObjectToSpawn.gameObject.SetActive(true);
             PoolDictionary[tag].Enqueue(ObjectToSpawn);
             return ObjectToSpawn;
@@ -89,6 +94,13 @@ namespace Idle
 
         private void Start()
         {
+            // SpawnPlatlets();
+        }
+
+
+        public void InitializeOrgan()
+        {
+            ClearPlatlets();
             SpawnPlatlets();
         }
 
@@ -98,22 +110,31 @@ namespace Idle
             {
                 for (int i = 0; i < platletsLists.Length; i++)
                 {
+                    for (int o = 0; o < platletsLists[i].ObjectsReferences.Count; o++)
+                    {
+                        platletsLists[i].ObjectsReferences[o].gameObject.SetActive(false);
+
+                    }
                     platletsLists[i].ObjectsReferences.Clear();
                 }
             }
             else
             {
+                for (int o = 0; o < platletsLists[(int)Size].ObjectsReferences.Count; o++)
+                {
+                    platletsLists[(int)Size].ObjectsReferences[o].gameObject.SetActive(false);
+                }
                 platletsLists[(int)Size].ObjectsReferences.Clear();
             }
-            
+
         }
 
         void SpawnPlatlets()
         {
             var data = CR_Data.data;
             int CurrentOrgan = CR_Idle_Manager.instance.currentOrganLoaded;
-            //int platletNumber = data.organTypes[CurrentOrgan].platletNumber;
-            int platletNumber = DebugPlatletNumber;
+            int platletNumber = data.organTypes[CurrentOrgan].platletNumber;
+            //int platletNumber = DebugPlatletNumber;
 
             int BigPlatlets = 0;
             int MediumPlatlets = 0;
@@ -134,7 +155,7 @@ namespace Idle
                 SmallPlatlets = platletNumber;
             }
 
-            Debug.Log("BP: " + BigPlatlets + " MP: " + MediumPlatlets + " SP: " + SmallPlatlets);
+           // Debug.Log("BP: " + BigPlatlets + " MP: " + MediumPlatlets + " SP: " + SmallPlatlets);
 
             for (int BP = 0; BP < BigPlatlets; BP++)
             {
@@ -154,18 +175,25 @@ namespace Idle
 
         public void OnClickBuyPlatlet()
         {
+            if (!canBuy) return;
             var data = CR_Data.data;
             int CurrentOrgan = CR_Idle_Manager.instance.currentOrganLoaded;
             if (data.organTypes[CurrentOrgan].platletNumber < 125)
             {
-                if (data._energy > data.organTypes[CurrentOrgan].plateletCost)
+                if (true) //data._energy >= data.organTypes[CurrentOrgan].plateletCost todo
                 {
                     data.organTypes[CurrentOrgan].platletNumber++;
-                    SpawnPlatlet(0);
+                    //SpawnPlatlet(0);
+                    Debug.Log("buy");
+                    StartCoroutine(CheckPlatlets());
+                    data.organTypes[CurrentOrgan].plateletCost = data.organTypes[CurrentOrgan].plateletInitialCost * BigDouble.Pow(_platletCostMultiplier, data.organTypes[CurrentOrgan].platletNumber);
+                    CR_OrganView_Manager.instance.UpdateUI();
+                   
+
                 }
                 else
                 {
-                    Debug.Log("Not enough energy");
+                    Debug.Log("Not enough energy: " + data._energy + "/" + data.organTypes[CurrentOrgan].plateletCost);
                 }
             }
             else
@@ -174,15 +202,77 @@ namespace Idle
             }
         }
 
-        void SpawnPlatlet(Sizes size)
+        IEnumerator CheckPlatlets()
         {
-            if ((int)size > platletTag.Length - 1) return;
-            CR_Platlet platlet = SpawnFroomPool(platletTag[(int)size]);
+            canBuy = false;
+            Debug.Log("check");
+            if (platletsLists[0].ObjectsReferences.Count < 4)
+            {
+                Debug.Log("Spawn S platlet");
+                SpawnPlatlet(0);
+                yield return null;
+
+            }
+            else if (platletsLists[1].ObjectsReferences.Count < 4)
+            {
+                yield return StartMerge(Sizes.Small); // Merge small 
+            }
+            else if (platletsLists[2].ObjectsReferences.Count < 5)
+            {
+                yield return StartMerge(Sizes.Small); // Merge small
+                yield return StartMerge(Sizes.Medium); // Merge small 
+            }
+            canBuy = true;
+        }
+
+        IEnumerator StartMerge(Sizes size)
+        {   
+            Transform mergeTransform = Instantiate(_platletMergePF, platletHolder);
             float randomPosX = Random.Range(-MaxSpawnPos.x, MaxSpawnPos.x);
             float randomPosY = Random.Range(-MaxSpawnPos.y, MaxSpawnPos.y);
-            platlet.transform.localPosition = new Vector3(randomPosX, randomPosY, 0);
-            Debug.Log("Size: " + (int)size);
+            bool animationDone = false;
+
+            mergeTransform.localPosition = new Vector3(randomPosX, randomPosY, 0);
+
+            for (int i = 0; i < platletsLists[(int)size].ObjectsReferences.Count; i++)
+            {
+                yield return platletsLists[(int)size].ObjectsReferences[i].Merge(mergeTransform);
+                platletsLists[(int)size].ObjectsReferences[i].gameObject.SetActive(false);
+                //mergeTransform.localScale = mergeTransform.localScale * 1.2f;
+                LeanTween.scale(mergeTransform.gameObject, mergeTransform.localScale * 1.1f, 0.4f).setEase(LeanTweenType.easeOutBounce);
+            }
+            ClearPlatlets(false, size);
+            Sizes NewPlatletSize = (Sizes)((int)size + 1);
+            LeanTween.scale(mergeTransform.gameObject, Vector3.zero, 1f).setEase(LeanTweenType.easeInElastic).setOnComplete(done =>
+            {
+                Destroy(mergeTransform.gameObject);
+                SpawnPlatlet(NewPlatletSize, mergeTransform);
+                animationDone = true;
+            });
+            while (!animationDone)
+            {
+                yield return null;
+            }
+            
+        }
+
+        void SpawnPlatlet(Sizes size, Transform transform = null)
+        {
+            if ((int)size > platletTag.Length - 1) return;
+            CR_CellBase platlet = SpawnFroomPool(platletTag[(int)size]);
+            if(transform != null)
+            {
+                platlet.transform.position = transform.position;
+            }
+            else
+            {
+                float randomPosX = Random.Range(-MaxSpawnPos.x, MaxSpawnPos.x);
+                float randomPosY = Random.Range(-MaxSpawnPos.y, MaxSpawnPos.y);
+                platlet.transform.localPosition = new Vector3(randomPosX, randomPosY, 0);
+            }
+            platlet.StartCell();
             platletsLists[(int)size].ObjectsReferences.Add(platlet);
+
         }
 
 

@@ -72,7 +72,7 @@ public class TransitionAnimation : MonoBehaviour
         {
             Height = 1920 * ratio;
         }
-        Debug.Log("Height: " + Height + " Portrait: " + Portrait + " Ratio: " + ratio);
+        //Debug.Log("Height: " + Height + " Portrait: " + Portrait + " Ratio: " + ratio);
         return Height;
     }
 }

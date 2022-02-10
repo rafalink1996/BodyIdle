@@ -871,8 +871,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9d25578a89da46fbb048ace98c678f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  organViewHolder: {fileID: 515054189}
-  organView_Organs:
+  _organViewHolder: {fileID: 515054189}
+  _organView_Organs:
   - {fileID: 7257413794780857505, guid: a400fdf8002ee4de08dacd1ef115903d, type: 3}
   - {fileID: 2257104931499167262, guid: 23b9f88da7f92435fa8c2f84d245726b, type: 3}
   - {fileID: 2084132652283206026, guid: 72f925c20c3d545ffb27fe06823b26e2, type: 3}
@@ -885,14 +885,16 @@ MonoBehaviour:
   - {fileID: 509856754170895665, guid: 4eb9ee7458b8949e18d8142acd139f18, type: 3}
   - {fileID: 8045428735304887673, guid: eca096fc7022a44dc8702745af06298c, type: 3}
   - {fileID: 5297948820899354001, guid: a4016201b3d4b4a7e977809d4e2395cd, type: 3}
-  OrganParentObject: {fileID: 639192768}
-  ShadowText: {fileID: 2088654500}
-  MainText: {fileID: 495618346}
-  multiplierText: {fileID: 864737017}
-  multiplierUpgradeCost: {fileID: 1269937600}
-  platletAmount: {fileID: 814201464}
-  platletCost: {fileID: 2046347687}
+  _0rganParentObject: {fileID: 639192768}
+  _shadowText: {fileID: 2088654500}
+  _mainText: {fileID: 495618346}
+  _multiplierText: {fileID: 864737017}
+  _multiplierUpgradeCost: {fileID: 1269937600}
+  _platletAmount: {fileID: 814201464}
+  _platletCost: {fileID: 2046347687}
+  _platletManager: {fileID: 75536078}
   DebugOrganType: 6
+  platletMultiplier: 0
 --- !u!114 &75536078
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -913,9 +915,12 @@ MonoBehaviour:
     ObjectsReferences: []
   - name: Big
     ObjectsReferences: []
+  _platletMergePF: {fileID: 989900350729582483, guid: 2e60ad87d2ac54819b196f76ccd63532,
+    type: 3}
+  _platletCostMultiplier: 1.2
   platletPF: {fileID: 4705399111335011613, guid: fca7d48b2d581438e98856da24b4e194,
     type: 3}
-  platletHolder: {fileID: 2127021901}
+  platletHolder: {fileID: 130013949}
   platletSizeCount: 5
 --- !u!1 &82264886
 GameObject:
@@ -1004,6 +1009,102 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64a5a95316e004d248ef9e72ce8996ec, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &130013948
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 130013949}
+  - component: {fileID: 130013950}
+  - component: {fileID: 130013951}
+  m_Layer: 0
+  m_Name: PlatletHolder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &130013949
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130013948}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.06958896, y: 0.06958896, z: 0.06958896}
+  m_Children: []
+  m_Father: {fileID: 144808368}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!212 &130013950
+SpriteRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130013948}
+  m_Enabled: 0
+  m_CastShadows: 0
+  m_ReceiveShadows: 0
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: a97c105638bdf8b4a8650670310a4cd3, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 0
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: -1275046943
+  m_SortingLayer: 5
+  m_SortingOrder: 0
+  m_Sprite: {fileID: 21300000, guid: ad820e75447404805806edf22b94daba, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_FlipX: 0
+  m_FlipY: 0
+  m_DrawMode: 0
+  m_Size: {x: 10.8, y: 10.8}
+  m_AdaptiveModeThreshold: 0.5
+  m_SpriteTileMode: 0
+  m_WasSpriteAssigned: 1
+  m_MaskInteraction: 0
+  m_SpriteSortPoint: 0
+--- !u!114 &130013951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 130013948}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 84c49c754718c40eebe0dc97cc10a405, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _square: 1
 --- !u!1 &130911324
 GameObject:
   m_ObjectHideFlags: 0
@@ -1281,6 +1382,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 2127021901}
+  - {fileID: 130013949}
   m_Father: {fileID: 515054190}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -3974,7 +4076,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 135.15
+  m_fontSize: 126.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -4839,7 +4941,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 42.05
+  m_fontSize: 32.35
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7188,7 +7290,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 67.7
+  m_fontSize: 52
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -7599,7 +7701,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 64.95
+  m_fontSize: 49.75
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -8782,7 +8884,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 34.7
+  m_fontSize: 26.6
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -9739,7 +9841,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35.2
+  m_fontSize: 30.4
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -11751,7 +11853,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 38
+  m_fontSize: 29.15
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -14274,11 +14376,11 @@ MonoBehaviour:
     pointsMultiplier: 1
     platletNumber: 0
     plateletInitialCost:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1
+      exponent: 3
     plateletCost:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1
+      exponent: 3
     organs: []
   - Name: Stomach
     border: {fileID: 21300000, guid: df6e841d63ee84c2f80fb1c72f3ce41a, type: 3}
@@ -14851,7 +14953,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1960585609}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 75536078}
+        m_TargetAssemblyTypeName: Idle.CR_OrganView_PlatletsManager, Assembly-CSharp
+        m_MethodName: OnClickBuyPlatlet
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1960585609
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15354,7 +15468,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 30.8
+  m_fontSize: 23.65
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15598,7 +15712,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 143.55
+  m_fontSize: 134.1
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
@@ -15868,10 +15982,10 @@ GameObject:
   - component: {fileID: 2127021901}
   - component: {fileID: 2127021902}
   - component: {fileID: 2127021903}
-  - component: {fileID: 2127021905}
   - component: {fileID: 2127021904}
+  - component: {fileID: 2127021905}
   m_Layer: 0
-  m_Name: PlatletHolder
+  m_Name: PlatletCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -15886,7 +16000,7 @@ Transform:
   m_GameObject: {fileID: 2127021900}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: -0.05, z: 0}
-  m_LocalScale: {x: 0.07548829, y: 0.11601999, z: 0.19073722}
+  m_LocalScale: {x: 0.79104066, y: 1.2157716, z: 1.9987323}
   m_Children: []
   m_Father: {fileID: 144808368}
   m_RootOrder: 0
@@ -15931,7 +16045,8 @@ SpriteRenderer:
   m_SortingLayerID: -951976097
   m_SortingLayer: 3
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: ad820e75447404805806edf22b94daba, type: 3}
+  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7,
+    type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -15954,8 +16069,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84c49c754718c40eebe0dc97cc10a405, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ratio: 0.9
-  hdRatio: 0
+  _square: 0
 --- !u!114 &2127021904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -15988,7 +16102,7 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 10.8, y: 10.8}
+    oldSize: {x: 1, y: 1}
     newSize: {x: 0.16, y: 0.16}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -15996,27 +16110,10 @@ PolygonCollider2D:
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 5.38, y: -4.9}
-      - {x: 5.38, y: 4.7799997}
-      - {x: 5.37, y: 4.8599997}
-      - {x: 5.3399997, y: 4.99}
-      - {x: 5.25, y: 5.13}
-      - {x: 5.14, y: 5.24}
-      - {x: 4.94, y: 5.3399997}
-      - {x: -4.92, y: 5.3399997}
-      - {x: -5.16, y: 5.22}
-      - {x: -5.29, y: 5.0299997}
-      - {x: -5.33, y: 4.93}
-      - {x: -5.35, y: 4.85}
-      - {x: -5.3599997, y: 4.7799997}
-      - {x: -5.3599997, y: -4.7999997}
-      - {x: -5.35, y: -4.88}
-      - {x: -5.2999997, y: -5.06}
-      - {x: -5.1099997, y: -5.2799997}
-      - {x: -4.88, y: -5.3599997}
-      - {x: 4.9, y: -5.3599997}
-      - {x: 5.13, y: -5.2799997}
-      - {x: 5.29, y: -5.12}
+    - - {x: -0.5, y: 0.5}
+      - {x: -0.5, y: -0.5}
+      - {x: 0.5, y: -0.5}
+      - {x: 0.5, y: 0.5}
 --- !u!114 &2139510762 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5541447558035387137, guid: fde4972de856742d58ce2ad74e882855,

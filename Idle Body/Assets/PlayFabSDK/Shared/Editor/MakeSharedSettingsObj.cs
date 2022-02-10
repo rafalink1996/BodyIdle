@@ -8,14 +8,14 @@ public class MakeScriptableObject
     [MenuItem("PlayFab/MakePlayFabSharedSettings")]
     public static void MakePlayFabSharedSettings()
     {
-        PlayFabSharedSettings asset = ScriptableObject.CreateInstance<PlayFabSharedSettings>();
+        //PlayFabSharedSettings asset = ScriptableObject.CreateInstance<PlayFabSharedSettings>();
 
-        AssetDatabase.CreateAsset(asset, "Assets/PlayFabSdk/Shared/Public/Resources/PlayFabSharedSettings.asset"); // TODO: Path should not be hard coded
-        AssetDatabase.SaveAssets();
+        //AssetDatabase.CreateAsset(asset, "Assets/PlayFabSdk/Shared/Public/Resources/PlayFabSharedSettings.asset"); // TODO: Path should not be hard coded
+        //AssetDatabase.SaveAssets();
 
-        EditorUtility.FocusProjectWindow();
+        //EditorUtility.FocusProjectWindow();
 
-        Selection.activeObject = asset;
+        //Selection.activeObject = asset;
     }
 }
 #endif
