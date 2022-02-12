@@ -15,6 +15,7 @@ namespace Idle
         [Header("REFERENCES")]
         [SerializeField] GameObject OrganismHolder;
         [SerializeField] CR_OrganismView_Anim _organismView_Anim;
+        [SerializeField] CR_OrganismView_Texts _organismView_Texts;
         [SerializeField] Transform _organHolder;
 
         [SerializeField] int organSelected = -1;
@@ -65,7 +66,9 @@ namespace Idle
             OrganismHolder.SetActive(true);
             _organismView_Anim.GetPos();
             _organismView_Anim.HideUI();
+
             UpdateOrganVisuals();
+            _organismView_Texts.UpdateTexts();
         }
 
 
@@ -110,7 +113,7 @@ namespace Idle
         {
             var data = CR_Data.data;
             OrganImage.sprite = CR_Idle_Manager.instance.organTypeAsstes[organSelected].organSprite;
-            organTitleText.text = "Buy " + LanguageManager.instance.translateOrgan(organSelected, CR_Data.data._language, true);
+            organTitleText.text = LanguageManager.instance.organismViewTexts.Buy[(int)CR_Data.data._language] + " " + LanguageManager.instance.translateOrgan(organSelected, CR_Data.data._language, true);
             int OrganNumber = data.organTypes[organSelected].organs.Count;
             if(data.organTypes[organSelected].PointCost.Length > OrganNumber)
             {

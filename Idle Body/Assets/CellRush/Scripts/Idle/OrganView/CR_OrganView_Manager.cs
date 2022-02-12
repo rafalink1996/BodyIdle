@@ -13,6 +13,7 @@ namespace Idle
         [SerializeField] GameObject _organViewHolder;
 
         [SerializeField] CR_OrganView_Organ[] _organView_Organs;
+        [SerializeField] CR_OrganView_Texts _organView_Texts;
         [SerializeField] Transform _0rganParentObject;
 
         [Header("UI")]
@@ -25,6 +26,8 @@ namespace Idle
 
 
         [Header("ORGAN INFO UI")]
+        [SerializeField] CanvasGroup _infoCanvasGroup;
+        [SerializeField] Transform _infoObject;
         [SerializeField] TextMeshProUGUI _organName;
         [SerializeField] TextMeshProUGUI _organID;
         [SerializeField] TextMeshProUGUI _redCellAmount;
@@ -70,8 +73,11 @@ namespace Idle
             if (obj != CR_Idle_Manager.GameState.OrganView)
             {
                 _organViewHolder.SetActive(false);
+
                 return;
             }
+            _organView_Texts.UpdateTexts();
+            _infoCanvasGroup.gameObject.SetActive(false);
             _organViewHolder.SetActive(true);
             SetUI();
             SpawnOrgans();
@@ -148,8 +154,43 @@ namespace Idle
 
         public void ShowOrganInfo(int OrganNumber)
         {
+            _infoObject.parent.gameObject.SetActive(true);
+            _infoCanvasGroup.alpha = 0;
+            _infoObject.localScale = Vector3.zero;
+            CR_Idle_Manager manager = CR_Idle_Manager.instance;
+            int currentOrganType = manager.CurrentOrganType;
+            CR_Data data = CR_Data.data;
 
+            _organName.text = LanguageManager.instance.translateOrgan(currentOrganType, data._language, false);
+            _organID.text = "#" + (OrganNumber +1);
+            _redCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 0).ToString();
+            _energyPerSecond.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.GetEnergyPerSecond(currentOrganType, OrganNumber)) + "/s";
+            float productionPercentage = (float)((data.GetEnergyPerSecond(currentOrganType, OrganNumber) * 100) / data.GetEnergyPerSecond());
+            if (float.IsNaN(productionPercentage)) productionPercentage = 0;
+            Debug.Log(productionPercentage);
+            _productionPercentage.text = productionPercentage + "%";
+            _whiteCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 1).ToString();
+            _helperCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 2).ToString();
+            _sellComplexityRefund.text = data.organTypes[currentOrganType].ComplexityCost[data.organTypes[currentOrganType].organs.Count].ToString();
+            _organImage.sprite = manager.organTypeAsstes[currentOrganType].organSprite;
+
+            LeanTween.alphaCanvas(_infoCanvasGroup, 1, .5f).setOnComplete(done => {
+                LeanTween.scale(_infoObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+            });
         }
+
+        public void CloseOrganInfo()
+        {
+            LeanTween.scale(_infoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done => {
+                LeanTween.alphaCanvas(_infoCanvasGroup, 0, .5f).setOnComplete(done => {
+                    _infoObject.parent.gameObject.SetActive(false);
+                }); ;
+            });
+            
+        }
+
+
+        
 
 
     }

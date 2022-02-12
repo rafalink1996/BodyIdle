@@ -5,15 +5,13 @@ using Idle;
 using BreakInfinity;
 public class CR_Data : MonoBehaviour
 {
-
-
     [Header("INSTANCE")]
     public static CR_Data data;
 
 
 
     // GAME SETTINGS //
-    public enum Languages {English, Spanish }
+    public enum Languages { English, Spanish }
     public Languages _language;
 
     public float _musicVolume { get; private set; }
@@ -171,6 +169,43 @@ public class CR_Data : MonoBehaviour
         _SFXVolume = volume;
     }
     #endregion SET METHODS
+    #region GetMethods
+    public int GetTotalCells(int OrganType, int OrganNumber, int cellType)
+    {
+        if ((organTypes.Length - 1) > OrganType) return 0;
+        if ((organTypes[OrganType].organs.Count - 1) < OrganNumber) return 0;
+        int totalCells = 0;
+        for (int a = 0; a < organTypes[OrganType].organs[OrganNumber].CellTypes[cellType].cellSizes.Count; a++)
+        {
+            for (int b = 0; b < organTypes[OrganType].organs[OrganNumber].CellTypes[cellType].cellSizes[a].CellsInfos.Count; b++)
+            {
+                totalCells += (int)Mathf.Pow(10, a);
+            }
+        }
+        return totalCells;
+    }
+
+    public BigDouble GetEnergyPerSecond()
+    {
+        BigDouble energyPerSecond = 0;
+        for (int i = 0; i < organTypes.Length; i++)
+        {
+            for (int o = 0; o < organTypes[i].organs.Count; o++)
+            {
+                int redCells = GetTotalCells(i, o, 0);
+                energyPerSecond += redCells * organTypes[i].pointsMultiplier;
+            }
+        }
+        return energyPerSecond;
+    }
+    public BigDouble GetEnergyPerSecond(int organType, int organNumber)
+    {
+        BigDouble energyPerSecond = 0;
+        int redCells = GetTotalCells(organType, organNumber, 0);
+        energyPerSecond += redCells * organTypes[organType].pointsMultiplier;
+        return energyPerSecond;
+    }
+    #endregion GetMethods
     #region Serialized Classes
     [System.Serializable]
     public class OrganType
@@ -192,7 +227,7 @@ public class CR_Data : MonoBehaviour
             public BigDouble plateletCost;
         }
         public Platletes plateletInfo;
-       
+
         [System.Serializable]
         public class OrganInfo
         {
