@@ -21,9 +21,7 @@ public class CutOutMaskUtils : MonoBehaviour
             var rect = GetComponent<RectTransform>();
             rect.anchorMin = halfPoint;
             rect.anchorMax = halfPoint;
-
-            
-            Debug.Log("Width: " + Screen.width + " Height: " + Screen.height);
+       
             //rect.sizeDelta = new Vector2(Screen.width, Screen.height);
             rect.sizeDelta = new Vector2(1080, GetHeight());
 
@@ -55,7 +53,6 @@ public class CutOutMaskUtils : MonoBehaviour
         {
             Height = 1920 * ratio;
         }
-        Debug.Log("Height: " + Height + " Portrait: " + Portrait + " Ratio: " + ratio);
         return Height;
     }
 }

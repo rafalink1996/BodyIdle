@@ -76,6 +76,9 @@ namespace Idle
 
                 return;
             }
+            _platletManager.canBuy = true;
+            _platletManager.ClearPlatlets(true);
+            if (_platletManager.mergeObject != null) Destroy(_platletManager.mergeObject.gameObject);
             _organView_Texts.UpdateTexts();
             _infoCanvasGroup.gameObject.SetActive(false);
             _organViewHolder.SetActive(true);
@@ -144,12 +147,16 @@ namespace Idle
 
         public void OnClickBackToOrganism()
         {
+            _platletManager.StopAllCoroutines();
             StartCoroutine(CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.GameState.OrganismView));
         }
 
         public void LoadOrgan(int OrganNumber)
         {
-
+            _platletManager.StopAllCoroutines();
+            Debug.Log("change to cell view");
+            CR_Idle_Manager.instance.CurrentOrganNumber = OrganNumber;
+            StartCoroutine(CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.GameState.CellView));
         }
 
         public void ShowOrganInfo(int OrganNumber)
@@ -167,7 +174,8 @@ namespace Idle
             _energyPerSecond.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.GetEnergyPerSecond(currentOrganType, OrganNumber)) + "/s";
             float productionPercentage = (float)((data.GetEnergyPerSecond(currentOrganType, OrganNumber) * 100) / data.GetEnergyPerSecond());
             if (float.IsNaN(productionPercentage)) productionPercentage = 0;
-            Debug.Log(productionPercentage);
+            //Debug.Log(productionPercentage);
+            productionPercentage = Mathf.FloorToInt(productionPercentage);
             _productionPercentage.text = productionPercentage + "%";
             _whiteCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 1).ToString();
             _helperCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 2).ToString();

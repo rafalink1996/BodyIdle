@@ -32,15 +32,16 @@ namespace Idle
             _rb = GetComponent<Rigidbody2D>();
         }
 
-        public virtual void InitializeCell(CellSize cellSize)
+        public virtual void InitializeCell(CellSize cellSize, CellType cellType)
         {
             Debug.Log("Initializing");
             this.cellSize = cellSize;
-
+            this.cellType = cellType;
         }
 
         public virtual void StartCell()
         {
+            if (!gameObject.activeSelf) return;
             _move = true;
             if (_particles != null) _particles.Play();
             Invoke("StopParticles", 0.5f);
@@ -72,9 +73,7 @@ namespace Idle
 
         IEnumerator applyForce()
         {
-            float xForce = Random.Range(-1f, 1f);
-            float yForce = Random.Range(-1f, 1f);
-            Vector2 force = new Vector2(xForce, yForce) * _speed;
+            Vector2 force = CheckMovemtDirection();
             _rb.AddForce(force);
             while (Vector2.Distance(Vector2.zero, _rb.velocity) > 1)
             {
@@ -83,23 +82,67 @@ namespace Idle
 
         }
 
-
-        public virtual IEnumerator Merge(Transform target)
+        Vector2 CheckMovemtDirection()
         {
-            Debug.Log("Merge detected");
+            float xForce = 0;
+            float yForce = 0;
+            switch (cellType)
+            {
+                case CellType.Platlet:
+                    xForce = Random.Range(-1f, 1f);
+                    yForce = Random.Range(-1f, 1f);
+                    break;
+                case CellType.RedBlood:
+                    if (transform.localPosition.y < 0)
+                    {
+                        xForce = Random.Range(-1f, 1f);
+                        yForce = Random.Range(0f, 1f);
+                    }
+                    else
+                    {
+                        xForce = Random.Range(-1f, 1f);
+                        yForce = Random.Range(-1f, 1f);
+                    }
+
+                    break;
+                case CellType.White:
+                case CellType.Helper:
+                    if (transform.localPosition.y > 0)
+                    {
+                        xForce = Random.Range(-1f, 1f);
+                        yForce = Random.Range(-1f, 0f);
+                    }
+                    else
+                    {
+                        xForce = Random.Range(-1f, 1f);
+                        yForce = Random.Range(-1f, 1f);
+                    }
+                    break;
+                case CellType.Killer:
+                    break;
+                default:
+                    break;
+            }
+
+            Vector2 force = new Vector2(xForce, yForce) * _speed;
+            return force;
+        }
+
+
+        public virtual IEnumerator Merge(Transform target, float speedMultiplier = 1)
+        {
+            
             StopCoroutine("applyForce");
             StopCoroutine("wait");
             _move = false;
             _rb.velocity = Vector2.zero;
-            Debug.Log("Distance: " + Vector2.Distance(transform.position, target.position));
+
             while (Vector2.Distance(transform.position, target.position) > 0.001f)
             {
-                transform.position = Vector2.MoveTowards(transform.position, target.position, (_speed/4) * Time.deltaTime);
-                Debug.Log("Merging(" + "Current pos: " + transform.position + " Target Pos: " + target.position);
+                transform.position = Vector2.MoveTowards(transform.position, target.position, (_speed * speedMultiplier) * Time.deltaTime);
                 yield return null;
             }
             gameObject.SetActive(false);
-            Debug.Log("End Merge");
         }
 
 

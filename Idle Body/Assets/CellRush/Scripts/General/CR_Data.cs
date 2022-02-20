@@ -172,14 +172,24 @@ public class CR_Data : MonoBehaviour
     #region GetMethods
     public int GetTotalCells(int OrganType, int OrganNumber, int cellType)
     {
-        if ((organTypes.Length - 1) > OrganType) return 0;
+        if ((organTypes.Length - 1) < OrganType) return 0;
         if ((organTypes[OrganType].organs.Count - 1) < OrganNumber) return 0;
         int totalCells = 0;
         for (int a = 0; a < organTypes[OrganType].organs[OrganNumber].CellTypes[cellType].cellSizes.Count; a++)
         {
             for (int b = 0; b < organTypes[OrganType].organs[OrganNumber].CellTypes[cellType].cellSizes[a].CellsInfos.Count; b++)
             {
-                totalCells += (int)Mathf.Pow(10, a);
+                switch (cellType)
+                {
+                    case 0:
+                    case 1:
+                        totalCells += (int)Mathf.Pow(10, a);
+                        break;
+                    case 2:
+                        totalCells += (int)Mathf.Pow(3, a);
+                        break;
+                }
+                
             }
         }
         return totalCells;

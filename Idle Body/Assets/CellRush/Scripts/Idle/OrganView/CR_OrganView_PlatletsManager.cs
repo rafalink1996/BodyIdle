@@ -10,7 +10,7 @@ namespace Idle
         Vector2 MaxSpawnPos = new Vector2(4f, 4f);
         [SerializeField] int DebugPlatletNumber;
 
-        bool canBuy = true;
+        public bool canBuy = true;
 
         [System.Serializable]
         public class PlatletSizes
@@ -36,7 +36,7 @@ namespace Idle
             Medium,
             Big
         }
-
+        public Transform mergeObject;
         [SerializeField] Transform _platletMergePF;
         [SerializeField] float _platletCostMultiplier;
 
@@ -65,7 +65,7 @@ namespace Idle
                 for (int i = 0; i < platletSizeCount; i++)
                 {
                     CR_CellBase obj = Instantiate(platletPF);
-                    obj.InitializeCell((CR_CellBase.CellSize)p);
+                    obj.InitializeCell((CR_CellBase.CellSize)p, CR_CellBase.CellType.Platlet);
                     obj.gameObject.SetActive(false);
                     obj.transform.SetParent(platletHolder.transform);
                     obj.transform.localPosition = Vector3.zero;
@@ -104,7 +104,7 @@ namespace Idle
             SpawnPlatlets();
         }
 
-        void ClearPlatlets(bool All = false, Sizes Size = Sizes.Small)
+        public void ClearPlatlets(bool All = false, Sizes Size = Sizes.Small)
         {
             if (All)
             {
@@ -226,8 +226,10 @@ namespace Idle
         }
 
         IEnumerator StartMerge(Sizes size)
-        {   
+        {
+            
             Transform mergeTransform = Instantiate(_platletMergePF, platletHolder);
+            mergeObject = mergeTransform;
             float randomPosX = Random.Range(-MaxSpawnPos.x, MaxSpawnPos.x);
             float randomPosY = Random.Range(-MaxSpawnPos.y, MaxSpawnPos.y);
             bool animationDone = false;
@@ -253,7 +255,7 @@ namespace Idle
             {
                 yield return null;
             }
-            
+
         }
 
         void SpawnPlatlet(Sizes size, Transform transform = null)
@@ -273,6 +275,11 @@ namespace Idle
             platlet.StartCell();
             platletsLists[(int)size].ObjectsReferences.Add(platlet);
 
+        }
+
+        void StopCoroutines()
+        {
+            StopAllCoroutines();
         }
 
 

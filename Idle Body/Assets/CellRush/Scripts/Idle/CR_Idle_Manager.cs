@@ -52,13 +52,9 @@ namespace Idle
         }
         void Start()
         {
-
-            _cellViewManager.CustomStart();
             _overlayUI.CustomStart();
             if (!_TransitionAnimation.gameObject.activeSelf) _TransitionAnimation.gameObject.SetActive(true);
             StartCoroutine(ChangeState(GameState.OrganismView));
-           
-            
         }
 
         public IEnumerator ChangeState(GameState state)
@@ -106,6 +102,7 @@ namespace Idle
             public Sprite organSprite;
             public Sprite OrganBorder;
             public Animator OrganAnimator;
+            public Color OrganBackgroundColor;
         }
 
     }
