@@ -156,7 +156,7 @@ namespace Idle
                         data.SetEnergy(data._energy - energyCost);
                         data.SetComplexity(data._complexity + ComplexityCost);
                         CR_Data.data.AddNewOrgan(organSelected);
-
+                        CR_Data.data.CalculateMultiplier(organSelected);
                         organObjects[organSelected].Eyes.gameObject.SetActive(true);
                         if (organObjects[organSelected].Eyes_2 != null) { organObjects[organSelected].Eyes_2.gameObject.SetActive(true); }
                         organObjects[organSelected].CounterText.transform.parent.gameObject.SetActive(true);

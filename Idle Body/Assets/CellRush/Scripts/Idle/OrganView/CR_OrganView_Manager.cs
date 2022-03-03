@@ -5,6 +5,8 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
+using BreakInfinity;
+
 namespace Idle
 {
     public class CR_OrganView_Manager : MonoBehaviour
@@ -20,7 +22,6 @@ namespace Idle
         [SerializeField] TextMeshProUGUI _shadowText;
         [SerializeField] TextMeshProUGUI _mainText;
         [SerializeField] TextMeshProUGUI _multiplierText;
-        [SerializeField] TextMeshProUGUI _multiplierUpgradeCost;
         [SerializeField] TextMeshProUGUI _platletAmount;
         [SerializeField] TextMeshProUGUI _platletCost;
 
@@ -39,6 +40,22 @@ namespace Idle
         [SerializeField] TextMeshProUGUI _sellComplexityRefund;
         [SerializeField] Image _organImage;
 
+        [Header("ORGAN UPGRADES")]
+        [SerializeField] CanvasGroup _upgradeObject;
+        [SerializeField] Transform _upgradesTitleObject;
+        [SerializeField] RectTransform _upgradesBodyObject;
+        [SerializeField] Transform _upgradesCloseObject;
+        float _upgradesBodyObjectOriginalY;
+        bool _upgradesUiShown;
+        [SerializeField] public CR_OrganUpgrade[] _upgrades;
+
+        [SerializeField] Transform _upgradesInfoObject;
+        [SerializeField] TextMeshProUGUI _upgradeDescription;
+        [SerializeField] TextMeshProUGUI _upgradeCost;
+        [SerializeField] ButtonHold _upgradeButton;
+        [SerializeField] CR_OrganUpgrade _infoUpgrade;
+
+
 
 
         [Header("REFERENCES")]
@@ -46,7 +63,7 @@ namespace Idle
 
         private List<CR_OrganView_Organ> currentOrgans = new List<CR_OrganView_Organ>();
         public int DebugOrganType;
-        
+
 
         private void Awake()
         {
@@ -57,6 +74,7 @@ namespace Idle
                 CR_Idle_Manager.onGameStateChange += CR_Idle_Manager_onGameStateChange;
 
                 //Rest of Awake code
+                _upgradesBodyObjectOriginalY = _upgradesBodyObject.sizeDelta.y;
             }
             else if (instance != this)
             {
@@ -76,6 +94,9 @@ namespace Idle
 
                 return;
             }
+
+            SetOrganUpgrades();
+            _upgradeObject.gameObject.SetActive(false);
             _platletManager.canBuy = true;
             _platletManager.ClearPlatlets(true);
             if (_platletManager.mergeObject != null) Destroy(_platletManager.mergeObject.gameObject);
@@ -85,8 +106,8 @@ namespace Idle
             SetUI();
             SpawnOrgans();
             SetupPlatlets();
-            
-            
+
+
 
         }
 
@@ -105,10 +126,9 @@ namespace Idle
             int OrganAmount = CR_Data.data.organTypes[CurrentOrganType].organs.Count;
             var data = CR_Data.data;
 
-            _multiplierText.text = data.organTypes[CurrentOrganType].pointsMultiplier.ToString("F2");
-            _multiplierUpgradeCost.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.organTypes[CurrentOrganType].pointMultiplierCost);
+            _multiplierText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.organTypes[CurrentOrganType].pointsMultiplier);
             _platletAmount.text = data.organTypes[CurrentOrganType].plateletInfo.platletNumber.ToString();
-            if(data.organTypes[CurrentOrganType].plateletInfo.platletNumber == 125)
+            if (data.organTypes[CurrentOrganType].plateletInfo.platletNumber == 125)
             {
                 _platletCost.text = "MAX";
             }
@@ -116,7 +136,7 @@ namespace Idle
             {
                 _platletCost.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.organTypes[CurrentOrganType].plateletInfo.plateletCost);
             }
-           
+
         }
 
         void SpawnOrgans()
@@ -169,7 +189,7 @@ namespace Idle
             CR_Data data = CR_Data.data;
 
             _organName.text = LanguageManager.instance.translateOrgan(currentOrganType, data._language, false);
-            _organID.text = "#" + (OrganNumber +1);
+            _organID.text = "#" + (OrganNumber + 1);
             _redCellAmount.text = data.GetTotalCells(currentOrganType, OrganNumber, 0).ToString();
             _energyPerSecond.text = AbbreviationUtility.AbbreviateBigDoubleNumber(data.GetEnergyPerSecond(currentOrganType, OrganNumber)) + "/s";
             float productionPercentage = (float)((data.GetEnergyPerSecond(currentOrganType, OrganNumber) * 100) / data.GetEnergyPerSecond());
@@ -182,24 +202,171 @@ namespace Idle
             _sellComplexityRefund.text = data.organTypes[currentOrganType].ComplexityCost[data.organTypes[currentOrganType].organs.Count].ToString();
             _organImage.sprite = manager.organTypeAsstes[currentOrganType].organSprite;
 
-            LeanTween.alphaCanvas(_infoCanvasGroup, 1, .5f).setOnComplete(done => {
+            LeanTween.alphaCanvas(_infoCanvasGroup, 1, .5f).setOnComplete(done =>
+            {
                 LeanTween.scale(_infoObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
             });
         }
 
         public void CloseOrganInfo()
         {
-            LeanTween.scale(_infoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done => {
-                LeanTween.alphaCanvas(_infoCanvasGroup, 0, .5f).setOnComplete(done => {
+            LeanTween.scale(_infoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+            {
+                LeanTween.alphaCanvas(_infoCanvasGroup, 0, .5f).setOnComplete(done =>
+                {
                     _infoObject.parent.gameObject.SetActive(false);
                 }); ;
             });
-            
+        }
+
+        void SetOrganUpgrades()
+        {
+            _upgradesInfoObject.gameObject.SetActive(false);
+            var upgrades = CR_Idle_Manager.instance.organTypeAsstes[CR_Idle_Manager.instance.CurrentOrganType].upgrades;
+            for (int i = 0; i < _upgrades.Length; i++)
+            {
+                if (i >= upgrades.Count)
+                {
+                    _upgrades[i].HideUpgrade();
+                }
+                else
+                {
+                    _upgrades[i].SetUpgrade(upgrades[i].type, i);
+                }
+
+            }
         }
 
 
-        
+        public void HideUpgradeUI()
+        {
+            LeanTween.scale(_upgradesInfoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo);
+            LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+            {
+                LeanTween.scale(_upgradesBodyObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+                {
 
+                    LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+                    {
+                        LeanTween.alphaCanvas(_upgradeObject, 0, 0.5f).setOnComplete(done =>
+                        {
+                            _upgradesUiShown = false;
+                            _upgradeObject.gameObject.SetActive(false);
+                        });
+                    });
+                });
+            });
+        }
+        public void ShowUpgradeUI()
+        {
+            _upgradeObject.gameObject.SetActive(true);
+            _upgradeObject.alpha = 0;
+            _upgradesTitleObject.localScale = Vector3.zero;
+            _upgradesCloseObject.localScale = Vector3.zero;
+            _upgradesBodyObject.transform.localScale = Vector3.zero;
+            LeanTween.alphaCanvas(_upgradeObject, 1, 0.5f).setOnComplete(done =>
+            {
+                LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                {
+                    LeanTween.scale(_upgradesBodyObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                    {
 
+                        LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                        {
+                            _upgradesUiShown = true;
+                        });
+                    });
+                });
+            });
+        }
+
+        public void DisplayUpgradeInfo(int index, CR_Idle_Manager.OrganUpgrade.UpgradeType type)
+        {
+            var currentOrganType = CR_Idle_Manager.instance.CurrentOrganType;
+            var upgrade = CR_Idle_Manager.instance.organTypeAsstes[currentOrganType].upgrades[index];
+            _upgradeDescription.text = upgrade.description[(int)CR_Data.data._language];
+            _upgradeButton.OnLongClick.RemoveAllListeners();
+            _upgradeButton.OnLongClick.AddListener(delegate { BuyUpgrade(index); });
+            _infoUpgrade.SetUpgrade(type, index);
+
+            UpdateBuyButtonAndCost(index);
+
+            _upgradesInfoObject.transform.localScale = Vector3.zero;
+            _upgradesInfoObject.gameObject.SetActive(true);
+            LeanTween.scale(_upgradesInfoObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+        }
+
+        void UpdateBuyButtonAndCost(int index)
+        {
+            var currentOrganType = CR_Idle_Manager.instance.CurrentOrganType;
+            var upgrade = CR_Idle_Manager.instance.organTypeAsstes[currentOrganType].upgrades[index];
+            if (index < CR_Data.data.organTypes[currentOrganType].upgrades.Length)
+            {
+                if (CR_Data.data.organTypes[currentOrganType].upgrades[index])
+                {
+                    _upgradeCost.text = LanguageManager.instance.organViewTexts.Owned[(int)CR_Data.data._language];
+                    _upgradeButton.gameObject.SetActive(false);
+                }
+                else
+                {
+                    _upgradeCost.text = AbbreviationUtility.AbbreviateBigDoubleNumber(upgrade.UpgradeCost);
+                    if (index != 0)
+                    {
+                        if (CR_Data.data.organTypes[currentOrganType].upgrades[index - 1])
+                        {
+                            _upgradeButton.gameObject.SetActive(true);
+                        }
+                        else
+                        {
+                            _upgradeButton.gameObject.SetActive(false);
+                        }
+                    }
+                    else
+                    {
+                        _upgradeButton.gameObject.SetActive(true);
+                    }
+                }
+            }
+        }
+
+        void BuyUpgrade(int index)
+        {
+            var currentOrganType = CR_Idle_Manager.instance.CurrentOrganType;
+            var upgrade = CR_Idle_Manager.instance.organTypeAsstes[currentOrganType].upgrades[index];
+            if (CR_Data.data.organTypes[currentOrganType].upgrades[index]) return;
+            if (upgrade.UpgradeCost > CR_Data.data._energy) return;
+            if (index != 0)
+            {
+                if (!CR_Data.data.organTypes[currentOrganType].upgrades[index - 1]) return;
+            }
+
+            CR_Data.data.SetEnergy(CR_Data.data._energy - upgrade.UpgradeCost);
+            CR_Data.data.organTypes[currentOrganType].upgrades[index] = true;
+            CR_Data.data.CalculateMultiplier(CR_Idle_Manager.instance.CurrentOrganType);
+            _upgrades[index].UpdateUpgrade();
+            if (_upgrades[index + 1] == null) return;
+            _upgrades[index + 1].UpdateUpgrade();
+            UpdateBuyButtonAndCost(index);
+        }
     }
 }
+
+
+
+
+
+//var cost = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].pointMultiplierCost;
+//if (CR_Data.data._energy < cost)
+//{
+//    Debug.Log("not enough energy - " + CR_Data.data._energy + "/" + cost);
+//    return;
+//}
+//if (CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].multiplierLevel >= 5) return;
+
+//CR_Data.data.SetEnergy(CR_Data.data._energy - cost);
+//CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].pointsMultiplier *= 2;
+//CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].multiplierLevel++;
+//CR_Data.data.GetEnergyPerSecond();
+//BigDouble newCost = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].pointsMultiplierInitialCost * Mathf.Pow(2.3f, (CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].multiplierLevel * (CR_Idle_Manager.instance.CurrentOrganType +1)));
+//CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].pointMultiplierCost = newCost;
+//UpdateUI();

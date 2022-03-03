@@ -11,7 +11,7 @@ public class CR_Data : MonoBehaviour
 
 
     // GAME SETTINGS //
-    public enum Languages { English, Spanish }
+    public enum Languages { English, Spanish, NumOfLanguages }
     public Languages _language;
 
     public float _musicVolume { get; private set; }
@@ -32,6 +32,11 @@ public class CR_Data : MonoBehaviour
     [Header("ORGAN DATA")]
     public OrganType[] organTypes;
 
+    // OTHER VARIABLES //
+    [Range(0.1f, 1f)]
+    [SerializeField] float _energyPerSecondTime = 1;
+    float waitTime = 0;
+
     private void Awake()
     {
         if (data == null)
@@ -46,6 +51,16 @@ public class CR_Data : MonoBehaviour
             Destroy(gameObject);
         }
     }
+    private void Start()
+    {
+        for (int i = 0; i < organTypes.Length; i++)
+        {
+            
+           CalculateMultiplier(i);
+
+        }
+    }
+
     public void AddNewOrgan(int organType)
     {
         organTypes[organType].unlocked = true;
@@ -73,7 +88,11 @@ public class CR_Data : MonoBehaviour
                               name = "Big red blood cell",
                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
                           }
-                      }
+                      },
+                      initialCellCost = Mathf.Pow(12, organType),
+                      currentCellCost = Mathf.Pow(12, organType),
+                      growthRate = 1.05f
+
                   },
                   new OrganType.OrganInfo.cellsType
                   {
@@ -96,6 +115,9 @@ public class CR_Data : MonoBehaviour
                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
                           }
                       },
+                      initialCellCost = Mathf.Pow(12, organType),
+                      currentCellCost = Mathf.Pow(12, organType),
+                      growthRate = 1.01f
 
 
                   },
@@ -119,11 +141,34 @@ public class CR_Data : MonoBehaviour
                               name = "Big Helper blood cell",
                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
                           }
-                      }
+                      },
+                      initialCellCost = Mathf.Pow(30, organType),
+                      currentCellCost = Mathf.Pow(30, organType),
+                      growthRate = 1.05f
                   },
               },
         };
         organTypes[organType].organs.Add(newOrgan);
+    }
+
+    private void Update()
+    {
+        AddEnergyPerSecond();
+
+    }
+
+    void AddEnergyPerSecond()
+    {
+        if (_energyPerSecond == 0) return;
+        if (waitTime > 0)
+        {
+            waitTime -= Time.deltaTime;
+        }
+        else
+        {
+            waitTime = _energyPerSecondTime;
+            SetEnergy(_energy + (_energyPerSecond * _energyPerSecondTime));
+        }
     }
 
     #region SET METHODS
@@ -189,7 +234,33 @@ public class CR_Data : MonoBehaviour
                         totalCells += (int)Mathf.Pow(3, a);
                         break;
                 }
-                
+
+            }
+        }
+        return totalCells;
+    }
+
+    public int GetTotalOrganTypeCells(int organType, int cellType)
+    {
+        if ((organTypes.Length - 1) < organType) return 0;
+        int totalCells = 0;
+        for (int a = 0; a < organTypes[organType].organs.Count; a++)
+        {
+            for (int b = 0; b < organTypes[organType].organs[a].CellTypes[cellType].cellSizes.Count; b++)
+            {
+                for (int c = 0; c < organTypes[organType].organs[a].CellTypes[cellType].cellSizes[b].CellsInfos.Count; c++)
+                {
+                    switch (cellType)
+                    {
+                        case 0:
+                        case 1:
+                            totalCells += (int)Mathf.Pow(10, b);
+                            break;
+                        case 2:
+                            totalCells += (int)Mathf.Pow(3, b);
+                            break;
+                    }
+                }
             }
         }
         return totalCells;
@@ -206,6 +277,7 @@ public class CR_Data : MonoBehaviour
                 energyPerSecond += redCells * organTypes[i].pointsMultiplier;
             }
         }
+        _energyPerSecond = energyPerSecond;
         return energyPerSecond;
     }
     public BigDouble GetEnergyPerSecond(int organType, int organNumber)
@@ -215,7 +287,45 @@ public class CR_Data : MonoBehaviour
         energyPerSecond += redCells * organTypes[organType].pointsMultiplier;
         return energyPerSecond;
     }
+
+    public int GetOrganAmount(int organType)
+    {
+        return organTypes[organType].organs.Count;
+    }
     #endregion GetMethods
+    #region CalculateMethods
+    public BigDouble CalculateMultiplier(int organType)
+    {
+        BigDouble returnValue = organTypes[organType].basePointsMultiplier;
+        for (int i = 0; i < organTypes[organType].upgrades.Length; i++)
+        {
+            if (i >= CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades.Count) break;
+            if (organTypes[organType].upgrades[i])
+            {
+                switch (CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].type)
+                {
+                    case CR_Idle_Manager.OrganUpgrade.UpgradeType.Multiply:
+                        returnValue *= CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount;
+                        break;
+                    case CR_Idle_Manager.OrganUpgrade.UpgradeType.MultiplyAndOrganPower:
+                        returnValue *= Mathf.Pow(CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount, CR_Data.data.organTypes[organType].organs.Count) ;
+                        break;
+                    case CR_Idle_Manager.OrganUpgrade.UpgradeType.Power:
+                        returnValue = BigDouble.Pow(returnValue, CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+        organTypes[organType].pointsMultiplier = returnValue;
+        _energyPerSecond = GetEnergyPerSecond();
+
+        return returnValue;
+
+    }
+    #endregion CalculateMethods
+
     #region Serialized Classes
     [System.Serializable]
     public class OrganType
@@ -226,8 +336,14 @@ public class CR_Data : MonoBehaviour
         [Header("COSTS")]
         public BigDouble[] PointCost;
         public int[] ComplexityCost;
-        public BigDouble pointMultiplierCost;
-        public float pointsMultiplier;
+
+        [Header("MULTIPLIER")]
+        //public BigDouble pointMultiplierCost;
+        //public BigDouble pointsMultiplierInitialCost;
+        public int multiplierLevel;
+        public BigDouble basePointsMultiplier;
+        public BigDouble pointsMultiplier;
+
 
         [System.Serializable]
         public struct Platletes
@@ -236,7 +352,11 @@ public class CR_Data : MonoBehaviour
             public BigDouble plateletInitialCost;
             public BigDouble plateletCost;
         }
+        [Header("PLATELETS")]
         public Platletes plateletInfo;
+
+        [Header("UPGRADES")]
+        public bool[] upgrades;
 
         [System.Serializable]
         public class OrganInfo
@@ -261,13 +381,17 @@ public class CR_Data : MonoBehaviour
                 public string name;
                 public List<CellSizes> cellSizes;
                 [Header("CELL COSTS")]
-                public float initialCellCost;
-                public float currentCellCost;
+                public BigDouble initialCellCost;
+                public BigDouble currentCellCost;
                 public float growthRate;
 
             }
-            [Header("LISTS")]
+            [Header("CELL LISTS")]
             public cellsType[] CellTypes;
+            [Header("INFECTION")]
+            public bool infected;
+            public CR_PathogenSystem.Infection infection;
+           
         }
 
         [Space(10)]

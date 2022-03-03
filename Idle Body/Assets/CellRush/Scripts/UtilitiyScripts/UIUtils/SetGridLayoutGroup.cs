@@ -18,14 +18,21 @@ public class SetGridLayoutGroup : MonoBehaviour
     [Header("CHILDREN")]
     [SerializeField] bool UseObjectChildren;
 
+
+    [Header("OPTIONS")]
+    [SerializeField] bool StartOnly = false;
+
     private void Start()
     {
         group = GetComponent<GridLayoutGroup>();
         rect = GetComponent<RectTransform>();
+        setGridLayoutGroup();
 
     }
+
     private void OnEnable()
     {
+        if (StartOnly) return;
         setGridLayoutGroup();
     }
     void setGridLayoutGroup()

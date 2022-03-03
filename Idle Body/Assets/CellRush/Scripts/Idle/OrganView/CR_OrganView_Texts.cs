@@ -12,6 +12,7 @@ namespace Idle
         [SerializeField] TextMeshProUGUI _boosters;
         [SerializeField] TextMeshProUGUI _energyProduction;
         [SerializeField] TextMeshProUGUI _sell;
+        [SerializeField] TextMeshProUGUI _buy;
 
         public void UpdateTexts()
         {
@@ -20,6 +21,7 @@ namespace Idle
             if (_boosters != null) _boosters.text = LanguageManager.instance.organViewTexts.Boosters[(int)CR_Data.data._language];
             if (_energyProduction != null) _energyProduction.text = LanguageManager.instance.organViewTexts.EnergyProduction[(int)CR_Data.data._language];
             if (_sell != null) _sell.text = LanguageManager.instance.organViewTexts.Sell[(int)CR_Data.data._language];
+            if (_buy != null) _buy.text = LanguageManager.instance.organismViewTexts.Buy[(int)CR_Data.data._language];
 
         }
     }

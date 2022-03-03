@@ -52,6 +52,7 @@ namespace Idle
 
         Vector2 MaxSpawnPos = new Vector2(4f, 4f);
         Transform mergeTransform;
+        public bool _merging;
 
         private void Awake()
         {
@@ -193,7 +194,6 @@ namespace Idle
         void ClearCellInfos(CR_CellBase.CellType type, CR_CellBase.CellSize size)
         {
             CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[((int)type) - 1].cellSizes[(int)size].CellsInfos.Clear();
-            StartCoroutine(CR_CellViewManager.instance._cellView_UI.ClearCellInfos(size));
         }
 
         public IEnumerator CheckCells()
@@ -284,6 +284,7 @@ namespace Idle
 
         IEnumerator StartMerge(CR_CellBase.CellType type, CR_CellBase.CellSize size, CR_Data.OrganType.OrganInfo.cellsType.CellSizes.CellInfo newInfo)
         {
+            _merging = true;
             CR_CellViewManager.instance.canBuy = false;
             Transform mergeTransform = Instantiate(mergeObject.ObjectPF, _cellHolder);
             this.mergeTransform = mergeTransform;
@@ -337,6 +338,7 @@ namespace Idle
 
             yield return null;
             CR_CellViewManager.instance.canBuy = true;
+            _merging = false;
 
         }
 

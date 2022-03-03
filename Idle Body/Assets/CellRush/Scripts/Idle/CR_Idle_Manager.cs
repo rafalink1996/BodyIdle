@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using BreakInfinity;
 
 namespace Idle
 {
@@ -89,12 +90,15 @@ namespace Idle
 
         }
 
-
-
-
-
-
-
+        [System.Serializable]
+        public class OrganUpgrade
+        {
+            [SerializeField] public enum UpgradeType { Multiply, MultiplyAndOrganPower, Power };
+            [SerializeField] public UpgradeType type;
+            [SerializeField] public float amount;
+            [SerializeField] public BigDouble UpgradeCost;
+            [SerializeField] public string[] description = new string[(int)CR_Data.Languages.NumOfLanguages ];
+        }
         [System.Serializable]
         public class OrganTypeAsstes
         {
@@ -103,6 +107,7 @@ namespace Idle
             public Sprite OrganBorder;
             public Animator OrganAnimator;
             public Color OrganBackgroundColor;
+            public List<OrganUpgrade> upgrades;
         }
 
     }

@@ -8,23 +8,26 @@ namespace Idle
 {
     public class CR_CellView_UI : MonoBehaviour
     {
+        [System.Serializable]
+        public class CellInfoUI
+        {
+            public TextMeshProUGUI countText;
+            public List<CR_CellView_CellInfo> _smallCellInfoList;
+            public List<CR_CellView_CellInfo> _medCellInfoList;
+            public List<CR_CellView_CellInfo> _bigCellInfoList;
+        }
+
         [Header("GENERAL ELEMENTS")]
         [SerializeField] Transform _StickyImage;
         [SerializeField] RectTransform _UIHolder;
         [SerializeField] Transform _toggleArrow;
-        [SerializeField] Button _toggleButton;
+
         [Header("CELL INFO ELEMENTS")]
-        [SerializeField] List<CR_CellView_CellInfo> _smallCellInfoList;
-        [SerializeField] List<CR_CellView_CellInfo> _medCellInfoList;
-        [SerializeField] List<CR_CellView_CellInfo> _bigCellInfoList;
-        [SerializeField] Transform _cellInfoMask;
-        
-        float OrginialY;
-
-
-        [Header("CELL AMOUNT ELEMENTS")]
-        [SerializeField] TextMeshProUGUI _cellAmountText;
-        [SerializeField] Image _cellamountObject;
+        [SerializeField] CanvasGroup _cellInfoObject;
+        [SerializeField] Transform _cellInfoHolder;
+        [SerializeField] CellInfoUI RedBloodInfos;
+        [SerializeField] CellInfoUI whiteBloodInfos;
+        [SerializeField] CellInfoUI HelperInfos;
 
         [Header("BUY BUTTON ELEMENTS")]
         [SerializeField] Button _buyButton;
@@ -42,154 +45,15 @@ namespace Idle
         public bool _uiShown = true;
         Vector2 _UIStartPos;
 
-        [Header("POOLING VARIABLES")]
-        [SerializeField] CR_CellView_CellInfo _cellInfoPF;
-        [SerializeField] Transform _cellInfoHolder;
-        [SerializeField] int infoSizeCount;
-        public Dictionary<string, Queue<CR_CellView_CellInfo>> PoolDictionary;
-        string[] _tag = new string[] { "SInfo", "MInfo", "BInfo" };
+ 
 
         private void Awake()
         {
-            PoolDictionary = new Dictionary<string, Queue<CR_CellView_CellInfo>>();
             _UIStartPos = _UIHolder.localPosition;
-            InsantiatePools();
-            if (_cellInfoMask.TryGetComponent(out RectTransform rt))
-            {
-                OrginialY = rt.sizeDelta.y;
-            }
-        }
-
-        void InsantiatePools()
-        {
-            var data = CR_Data.data;
-
-            for (int p = 0; p < _tag.Length; p++)
-            {
-                Queue<CR_CellView_CellInfo> ObjectPool = new Queue<CR_CellView_CellInfo>();
-                for (int i = 0; i < infoSizeCount; i++)
-                {
-                    CR_CellView_CellInfo obj = Instantiate(_cellInfoPF);
-                    obj.gameObject.SetActive(false);
-                    obj.name = (CR_CellBase.CellSize)p + " info " + i;
-                    obj.transform.SetParent(_cellInfoHolder.transform);
-                    obj.transform.localPosition = Vector3.zero;
-                    ObjectPool.Enqueue(obj);
-                }
-                Debug.Log(_tag[p]);
-                PoolDictionary.Add(_tag[p], ObjectPool);
-            }
-        }
-
-
-        CR_CellView_CellInfo SpawnFroomPool(string tag)
-        {
-            if (!PoolDictionary.ContainsKey(tag))
-            {
-                Debug.LogWarning("pool With tag" + tag + " doesn't exist");
-                return null;
-            }
-            CR_CellView_CellInfo ObjectToSpawn = PoolDictionary[tag].Dequeue();
-            ObjectToSpawn.gameObject.SetActive(true);
-            PoolDictionary[tag].Enqueue(ObjectToSpawn);
-            return ObjectToSpawn;
-        }
-
-        public void SpawnCellInfos(CR_CellBase.CellType type)
-        {
-            var sizes = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[(int)type - 1].cellSizes;
-            for (int i = 0; i < sizes.Count; i++)
-            {
-                for (int o = 0; o < sizes[i].CellsInfos.Count; o++)
-                {
-                    switch (i)
-                    {
-                        case 0:
-                            SpawnCellInfo(type, CR_CellBase.CellSize.Small, sizes[i].CellsInfos[o]);
-                            break;
-                        case 1:
-                            SpawnCellInfo(type, CR_CellBase.CellSize.Medium, sizes[i].CellsInfos[o]);
-                            break;
-                        case 2:
-                            SpawnCellInfo(type, CR_CellBase.CellSize.Big, sizes[i].CellsInfos[o]);
-                            break;
-                    }
-                }
-            }
-        }
-
-        public void SpawnCellInfo(CR_CellBase.CellType type, CR_CellBase.CellSize size, CR_Data.OrganType.OrganInfo.cellsType.CellSizes.CellInfo info)
-        {
-            Debug.Log(_tag[(int)size]);
-            var cellInfo = SpawnFroomPool(_tag[(int)size]);
-            cellInfo.transform.localScale = Vector3.one;
-            cellInfo.ActivateCellInfo(info, type, size);
-            switch (size)
-            {
-                case CR_CellBase.CellSize.Small:
-                    _smallCellInfoList.Add(cellInfo);
-                    break;
-                case CR_CellBase.CellSize.Medium:
-                    _medCellInfoList.Add(cellInfo);
-                    break;
-                case CR_CellBase.CellSize.Big:
-                    _bigCellInfoList.Add(cellInfo);
-                    break;
-            }
-
-        }
-        public void ClearCellInfos()
-        {
-            for (int i = 0; i < _smallCellInfoList.Count; i++)
-            {
-                _smallCellInfoList[i].DeactivateCellInfo();
-            }
-            _smallCellInfoList.Clear();
-            for (int i = 0; i < _medCellInfoList.Count; i++)
-            {
-                _medCellInfoList[i].DeactivateCellInfo();
-            }
-            _medCellInfoList.Clear();
-            for (int i = 0; i < _bigCellInfoList.Count; i++)
-            {
-                _bigCellInfoList[i].DeactivateCellInfo();
-            }
-            _bigCellInfoList.Clear();
-        }
-
-        public IEnumerator ClearCellInfos(CR_CellBase.CellSize size)
-        {
-            var cellInfoList = _smallCellInfoList;
-            _cellInfoHolder.localPosition = new Vector3(0, _cellInfoHolder.localPosition.y, _cellInfoHolder.localPosition.z);
-            switch (size)
-            {
-                case CR_CellBase.CellSize.Small:
-                    cellInfoList = _smallCellInfoList;
-                    break;
-                case CR_CellBase.CellSize.Medium:
-                    cellInfoList = _medCellInfoList;
-                    break;
-                case CR_CellBase.CellSize.Big:
-                    cellInfoList = _bigCellInfoList;
-                    break;
-            }
-            for (int i = cellInfoList.Count; i > 0; i--)
-            {
-                bool done = false;
-                LeanTween.scale(cellInfoList[i].gameObject, Vector3.zero, 0.2f).setEase(LeanTweenType.easeInExpo).setOnComplete(AnimEnd => { done = true; });
-                while (!done)
-                {
-                    yield return null;
-                }
-                cellInfoList[i].transform.localScale = Vector3.one;
-                cellInfoList[i].DeactivateCellInfo();
-            }
-            cellInfoList.Clear();
         }
 
         public void ResetCellViewUi()
         {
-            UpdateCellNumber();
         }
 
         public void ToggleUI()
@@ -228,20 +92,16 @@ namespace Idle
         {
             CR_CellViewManager.instance.canBuy = false;
             Color UIcolor = new Color(1, .48f, .48f, 1);
-            CR_CellBase.CellType cellBaseType = CR_CellBase.CellType.RedBlood;
             switch (type)
             {
                 case CR_CellViewManager.cellType.RedBloodCell:
                     UIcolor = new Color(1, .48f, .48f, 1);
-                    cellBaseType = CR_CellBase.CellType.RedBlood;
                     break;
                 case CR_CellViewManager.cellType.WhiteBloodCell:
                     UIcolor = new Color(.82f, .82f, .82f, 1);
-                    cellBaseType = CR_CellBase.CellType.White;
                     break;
                 case CR_CellViewManager.cellType.HelperTCell:
                     UIcolor = new Color(.42f, .97f, 1, 1);
-                    cellBaseType = CR_CellBase.CellType.Helper;
                     break;
                 default:
                     break;
@@ -257,47 +117,191 @@ namespace Idle
                     CR_CellViewManager.instance.canBuy = true;
                 });
             });
-            LeanTween.scale(_cellamountObject.gameObject, _cellamountObject.transform.localScale * 1.2f, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
-            {
-                _cellamountObject.color = UIcolor;
-                UpdateCellNumber();
-                LeanTween.scale(_cellamountObject.gameObject, Vector2.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
-                {
-                    CR_CellViewManager.instance.canBuy = true;
-                });
-            });
 
-            if (_cellInfoMask.TryGetComponent(out RectTransform rt))
-            {
-                LeanTween.cancel(_cellInfoMask.gameObject);
-                LeanTween.size(rt, new Vector2(rt.sizeDelta.x, 0), 0.4f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
-                {
-                    ClearCellInfos();
-                    SpawnCellInfos(cellBaseType);
-                    LeanTween.size(rt, new Vector2(rt.sizeDelta.x, OrginialY), 1.4f).setEase(LeanTweenType.easeOutExpo);
-                });
-            }
         }
 
-        public void UpdateCellNumber()
+        public void ToggleCellInfoObject(bool show)
         {
-            switch (CR_CellViewManager.instance._cellSelected)
+            LeanTween.cancel(_cellInfoHolder.gameObject);
+            LeanTween.cancel(_cellInfoObject.gameObject);
+            if (show)
             {
-                case CR_CellViewManager.cellType.RedBloodCell:
-                    _cellAmountText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 0).ToString();
-                    break;
-                case CR_CellViewManager.cellType.WhiteBloodCell:
-                    _cellAmountText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 1).ToString();
-                    break;
-                case CR_CellViewManager.cellType.HelperTCell:
-                    _cellAmountText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 2).ToString();
-                    break;
+                _cellInfoObject.gameObject.SetActive(true);
+                _cellInfoObject.alpha = 0;
+                _cellInfoHolder.localScale = Vector3.zero;
+                LeanTween.alphaCanvas(_cellInfoObject, 1, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(done =>
+                {
+                    LeanTween.scale(_cellInfoHolder.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeInExpo);
+                });
+            }
+            else
+            {
+               
+                LeanTween.scale(_cellInfoHolder.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+                {
+                    LeanTween.alphaCanvas(_cellInfoObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(done =>
+                    {
+                        _cellInfoObject.gameObject.SetActive(false);
+                    });
+                });
             }
         }
+
+        public void UpdateCellInfos()
+        {
+            CR_Data data = CR_Data.data;
+            var Organ = data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber];
+
+            var redInfos = Organ.CellTypes[0].cellSizes;
+            var whiteInfos = Organ.CellTypes[1].cellSizes;
+            var HelperInfos = Organ.CellTypes[2].cellSizes;
+
+            RedBloodInfos.countText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 0).ToString();
+            whiteBloodInfos.countText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 1).ToString();
+            this.HelperInfos.countText.text = CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, 2).ToString();
+
+            void UpdateRedBloodInfos()
+            {
+                for (int i = 0; i < RedBloodInfos._smallCellInfoList.Count; i++)
+                {
+                    if (i >= redInfos[0].CellsInfos.Count)
+                    {
+                        RedBloodInfos._smallCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        RedBloodInfos._smallCellInfoList[i].gameObject.SetActive(true);
+                        RedBloodInfos._smallCellInfoList[i].ActivateCellInfo(redInfos[0].CellsInfos[i], CR_CellBase.CellType.RedBlood, CR_CellBase.CellSize.Small);
+                    }
+                }
+
+                for (int i = 0; i < RedBloodInfos._medCellInfoList.Count; i++)
+                {
+                    if (i >= redInfos[1].CellsInfos.Count)
+                    {
+                        RedBloodInfos._medCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        RedBloodInfos._medCellInfoList[i].gameObject.SetActive(true);
+                        RedBloodInfos._medCellInfoList[i].ActivateCellInfo(redInfos[1].CellsInfos[i], CR_CellBase.CellType.RedBlood, CR_CellBase.CellSize.Medium);
+                    }
+                }
+                for (int i = 0; i < RedBloodInfos._bigCellInfoList.Count; i++)
+                {
+                    if (i >= redInfos[2].CellsInfos.Count)
+                    {
+                        RedBloodInfos._bigCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        RedBloodInfos._bigCellInfoList[i].gameObject.SetActive(true);
+                        RedBloodInfos._bigCellInfoList[i].ActivateCellInfo(redInfos[2].CellsInfos[i], CR_CellBase.CellType.RedBlood, CR_CellBase.CellSize.Big);
+                    }
+                }
+            }
+            UpdateRedBloodInfos();
+
+            void UpdateWhiteBloodInfos()
+            {
+                for (int i = 0; i < whiteBloodInfos._smallCellInfoList.Count; i++)
+                {
+                    if (i >= whiteInfos[0].CellsInfos.Count)
+                    {
+                        whiteBloodInfos._smallCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        whiteBloodInfos._smallCellInfoList[i].gameObject.SetActive(true);
+                        whiteBloodInfos._smallCellInfoList[i].ActivateCellInfo(whiteInfos[0].CellsInfos[i], CR_CellBase.CellType.White, CR_CellBase.CellSize.Small);
+                    }
+                }
+
+                for (int i = 0; i < whiteBloodInfos._medCellInfoList.Count; i++)
+                {
+                    if (i >= whiteInfos[1].CellsInfos.Count)
+                    {
+                        whiteBloodInfos._medCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        whiteBloodInfos._medCellInfoList[i].gameObject.SetActive(true);
+                        whiteBloodInfos._medCellInfoList[i].ActivateCellInfo(whiteInfos[1].CellsInfos[i], CR_CellBase.CellType.White, CR_CellBase.CellSize.Medium);
+                    }
+                }
+                for (int i = 0; i < whiteBloodInfos._bigCellInfoList.Count; i++)
+                {
+                    if (i >= whiteInfos[2].CellsInfos.Count)
+                    {
+                        whiteBloodInfos._bigCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        whiteBloodInfos._bigCellInfoList[i].gameObject.SetActive(true);
+                        whiteBloodInfos._bigCellInfoList[i].ActivateCellInfo(whiteInfos[2].CellsInfos[i], CR_CellBase.CellType.White, CR_CellBase.CellSize.Big);
+                    }
+                }
+            }
+            UpdateWhiteBloodInfos();
+
+            void UpdateHelperBloodInfos()
+            {
+                for (int i = 0; i < this.HelperInfos._smallCellInfoList.Count; i++)
+                {
+                    if (i >= HelperInfos[0].CellsInfos.Count)
+                    {
+                        this.HelperInfos._smallCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        this.HelperInfos._smallCellInfoList[i].gameObject.SetActive(true);
+                        this.HelperInfos._smallCellInfoList[i].ActivateCellInfo(HelperInfos[0].CellsInfos[i], CR_CellBase.CellType.Helper, CR_CellBase.CellSize.Small);
+                    }
+                }
+
+                for (int i = 0; i < this.HelperInfos._medCellInfoList.Count; i++)
+                {
+                    if (i >= HelperInfos[1].CellsInfos.Count)
+                    {
+                        this.HelperInfos._medCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        this.HelperInfos._medCellInfoList[i].gameObject.SetActive(true);
+                        this.HelperInfos._medCellInfoList[i].ActivateCellInfo(HelperInfos[1].CellsInfos[i], CR_CellBase.CellType.Helper, CR_CellBase.CellSize.Medium);
+                    }
+                }
+                for (int i = 0; i < this.HelperInfos._bigCellInfoList.Count; i++)
+                {
+                    if (i >= HelperInfos[2].CellsInfos.Count)
+                    {
+                        this.HelperInfos._bigCellInfoList[i].gameObject.SetActive(false);
+                    }
+                    else
+                    {
+                        this.HelperInfos._bigCellInfoList[i].gameObject.SetActive(true);
+                        this.HelperInfos._bigCellInfoList[i].ActivateCellInfo(HelperInfos[2].CellsInfos[i], CR_CellBase.CellType.Helper, CR_CellBase.CellSize.Big);
+                    }
+                }
+            }
+            UpdateHelperBloodInfos();
+
+            ToggleCellInfoObject(true);
+        }
+
 
         public void UpdateCellCost()
         {
-
+            if (CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, (int)CR_CellViewManager.instance._cellSelected) >= 1000) 
+            {
+                _cellCostText.text = "MAX";
+            }
+            else
+            {
+                var cost = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[(int)CR_CellViewManager.instance._cellSelected].currentCellCost;
+                _cellCostText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(cost);
+            }
+           
         }
     }
 }

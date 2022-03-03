@@ -17,16 +17,18 @@ public static class AbbreviationUtility
      };
     private static readonly SortedDictionary<BigDouble, string> Breakfinityabbrevations = new SortedDictionary<BigDouble, string>
      {
-         {1000,"K"},
-         {1000000, "M" },
-         {1000000000, "B" },
-         {1000000000000, "t" },
-         {1000000000000000, "q" },
-         {1000000000000000000, "Q" },
-         {10e21, "s" },
-         {10e24, "S" },
-         {10e27, "o" },
-         {10e30, "n" },
+         {1e3,"K"},
+         {1e6, "M" },
+         {1e9, "B" },
+         {1e12, "t" },
+         {1e15, "q" },
+         {1e18, "Q" },
+         {1e21, "s" },
+         {1e24, "S" },
+         {1e27, "o" },
+         {1e30, "n" },
+         {1e33, "d" },
+         {1e36, "U" },
      };
 
     public static string AbbreviateNumber(double number)
@@ -57,7 +59,8 @@ public static class AbbreviationUtility
                 return (decimal.Truncate((decimal)roundedNumber * 100) / 100).ToString("F2") + " " + pair.Value;
             }
         }
-        return (decimal.Truncate((decimal)number * 100) / 100).ToString("F2");
+        float fNumber = (float)number;
+        return (decimal.Truncate((decimal)fNumber * 100) / 100).ToString("F2");
         //return number.ToString();
     }
 

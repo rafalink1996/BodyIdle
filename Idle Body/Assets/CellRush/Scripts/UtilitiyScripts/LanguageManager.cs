@@ -31,17 +31,19 @@ public class LanguageManager : MonoBehaviour
         public string[] Boosters;
         public string[] EnergyProduction;
         public string[] Sell;
+        public string[] Owned;
     }
     public OrganViewTexts organViewTexts;
 
     [System.Serializable]
     public struct CellViewTexts
     {
-        public string[] UpgradeMultiplier;
-        public string[] BuyPlatles;
-        public string[] Boosters;
-        public string[] EnergyProduction;
-        public string[] Sell;
+        public string[] seeCells;
+        public string[] cells;
+        public string[] buyCells;
+        public string[] redBloodCells;
+        public string[] whiteBloodCells;
+        public string[] helperBloodCells;
     }
     public CellViewTexts cellViewTexts;
 
