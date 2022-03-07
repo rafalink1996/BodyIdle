@@ -72,6 +72,7 @@ namespace Idle
                 instance = this;
                 _platletManager = FindObjectOfType<CR_OrganView_PlatletsManager>();
                 CR_Idle_Manager.onGameStateChange += CR_Idle_Manager_onGameStateChange;
+                CR_Data.onLanguageChange += CR_Data_onLanguageChange;
 
                 //Rest of Awake code
                 _upgradesBodyObjectOriginalY = _upgradesBodyObject.sizeDelta.y;
@@ -81,11 +82,21 @@ namespace Idle
                 Destroy(gameObject);
             }
         }
+
+
+
         private void OnDestroy()
         {
+            CR_Data.onLanguageChange -= CR_Data_onLanguageChange;
             CR_Idle_Manager.onGameStateChange -= CR_Idle_Manager_onGameStateChange;
         }
 
+        private void CR_Data_onLanguageChange()
+        {
+            UpdateUI();
+            SetUI();
+            _organView_Texts.UpdateTexts();
+        }
         private void CR_Idle_Manager_onGameStateChange(CR_Idle_Manager.GameState obj)
         {
             if (obj != CR_Idle_Manager.GameState.OrganView)
@@ -347,6 +358,7 @@ namespace Idle
             if (_upgrades[index + 1] == null) return;
             _upgrades[index + 1].UpdateUpgrade();
             UpdateBuyButtonAndCost(index);
+            UpdateUI();
         }
     }
 }

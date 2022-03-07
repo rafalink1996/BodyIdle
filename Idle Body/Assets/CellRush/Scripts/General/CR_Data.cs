@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using Idle;
 using BreakInfinity;
+using System;
+
 public class CR_Data : MonoBehaviour
 {
     [Header("INSTANCE")]
@@ -13,6 +15,7 @@ public class CR_Data : MonoBehaviour
     // GAME SETTINGS //
     public enum Languages { English, Spanish, NumOfLanguages }
     public Languages _language;
+    public bool _notifications { get; private set; }
 
     public float _musicVolume { get; private set; }
     public float _SFXVolume { get; private set; }
@@ -36,6 +39,8 @@ public class CR_Data : MonoBehaviour
     [Range(0.1f, 1f)]
     [SerializeField] float _energyPerSecondTime = 1;
     float waitTime = 0;
+
+    public static event Action onLanguageChange;
 
     private void Awake()
     {
@@ -89,8 +94,8 @@ public class CR_Data : MonoBehaviour
                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
                           }
                       },
-                      initialCellCost = Mathf.Pow(12, organType),
-                      currentCellCost = Mathf.Pow(12, organType),
+                      initialCellCost = Mathf.Pow(7.5f, organType),
+                      currentCellCost = Mathf.Pow(7.5f, organType),
                       growthRate = 1.05f
 
                   },
@@ -115,8 +120,8 @@ public class CR_Data : MonoBehaviour
                               CellsInfos = new List<OrganType.OrganInfo.cellsType.CellSizes.CellInfo>(),
                           }
                       },
-                      initialCellCost = Mathf.Pow(12, organType),
-                      currentCellCost = Mathf.Pow(12, organType),
+                      initialCellCost = Mathf.Pow(7.5f, organType),
+                      currentCellCost = Mathf.Pow(7.5f, organType),
                       growthRate = 1.01f
 
 
@@ -203,6 +208,12 @@ public class CR_Data : MonoBehaviour
     public void SetLanguage(Languages language)
     {
         _language = language;
+        onLanguageChange?.Invoke();
+    }
+
+    public void SetNotifications(bool on)
+    {
+        _notifications = on;
     }
 
     public void SetMusicVolume(float volume)
@@ -277,7 +288,7 @@ public class CR_Data : MonoBehaviour
                 energyPerSecond += redCells * organTypes[i].pointsMultiplier;
             }
         }
-        _energyPerSecond = energyPerSecond;
+        SetEnergyPerSecond(energyPerSecond);
         return energyPerSecond;
     }
     public BigDouble GetEnergyPerSecond(int organType, int organNumber)
@@ -391,6 +402,7 @@ public class CR_Data : MonoBehaviour
             [Header("INFECTION")]
             public bool infected;
             public CR_PathogenSystem.Infection infection;
+            public int InfectionAmount;
            
         }
 

@@ -21,11 +21,13 @@ public class SetGridLayoutGroup : MonoBehaviour
 
     [Header("OPTIONS")]
     [SerializeField] bool StartOnly = false;
+    [SerializeField] bool ManualSet = false;
 
     private void Start()
     {
         group = GetComponent<GridLayoutGroup>();
         rect = GetComponent<RectTransform>();
+        if (ManualSet) return;
         setGridLayoutGroup();
 
     }
@@ -33,6 +35,12 @@ public class SetGridLayoutGroup : MonoBehaviour
     private void OnEnable()
     {
         if (StartOnly) return;
+        if (ManualSet) return;
+        setGridLayoutGroup();
+    }
+
+    public void Set()
+    {
         setGridLayoutGroup();
     }
     void setGridLayoutGroup()

@@ -20,6 +20,7 @@ namespace Idle
         public OrganTypeAsstes[] organTypeAsstes;
 
         public static event Action<GameState> onGameStateChange;
+
         public enum GameState
         {
             OrganismView,

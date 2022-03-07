@@ -13,7 +13,7 @@ namespace Idle
         [SerializeField] CR_CellView_Translator _cellTranslator;
         [SerializeField] GameObject _cellViewHolder;
         [SerializeField] Camera _mainCamera;
- 
+
         public enum cellType { RedBloodCell, WhiteBloodCell, HelperTCell }
         public cellType _cellSelected;
 
@@ -35,7 +35,9 @@ namespace Idle
             if (_cellManager == null) _cellManager = FindObjectOfType<CR_CellView_CellManager>();
             if (_cellView_UI == null) _cellView_UI = FindObjectOfType<CR_CellView_UI>();
             CR_Idle_Manager.onGameStateChange += CR_Idle_Manager_onGameStateChange;
+            CR_Data.onLanguageChange += CR_Data_onLanguageChange;
         }
+
 
         private void Start()
         {
@@ -45,7 +47,14 @@ namespace Idle
         private void OnDestroy()
         {
             CR_Idle_Manager.onGameStateChange -= CR_Idle_Manager_onGameStateChange;
+            CR_Data.onLanguageChange -= CR_Data_onLanguageChange;
         }
+
+        private void CR_Data_onLanguageChange()
+        {
+            _cellTranslator.UpdateTexts();
+        }
+
 
         private void CR_Idle_Manager_onGameStateChange(CR_Idle_Manager.GameState state)
         {
@@ -64,6 +73,7 @@ namespace Idle
             canBuy = true;
             _cellManager.ResetCells();
             _cellManager.SpawnCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber);
+            SpawnPathogens();
         }
 
 
@@ -144,7 +154,7 @@ namespace Idle
             var multiplier = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].pointsMultiplier;
             Debug.Log("+" + multiplier);
             CR_Data.data.SetEnergy(CR_Data.data._energy + multiplier);
-            if(Input.touchCount > 0)
+            if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
                 IconPopUp.Create(touch.position);
@@ -156,11 +166,21 @@ namespace Idle
                 Vector3 pos = new Vector3(rawPos.x, rawPos.y, 0);
                 IconPopUp.Create(pos);
             }
-           
+
         }
 
 
         #endregion OnClickMethods
+
+        #region PathogenSpawner
+
+        void SpawnPathogens()
+        {
+            var organ = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber];
+            if (!organ.infected) return;
+            //SpawnPathogens
+        }
+        #endregion PathogenSpawner
 
 
     }

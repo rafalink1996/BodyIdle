@@ -9,7 +9,7 @@ namespace Idle
         public static CR_PathogenSystem instance;
 
 
-        public enum InfectionType { Bacterial, Viral, Fungal };
+        public enum InfectionType { Bacterial, Viral, Fungal, InfectionNum };
         public class Infection
         {
             [Header("ID")]
@@ -23,16 +23,20 @@ namespace Idle
             public int damage;
         }
 
+        [System.Serializable]
         public class InfectionAssets
         {
+            [System.Serializable]
             public class InfectionTypeAssets
             {
+                public string name;
                 public Sprite[] infectionBodies;
                 public Sprite[] infectionEyes;
                 public Sprite[] infectionDecorations;
             }
             public InfectionTypeAssets[] infectionTypeAssets;
         }
+        public InfectionAssets infectionAssets;
 
         public bool _infectionInProgress;
         [SerializeField] float infectionWaitTimeCheck = 20;
@@ -78,7 +82,7 @@ namespace Idle
                 float randomChance = Random.Range(0, 100);
                 if (randomChance < infectionChance)
                 {
-                    _infectionInProgress = true;
+                    InfectOrgan();
                 }
             }
             _infectCheckRoutine = false;
@@ -86,7 +90,10 @@ namespace Idle
 
         void InfectOrgan()
         {
+
             var availableOrganLists = new List<CR_Data.OrganType.OrganInfo>();
+            var typesList = new List<int>();
+            var organNumberList = new List<int>();
             var data = CR_Data.data;
             for (int i = 0; i < data.organTypes.Length; i++)
             {
@@ -95,6 +102,8 @@ namespace Idle
                     for (int o = 0; o < data.organTypes[i].organs.Count; o++)
                     {
                         availableOrganLists.Add(data.organTypes[i].organs[o]);
+                        typesList.Add(i);
+                        organNumberList.Add(o);
                     }
                 }
             }
@@ -102,12 +111,33 @@ namespace Idle
             if (availableOrganLists.Count == 0) return;
             var randomOrgan = Random.Range(0, availableOrganLists.Count);
             var selectedOrgan = availableOrganLists[randomOrgan];
+            Debug.Log("Organ Infected");
+            _infectionInProgress = true;
+            selectedOrgan.infection = CreateInfection();
+            int amount = Random.Range(0, CR_Data.data.GetTotalCells(typesList[randomOrgan], organNumberList[randomOrgan], 0));
+            selectedOrgan.InfectionAmount = amount;
             selectedOrgan.infected = true;
 
         }
 
+        Infection CreateInfection()
+        {
+            int randomType = Random.Range(0, (int)InfectionType.InfectionNum);
+            int randomBodyTypeID = Random.Range(0, infectionAssets.infectionTypeAssets[randomType].infectionBodies.Length);
+            int randomEyeTypeID = Random.Range(0, infectionAssets.infectionTypeAssets[randomType].infectionEyes.Length);
+            int randomDecorationTypeID = Random.Range(0, infectionAssets.infectionTypeAssets[randomType].infectionDecorations.Length);
 
+            var newInfection = new Infection
+            {
+                infectionType = (InfectionType)randomType,
+                infectionBodyID = randomBodyTypeID,
+                infectionEyesID = randomEyeTypeID,
+                infectionDecorationsID = randomDecorationTypeID,
 
-
+                health = 10,
+                damage = 10
+            };
+            return newInfection;
+        }
     }
 }

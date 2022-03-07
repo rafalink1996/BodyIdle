@@ -43,6 +43,7 @@ namespace Idle
             {
                 instance = this;
                 CR_Idle_Manager.onGameStateChange += CR_Idle_Manager_onGameStateChange;
+                CR_Data.onLanguageChange += CR_Data_onLanguageChange;
                 //Rest of Awake code
             }
             else if (instance != this)
@@ -50,9 +51,20 @@ namespace Idle
                 Destroy(gameObject);
             }
         }
+
+
+
+
         private void OnDestroy()
         {
             CR_Idle_Manager.onGameStateChange -= CR_Idle_Manager_onGameStateChange;
+            CR_Data.onLanguageChange -= CR_Data_onLanguageChange;
+        }
+
+        private void CR_Data_onLanguageChange()
+        {
+            _organismView_Texts.UpdateTexts();
+            UpdateOrganInfo();
         }
 
         private void CR_Idle_Manager_onGameStateChange(CR_Idle_Manager.GameState obj)

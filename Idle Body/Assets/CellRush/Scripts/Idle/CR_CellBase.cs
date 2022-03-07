@@ -48,6 +48,14 @@ namespace Idle
             StartCoroutine(CellMovementStart());
         }
 
+        public virtual void DespawnCell()
+        {
+            LeanTween.scale(gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+            {
+                gameObject.SetActive(false);
+            });
+        }
+
         void StopParticles()
         {
             if (_particles != null) _particles.Stop();
