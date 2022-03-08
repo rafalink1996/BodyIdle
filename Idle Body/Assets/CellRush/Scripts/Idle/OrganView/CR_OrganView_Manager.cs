@@ -242,7 +242,7 @@ namespace Idle
                 }
                 else
                 {
-                    _upgrades[i].SetUpgrade(upgrades[i].type, i);
+                    _upgrades[i].SetUpgrade(upgrades[i].type, i, upgrades[i].amount);
                 }
 
             }
@@ -298,7 +298,7 @@ namespace Idle
             _upgradeDescription.text = upgrade.description[(int)CR_Data.data._language];
             _upgradeButton.OnLongClick.RemoveAllListeners();
             _upgradeButton.OnLongClick.AddListener(delegate { BuyUpgrade(index); });
-            _infoUpgrade.SetUpgrade(type, index);
+            _infoUpgrade.SetUpgrade(type, index, upgrade.amount);
 
             UpdateBuyButtonAndCost(index);
 

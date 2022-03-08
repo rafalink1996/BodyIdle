@@ -599,9 +599,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   type: 0
   x2Image: {fileID: 4140123188007604092}
+  x2Text: {fileID: 4140123187626386284}
   MPOImage: {fileID: 4140123187652827905}
   _blackOverlay: {fileID: 335800345273084519}
   _lockedImage: {fileID: 1948644698}
+  isUtility: 0
 --- !u!1 &4140123189070804054
 GameObject:
   m_ObjectHideFlags: 0

@@ -3907,7 +3907,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 0, y: -324.41}
-  m_SizeDelta: {x: 0, y: 0}
+  m_SizeDelta: {x: -110.56952, y: 648.8292}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &110920432
 MonoBehaviour:
@@ -24758,9 +24758,9 @@ RectTransform:
   m_Father: {fileID: 110920431}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 437.335, y: -2004.0051}
   m_SizeDelta: {x: 844.2456, y: 724.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &730295834
@@ -26131,9 +26131,9 @@ RectTransform:
   m_Father: {fileID: 110920431}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 437.335, y: -1279.9252}
   m_SizeDelta: {x: 844.2456, y: 724.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &783166359
@@ -35795,7 +35795,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.022000002, y: 0}
   m_AnchorMax: {x: 0.23069671, y: 0.47534153}
-  m_AnchoredPosition: {x: 0.38006592, y: 0.86269}
+  m_AnchoredPosition: {x: 0.38006592, y: 0.8626747}
   m_SizeDelta: {x: 1.7017975, y: 2.4968033}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1127946085
@@ -44880,9 +44880,9 @@ RectTransform:
   m_Father: {fileID: 110920431}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 437.335, y: -96.90255}
   m_SizeDelta: {x: 874.67, y: 193.8051}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1488130850
@@ -51770,72 +51770,72 @@ MonoBehaviour:
     - type: 0
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 4
+        exponent: 3
       description:
       - Cells are twice as efective
       - "Las c\xE9lulas son el doble de efectivas"
     - type: 0
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 2
+        exponent: 6
       description:
       - Cells are twice as efective
       - "Las c\xE9lulas son el doble de efectivas"
     - type: 0
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 8.5
+        exponent: 6
       description:
       - Cells are twice as efective
       - "Las c\xE9lulas son el doble de efectivas"
     - type: 0
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 2.12
+        exponent: 7
       description:
       - Cells are twice as efective
       - "Las c\xE9lulas son el doble de efectivas"
     - type: 0
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 7.82
+        exponent: 7
       description:
       - Cells are twice as efective
       - "Las c\xE9lulas son el doble de efectivas"
     - type: 1
       amount: 18
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 4.24
+        exponent: 8
       description:
       - Cells make more points the more organs of this type you have
       - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
     - type: 1
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 4.84
+        exponent: 12
       description:
       - Cells make more points the more organs of this type you have
       - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
     - type: 1
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 2.33
+        exponent: 15
       description:
       - Cells make more points the more organs of this type you have
       - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
     - type: 1
       amount: 2
       UpgradeCost:
-        mantissa: 0
-        exponent: 0
+        mantissa: 9.3
+        exponent: 16
       description:
       - Cells make more points the more organs of this type you have
       - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
@@ -51845,77 +51845,867 @@ MonoBehaviour:
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 0.61877, g: 0.9716981, b: 0.64209056, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2
+        exponent: 5
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.2
+        exponent: 7
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9
+        exponent: 7
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.29
+        exponent: 8
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 8.89
+        exponent: 8
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 1
+      amount: 18
+      UpgradeCost:
+        mantissa: 4.19
+        exponent: 9
+      description:
+      - Cells make more points the more organs of this type you have
+      - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
+    - type: 1
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.71
+        exponent: 13
+      description:
+      - Cells make more points the more organs of this type you have
+      - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
+    - type: 1
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.59
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6.28
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Lungs
     organSprite: {fileID: 21300000, guid: 05d824c1764674a659fb2975a1807cf0, type: 3}
     OrganBorder: {fileID: 4457135018338231651, guid: f2ddfbbb0b6a04f0fa49082fd5c66573,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.9098039, b: 0.99215686, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3
+        exponent: 6
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.8
+        exponent: 8
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.01
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.5
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 1
+      amount: 18
+      UpgradeCost:
+        mantissa: 4.12
+        exponent: 10
+      description:
+      - Cells make more points the more organs of this type you have
+      - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
+    - type: 1
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.7
+        exponent: 14
+      description:
+      - Cells make more points the more organs of this type you have
+      - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.16
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Gills
     organSprite: {fileID: 21300000, guid: 3b7d153b21aea43d0882e537f161e33f, type: 3}
     OrganBorder: {fileID: 1009105111368402264, guid: f53af38a60b824b8db504f2d7d5ab9a7,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.6667547, b: 0.495283, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4
+        exponent: 7
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.2
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.22
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.4
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.8
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 1
+      amount: 18
+      UpgradeCost:
+        mantissa: 1.99
+        exponent: 11
+      description:
+      - Cells make more points the more organs of this type you have
+      - "Entre m\xE1s \xF3rganos de este tipo tengas m\xE1s efectivas son las c\xE9lulas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.95
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.9
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 0
+      UpgradeCost:
+        mantissa: 2.03
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Kidneys
     organSprite: {fileID: 21300000, guid: b6e18086e2f44455ca6531b0e2fddfbf, type: 3}
     OrganBorder: {fileID: 1182006834893561629, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.98039216, b: 0.7764706, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5
+        exponent: 8
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.6
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.5
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.2
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.02
+        exponent: 11
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 10
+      UpgradeCost:
+        mantissa: 1.17
+        exponent: 12
+      description:
+      - Cells are ten times as efective
+      - "Las c\xE9lulas son diez veces m\xE1s efectivas"
+    - type: 0
+      amount: 10
+      UpgradeCost:
+        mantissa: 2.31
+        exponent: 13
+      description:
+      - Cells are ten times as efective
+      - "Las c\xE9lulas son diez veces m\xE1s efectivas"
+    - type: 0
+      amount: 10
+      UpgradeCost:
+        mantissa: 3.28
+        exponent: 14
+      description:
+      - Cells are ten times as efective
+      - "Las c\xE9lulas son diez veces m\xE1s efectivas"
+    - type: 0
+      amount: 10
+      UpgradeCost:
+        mantissa: 8.75
+        exponent: 15
+      description:
+      - Cells are ten times as efective
+      - "Las c\xE9lulas son diez veces m\xE1s efectivas"
   - name: Intestines
     organSprite: {fileID: 21300000, guid: 86cb0a095217a4d99a300e78530579c3, type: 3}
     OrganBorder: {fileID: 3594534745497298851, guid: ded599d4e00d540e69841e49666579c8,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 0.8117647, g: 0.7294118, b: 0.69411767, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6
+        exponent: 9
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.2
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.9
+        exponent: 11
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.9
+        exponent: 11
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.59
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 5
+      UpgradeCost:
+        mantissa: 5.72
+        exponent: 12
+      description:
+      - Cells are 5 times as efective
+      - "Las c\xE9lulas son 5 veces m\xE1s efectivas"
+    - type: 0
+      amount: 5
+      UpgradeCost:
+        mantissa: 5.62
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 5
+      UpgradeCost:
+        mantissa: 3.94
+        exponent: 14
+      description:
+      - Cells are 5 times as efective
+      - "Las c\xE9lulas son 5 veces m\xE1s efectivas"
+    - type: 0
+      amount: 5
+      UpgradeCost:
+        mantissa: 5.2
+        exponent: 15
+      description:
+      - Cells are 5 times as efective
+      - "Las c\xE9lulas son 5 veces m\xE1s efectivas"
   - name: Liver
     organSprite: {fileID: 21300000, guid: c40f769a3866d4068b65baa55d4d3332, type: 3}
     OrganBorder: {fileID: 6883911300281084865, guid: 4671a44c983854a05a025a0ccf810bef,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 1, b: 1, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 8.1
+        exponent: 10
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6.2
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.11
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.7
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 3
+      UpgradeCost:
+        mantissa: 3.01
+        exponent: 13
+      description:
+      - Cells are three times as efective
+      - "Las c\xE9lulas son tres veces m\xE1s efectivas"
+    - type: 0
+      amount: 3
+      UpgradeCost:
+        mantissa: 1.68
+        exponent: 14
+      description:
+      - Cells are three times as efective
+      - "Las c\xE9lulas son tres veces m\xE1s efectivas"
+    - type: 0
+      amount: 3
+      UpgradeCost:
+        mantissa: 7.4
+        exponent: 14
+      description:
+      - Cells are three times as efective
+      - "Las c\xE9lulas son tres veces m\xE1s efectivas"
+    - type: 0
+      amount: 3
+      UpgradeCost:
+        mantissa: 5.7
+        exponent: 15
+      description:
+      - Cells are three times as efective
+      - "Las c\xE9lulas son tres veces m\xE1s efectivas"
   - name: Pancreas
     organSprite: {fileID: 21300000, guid: 7a2e86e99248a439ea1a346035603348, type: 3}
     OrganBorder: {fileID: 8795415666841034103, guid: 5bb55aa90d5094736934ccff57d43529,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.8862745, b: 0.7137255, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6.74
+        exponent: 11
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.5
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 8.4
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.8
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6.2
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.9
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 7.4
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.2
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.7
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Bladder
     organSprite: {fileID: 21300000, guid: b2c2f0ef184ff47a78c9cbc94f64a462, type: 3}
     OrganBorder: {fileID: 8107614999658363099, guid: b64b1505975174fd691df9dc492c61f9,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.8156863, b: 0.5254902, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.2
+        exponent: 12
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.2
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.4
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.2
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.8
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.2
+        exponent: 15
+      description: []
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.7
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.4
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 7.1
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Brain
     organSprite: {fileID: 21300000, guid: c68c2d4d7b7864f7a873cd1b4f842ba8, type: 3}
     OrganBorder: {fileID: -3167056627652206395, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 0.7294118, g: 0.7529412, b: 1, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.72
+        exponent: 13
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.6
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.9
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.4
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.6
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 8.1
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.2
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.99
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.1
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: PoisonGland
     organSprite: {fileID: 21300000, guid: a71b484a84d3e4d9cb2dc260175897f5, type: 3}
     OrganBorder: {fileID: -2214960178317980983, guid: ce907f550c5e5435cb0645b2fe16896a,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 0.8509804, g: 0.5647059, b: 1, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.63
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.1
+        exponent: 14
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.9
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.8
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.35
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 4.15
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.64
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 5.4
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.65
+        exponent: 18
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   - name: Bones
     organSprite: {fileID: 21300000, guid: 1e2028d693c404b8f949e88ac7adce01, type: 3}
     OrganBorder: {fileID: -3224086289255721319, guid: 053fccdffaaa64d359d2785289049296,
       type: 3}
     OrganAnimator: {fileID: 0}
     OrganBackgroundColor: {r: 1, g: 0.87586254, b: 0.6650944, a: 1}
-    upgrades: []
+    upgrades:
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.2
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 6.9
+        exponent: 15
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.5
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.4
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 9.8
+        exponent: 16
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 2.95
+        exponent: 17
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.17
+        exponent: 18
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 3.9
+        exponent: 18
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
+    - type: 0
+      amount: 2
+      UpgradeCost:
+        mantissa: 1.94
+        exponent: 19
+      description:
+      - Cells are twice as efective
+      - "Las c\xE9lulas son el doble de efectivas"
   gameState: 0
   CurrentOrganType: 0
   CurrentOrganNumber: 0
@@ -57338,7 +58128,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1861713728
 RectTransform:
   m_ObjectHideFlags: 0
@@ -58770,9 +59560,9 @@ RectTransform:
   m_Father: {fileID: 110920431}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 437.335, y: -555.8451}
   m_SizeDelta: {x: 844.2456, y: 724.08}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1923028892
@@ -59742,7 +60532,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bba48336b4c734ee690109703113c8d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _language: 1
+  _language: 0
   organTypes:
   - Name: Hearts
     unlocked: 0
@@ -59759,7 +60549,7 @@ MonoBehaviour:
       exponent: 11
     - mantissa: 4.2
       exponent: 13
-    ComplexityCost: 000000000100000001000000020000000200000003000000
+    ComplexityCost: 000000000100000002000000040000000700000009000000
     multiplierLevel: 0
     basePointsMultiplier:
       mantissa: 1
@@ -59775,7 +60565,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 5.5
         exponent: 1
-    upgrades: 000000000000000000000000
+    upgrades: 000000000000000000
     organs: []
   - Name: Stomach
     unlocked: 0
@@ -59792,10 +60582,10 @@ MonoBehaviour:
       exponent: 13
     - mantissa: 6.26
       exponent: 15
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 010000000100000002000000040000000600000008000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
+      mantissa: 1
       exponent: 0
     pointsMultiplier:
       mantissa: 1
@@ -59808,7 +60598,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Lungs
     unlocked: 0
@@ -59825,14 +60615,14 @@ MonoBehaviour:
       exponent: 15
     - mantissa: 8.28
       exponent: 17
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 010000000100000002000000030000000500000007000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1
+      exponent: 1
     pointsMultiplier:
-      mantissa: 8
-      exponent: 0
+      mantissa: 1
+      exponent: 1
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -59841,7 +60631,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Gills
     unlocked: 0
@@ -59858,13 +60648,13 @@ MonoBehaviour:
       exponent: 17
     - mantissa: 3.25
       exponent: 19
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 010000000100000002000000020000000500000006000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 5
+      exponent: 1
     pointsMultiplier:
-      mantissa: 4.7
+      mantissa: 5
       exponent: 1
     plateletInfo:
       platletNumber: 0
@@ -59874,7 +60664,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Kidneys
     unlocked: 0
@@ -59891,14 +60681,14 @@ MonoBehaviour:
       exponent: 19
     - mantissa: 2.12
       exponent: 21
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 020000000200000003000000030000000300000003000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 3
+      exponent: 2
     pointsMultiplier:
       mantissa: 3
-      exponent: 3
+      exponent: 2
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -59907,7 +60697,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Intestines
     unlocked: 0
@@ -59924,14 +60714,14 @@ MonoBehaviour:
       exponent: 21
     - mantissa: 6.25
       exponent: 23
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 020000000200000002000000020000000300000004000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1.5
+      exponent: 3
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1.5
+      exponent: 3
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -59940,7 +60730,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Liver
     unlocked: 0
@@ -59957,14 +60747,14 @@ MonoBehaviour:
       exponent: 23
     - mantissa: 7.45
       exponent: 25
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 020000000200000002000000020000000200000003000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 8
+      exponent: 3
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 8
+      exponent: 3
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -59973,7 +60763,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Pancreas
     unlocked: 0
@@ -59990,14 +60780,14 @@ MonoBehaviour:
       exponent: 25
     - mantissa: 9.05
       exponent: 27
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 020000000200000002000000030000000300000003000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 5
+      exponent: 4
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 5
+      exponent: 4
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -60006,7 +60796,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Bladder
     unlocked: 0
@@ -60023,14 +60813,14 @@ MonoBehaviour:
       exponent: 27
     - mantissa: 1.13
       exponent: 28
-    ComplexityCost: 020000000200000002000000030000000300000004000000
+    ComplexityCost: 020000000200000002000000030000000400000004000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 3
+      exponent: 5
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 3
+      exponent: 5
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -60039,7 +60829,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Brain
     unlocked: 0
@@ -60056,14 +60846,14 @@ MonoBehaviour:
       exponent: 28
     - mantissa: 1.34
       exponent: 29
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 020000000200000003000000030000000400000005000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 2
+      exponent: 6
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 2
+      exponent: 6
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -60072,7 +60862,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Poison Gland
     unlocked: 0
@@ -60089,14 +60879,14 @@ MonoBehaviour:
       exponent: 29
     - mantissa: 3.49
       exponent: 30
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 030000000300000003000000040000000400000005000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1
+      exponent: 7
     pointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 1
+      exponent: 7
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -60105,7 +60895,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   - Name: Bones
     unlocked: 0
@@ -60122,14 +60912,14 @@ MonoBehaviour:
       exponent: 30
     - mantissa: 6.74
       exponent: 31
-    ComplexityCost: 000000000000000000000000000000000000000000000000
+    ComplexityCost: 030000000300000004000000040000000400000005000000
     multiplierLevel: 0
     basePointsMultiplier:
-      mantissa: 0
-      exponent: 0
+      mantissa: 7
+      exponent: 7
     pointsMultiplier:
-      mantissa: 6.175
-      exponent: 12
+      mantissa: 7
+      exponent: 7
     plateletInfo:
       platletNumber: 0
       plateletInitialCost:
@@ -60138,7 +60928,7 @@ MonoBehaviour:
       plateletCost:
         mantissa: 0
         exponent: 0
-    upgrades: 
+    upgrades: 000000000000000000
     organs: []
   _energyPerSecondTime: 1
 --- !u!4 &1942787694
@@ -60818,7 +61608,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.03611111, y: 0.030000001}
   m_AnchorMax: {x: 0.96029633, y: 0.92100006}
-  m_AnchoredPosition: {x: 2, y: 0.88531494}
+  m_AnchoredPosition: {x: 2, y: 0.8852539}
   m_SizeDelta: {x: -12.880493, y: 6.4958496}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1961354088

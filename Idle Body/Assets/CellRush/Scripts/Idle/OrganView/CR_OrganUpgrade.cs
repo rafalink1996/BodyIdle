@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace Idle
 {
@@ -10,6 +11,7 @@ namespace Idle
         int index;
         [SerializeField] CR_Idle_Manager.OrganUpgrade.UpgradeType type;
         [SerializeField] GameObject x2Image;
+        [SerializeField] TextMeshProUGUI x2Text;
         [SerializeField] GameObject MPOImage;
 
         [Header("LOCKED PANEL")]
@@ -20,7 +22,7 @@ namespace Idle
         [Header("UTILITY")]
         [SerializeField] bool isUtility = false;
 
-        public void SetUpgrade(CR_Idle_Manager.OrganUpgrade.UpgradeType type, int index)
+        public void SetUpgrade(CR_Idle_Manager.OrganUpgrade.UpgradeType type, int index, float amount)
         {
             gameObject.SetActive(true);
             this.type = type;
@@ -29,6 +31,7 @@ namespace Idle
             {
                 case CR_Idle_Manager.OrganUpgrade.UpgradeType.Multiply:
                     x2Image.SetActive(true);
+                    x2Text.text = "x" + amount;
                     MPOImage.SetActive(false);
                     break;
                 case CR_Idle_Manager.OrganUpgrade.UpgradeType.MultiplyAndOrganPower:
