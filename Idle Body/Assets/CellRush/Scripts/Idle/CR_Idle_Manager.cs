@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;
 using BreakInfinity;
+using TMPro;
 
 namespace Idle
 {
@@ -16,8 +17,15 @@ namespace Idle
         public CR_CellViewManager _cellViewManager;
         public CR_OrganismViewManager _organismViewManager;
         public TransitionAnimation _TransitionAnimation;
+        public CR_OfflineProgress _OfflineProgress;
         [Header("ORGAN TYPE INFO")]
         public OrganTypeAsstes[] organTypeAsstes;
+
+        CR_Data _data;
+        [Range(0.1f, 1f)]
+        [SerializeField] float _energyPerSecondTime = 1;
+        float waitTime = 0;
+      
 
         public static event Action<GameState> onGameStateChange;
 
@@ -38,25 +46,66 @@ namespace Idle
             {
                 instance = this;
                 //Rest of Awake code
-                GetReferences();
             }
             else if (instance != this)
             {
                 Destroy(gameObject);
             }
+            GetReferences();
         }
         void GetReferences()
         {
+            if (_data == null) _data = CR_Data.data;
             if (_cellViewManager == null) _cellViewManager = FindObjectOfType<CR_CellViewManager>();
             if (_overlayUI == null) _overlayUI = FindObjectOfType<CR_OverlayUI>();
             if (_organismViewManager == null) _organismViewManager = FindObjectOfType<CR_OrganismViewManager>();
             if (_TransitionAnimation == null) _TransitionAnimation = FindObjectOfType<TransitionAnimation>();
+            if (_OfflineProgress == null) _OfflineProgress = FindObjectOfType<CR_OfflineProgress>();
         }
-        void Start()
+
+        public void Start()
         {
-            _overlayUI.CustomStart();
+            GetReferences();
             if (!_TransitionAnimation.gameObject.activeSelf) _TransitionAnimation.gameObject.SetActive(true);
+            //Game should start here
+            CR_SaveSystem.instance.Load();
+            if(_OfflineProgress != null)
+            {
+                StartCoroutine(_OfflineProgress.CheckLoadFiles());
+            }
+            else
+            {
+                Debug.Log("Offlone progress script is null");
+            }
+
+        }
+        void GameStart()
+        {
+            Debug.Log("gamestart");
+            GetReferences();
+            _overlayUI.CustomStart();
             StartCoroutine(ChangeState(GameState.OrganismView));
+        }
+
+        private void Update()
+        {
+            AddEnergyPerSecond();
+
+        }
+
+        void AddEnergyPerSecond()
+        {
+           
+            if (_data._energyPerSecond == 0) return;
+            if (waitTime > 0)
+            {
+                waitTime -= Time.deltaTime;
+            }
+            else
+            {
+                waitTime = _energyPerSecondTime;
+                _data.SetEnergy(_data._energy + (_data._energyPerSecond * _energyPerSecondTime));
+            }
         }
 
         public IEnumerator ChangeState(GameState state)

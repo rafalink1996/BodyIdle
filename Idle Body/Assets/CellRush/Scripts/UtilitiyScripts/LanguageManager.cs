@@ -47,6 +47,15 @@ public class LanguageManager : MonoBehaviour
     }
     public CellViewTexts cellViewTexts;
 
+    [System.Serializable]
+    public struct OfflineProgressTexts
+    {
+        public string[] workedHard;
+        public string[] hibernation;
+        public string[] made;
+    }
+    public OfflineProgressTexts offlineProgressTexts;
+
     private void Awake()
     {
         if(instance == null)

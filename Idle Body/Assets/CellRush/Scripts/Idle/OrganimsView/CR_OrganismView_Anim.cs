@@ -15,6 +15,10 @@ public class CR_OrganismView_Anim : MonoBehaviour
     [SerializeField] Vector2 seeOrganButtonStartingPos;
     [SerializeField] Vector2 OrganBuyUiStartingPos;
 
+
+    [SerializeField] RectTransform _BuyOrgantransform;
+
+
     bool PosGotten;
     private void Start()
     {
@@ -58,8 +62,8 @@ public class CR_OrganismView_Anim : MonoBehaviour
         if (show)
         {
             SeeOrganButton.GetComponent<Button>().interactable = true;
-            LeanTween.moveLocalX(OrganBuy.gameObject, OrganBuyUiStartingPos.x - 180, 0.5f).setEase(LeanTweenType.easeOutExpo);
-            LeanTween.moveLocalX(SeeOrganButton.gameObject, seeOrganButtonStartingPos.x, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+            LeanTween.moveLocalX(OrganBuy.gameObject, OrganBuyUiStartingPos.x - (OrganBuy.rect.width / 5), 0.5f).setEase(LeanTweenType.easeOutExpo);
+            LeanTween.moveLocalX(SeeOrganButton.gameObject, OrganBuyUiStartingPos.x + (OrganBuy.rect.width/2), 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
             {
 
             });
@@ -68,7 +72,7 @@ public class CR_OrganismView_Anim : MonoBehaviour
         {
             SeeOrganButton.GetComponent<Button>().interactable = false;
             LeanTween.moveLocalX(OrganBuy.gameObject, OrganBuyUiStartingPos.x, 0.5f).setEase(LeanTweenType.easeOutExpo);
-            LeanTween.moveLocalX(SeeOrganButton.gameObject, seeOrganButtonStartingPos.x - SeeOrganButton.rect.width, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
+            LeanTween.moveLocalX(SeeOrganButton.gameObject, OrganBuyUiStartingPos.x, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(complete =>
             {
 
             });

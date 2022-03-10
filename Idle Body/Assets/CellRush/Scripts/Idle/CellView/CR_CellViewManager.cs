@@ -157,7 +157,9 @@ namespace Idle
             if (Input.touchCount > 0)
             {
                 Touch touch = Input.GetTouch(0);
-                IconPopUp.Create(touch.position);
+                Vector3 rawPos = _mainCamera.ScreenToWorldPoint(touch.position);
+                Vector3 pos = new Vector3(rawPos.x, rawPos.y, 0);
+                IconPopUp.Create(pos);
             }
             else
             {

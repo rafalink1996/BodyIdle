@@ -34,7 +34,6 @@ namespace Idle
 
         public virtual void InitializeCell(CellSize cellSize, CellType cellType)
         {
-            Debug.Log("Initializing");
             this.cellSize = cellSize;
             this.cellType = cellType;
         }

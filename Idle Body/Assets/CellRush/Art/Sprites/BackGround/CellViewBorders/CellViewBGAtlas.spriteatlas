@@ -28,7 +28,7 @@ SpriteAtlas:
       m_TextureFormat: -1
       m_TextureCompression: 1
       m_CompressionQuality: 50
-      m_CrunchedCompression: 0
+      m_CrunchedCompression: 1
       m_AllowsAlphaSplitting: 0
       m_Overridden: 0
       m_AndroidETC2FallbackOverride: 0
@@ -43,40 +43,25 @@ SpriteAtlas:
     secondaryTextureSettings: {}
     variantMultiplier: 1
     packables:
-    - {fileID: 2800000, guid: e3f5b90049a334cf1ad7cd2c51dd86ed, type: 3}
+    - {fileID: 2800000, guid: b64b1505975174fd691df9dc492c61f9, type: 3}
     - {fileID: 2800000, guid: f53af38a60b824b8db504f2d7d5ab9a7, type: 3}
-    - {fileID: 2800000, guid: d52096c63948b4d699a741b313e2aedd, type: 3}
+    - {fileID: 2800000, guid: ded599d4e00d540e69841e49666579c8, type: 3}
     - {fileID: 2800000, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
-    - {fileID: 2800000, guid: ae507e4d76766463eb324c4b4de9e543, type: 3}
+    - {fileID: 2800000, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87, type: 3}
     - {fileID: 2800000, guid: 2ce82693fec34469aa0b6daed97630ff, type: 3}
     - {fileID: 2800000, guid: 03cdfad14269e4f0ca7e5a285accb3c9, type: 3}
-    - {fileID: 2800000, guid: df6e841d63ee84c2f80fb1c72f3ce41a, type: 3}
+    - {fileID: 2800000, guid: f2ddfbbb0b6a04f0fa49082fd5c66573, type: 3}
     - {fileID: 2800000, guid: 32001c9291693478aa0925435c49e516, type: 3}
     - {fileID: 2800000, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
-    - {fileID: 2800000, guid: 0ffb3b25ff59a4e238feee49da2cc2b2, type: 3}
-    - {fileID: 2800000, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
-    - {fileID: 2800000, guid: 80cf7898d941e4391852311f72e71619, type: 3}
-    - {fileID: 2800000, guid: 4671a44c983854a05a025a0ccf810bef, type: 3}
-    - {fileID: 2800000, guid: afc33570aa06e4cbc9f97e9ca98df52d, type: 3}
-    - {fileID: 2800000, guid: 053fccdffaaa64d359d2785289049296, type: 3}
-    - {fileID: 2800000, guid: 0c0ce0a481ab7435c8f4a5c101117a01, type: 3}
-    - {fileID: 2800000, guid: ded599d4e00d540e69841e49666579c8, type: 3}
-    - {fileID: 2800000, guid: e3ea0aef3175c4420a4581888938fd10, type: 3}
     - {fileID: 2800000, guid: 5bb55aa90d5094736934ccff57d43529, type: 3}
-    - {fileID: 2800000, guid: 50c64a6e79052477b83b53a2d816a45a, type: 3}
-    - {fileID: 2800000, guid: f2ddfbbb0b6a04f0fa49082fd5c66573, type: 3}
-    - {fileID: 2800000, guid: dff055f0ea08640f1a2f88502d198c56, type: 3}
-    - {fileID: 2800000, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87, type: 3}
-    - {fileID: 2800000, guid: f0c2a5cb6f96a4c6fb0ca8b951a4d863, type: 3}
-    - {fileID: 2800000, guid: b64b1505975174fd691df9dc492c61f9, type: 3}
+    - {fileID: 2800000, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
+    - {fileID: 2800000, guid: 053fccdffaaa64d359d2785289049296, type: 3}
+    - {fileID: 2800000, guid: 4671a44c983854a05a025a0ccf810bef, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
   m_MasterAtlas: {fileID: 0}
   m_PackedSprites:
-  - {fileID: 21300000, guid: e3f5b90049a334cf1ad7cd2c51dd86ed, type: 3}
-  - {fileID: 21300000, guid: afc33570aa06e4cbc9f97e9ca98df52d, type: 3}
-  - {fileID: 21300000, guid: dff055f0ea08640f1a2f88502d198c56, type: 3}
   - {fileID: -4715574392349617191, guid: 03cdfad14269e4f0ca7e5a285accb3c9, type: 3}
   - {fileID: -8118657524204583332, guid: 03cdfad14269e4f0ca7e5a285accb3c9, type: 3}
   - {fileID: 8338646781867719025, guid: 03cdfad14269e4f0ca7e5a285accb3c9, type: 3}
@@ -113,7 +98,6 @@ SpriteAtlas:
   - {fileID: -4671229926248166228, guid: 2ce82693fec34469aa0b6daed97630ff, type: 3}
   - {fileID: -270220818802942514, guid: 2ce82693fec34469aa0b6daed97630ff, type: 3}
   - {fileID: -9077040429560317466, guid: 2ce82693fec34469aa0b6daed97630ff, type: 3}
-  - {fileID: 21300000, guid: 0c0ce0a481ab7435c8f4a5c101117a01, type: 3}
   - {fileID: 6609678977903379998, guid: ded599d4e00d540e69841e49666579c8, type: 3}
   - {fileID: -1227297646659791284, guid: ded599d4e00d540e69841e49666579c8, type: 3}
   - {fileID: 5952644801852604496, guid: ded599d4e00d540e69841e49666579c8, type: 3}
@@ -138,7 +122,6 @@ SpriteAtlas:
   - {fileID: -5373247798213011563, guid: b64b1505975174fd691df9dc492c61f9, type: 3}
   - {fileID: 1897016756795690446, guid: b64b1505975174fd691df9dc492c61f9, type: 3}
   - {fileID: 3235500195944442696, guid: b64b1505975174fd691df9dc492c61f9, type: 3}
-  - {fileID: 21300000, guid: 0ffb3b25ff59a4e238feee49da2cc2b2, type: 3}
   - {fileID: 7770640882464573246, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
   - {fileID: -7437353832226626918, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
   - {fileID: -3900285061331781927, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
@@ -151,7 +134,6 @@ SpriteAtlas:
   - {fileID: -2849276312553136623, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
   - {fileID: -8607868879862175162, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
   - {fileID: -635399956465065760, guid: ce907f550c5e5435cb0645b2fe16896a, type: 3}
-  - {fileID: 21300000, guid: d52096c63948b4d699a741b313e2aedd, type: 3}
   - {fileID: -8445454744526566266, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
   - {fileID: -9026870078056778216, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
   - {fileID: 4817753066790829975, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
@@ -164,7 +146,6 @@ SpriteAtlas:
   - {fileID: -8133139510841241037, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
   - {fileID: -6471942412055137095, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
   - {fileID: 2094753634840446959, guid: 9cf6f798a93cb4c1ba165c3c4bc1a8fb, type: 3}
-  - {fileID: 21300000, guid: 80cf7898d941e4391852311f72e71619, type: 3}
   - {fileID: -5487993832982497124, guid: 5bb55aa90d5094736934ccff57d43529, type: 3}
   - {fileID: 2373995620674787273, guid: 5bb55aa90d5094736934ccff57d43529, type: 3}
   - {fileID: -2446425047445403709, guid: 5bb55aa90d5094736934ccff57d43529, type: 3}
@@ -201,7 +182,6 @@ SpriteAtlas:
   - {fileID: -7024719092227071377, guid: f2ddfbbb0b6a04f0fa49082fd5c66573, type: 3}
   - {fileID: 7131091126620156013, guid: f2ddfbbb0b6a04f0fa49082fd5c66573, type: 3}
   - {fileID: 5033170371868216289, guid: f2ddfbbb0b6a04f0fa49082fd5c66573, type: 3}
-  - {fileID: 21300000, guid: f0c2a5cb6f96a4c6fb0ca8b951a4d863, type: 3}
   - {fileID: -687189913830087939, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87, type: 3}
   - {fileID: 2518376017073906014, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87, type: 3}
   - {fileID: 1182006834893561629, guid: 4cd36f0c38c5f481c99b5ca6b17dfc87, type: 3}
@@ -226,7 +206,6 @@ SpriteAtlas:
   - {fileID: -6684392432451721716, guid: 4671a44c983854a05a025a0ccf810bef, type: 3}
   - {fileID: 6421024891154177717, guid: 4671a44c983854a05a025a0ccf810bef, type: 3}
   - {fileID: -3495416051834221435, guid: 4671a44c983854a05a025a0ccf810bef, type: 3}
-  - {fileID: 21300000, guid: df6e841d63ee84c2f80fb1c72f3ce41a, type: 3}
   - {fileID: 6917776866239735707, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
   - {fileID: -997892712059935245, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
   - {fileID: 8549478487302672198, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
@@ -239,8 +218,6 @@ SpriteAtlas:
   - {fileID: -1715941620752262703, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
   - {fileID: 9211260824722181410, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
   - {fileID: -5093135552447599289, guid: 2fd0834d2c3b740c19d5d59a508c1fd5, type: 3}
-  - {fileID: 21300000, guid: ae507e4d76766463eb324c4b4de9e543, type: 3}
-  - {fileID: 21300000, guid: 50c64a6e79052477b83b53a2d816a45a, type: 3}
   - {fileID: -5863634281361454885, guid: 053fccdffaaa64d359d2785289049296, type: 3}
   - {fileID: 8514819046707131316, guid: 053fccdffaaa64d359d2785289049296, type: 3}
   - {fileID: 8246534386795686721, guid: 053fccdffaaa64d359d2785289049296, type: 3}
@@ -253,11 +230,7 @@ SpriteAtlas:
   - {fileID: -5025690287270319165, guid: 053fccdffaaa64d359d2785289049296, type: 3}
   - {fileID: 7880670704698073136, guid: 053fccdffaaa64d359d2785289049296, type: 3}
   - {fileID: -5443336751859011521, guid: 053fccdffaaa64d359d2785289049296, type: 3}
-  - {fileID: 21300000, guid: e3ea0aef3175c4420a4581888938fd10, type: 3}
   m_PackedSpriteNamesToIndex:
-  - Borde Branquias
-  - Borde Hueso
-  - "Borde Ri\xF1\xF3n"
   - "Corazo\u0301nanimacion_IZ_HandDrawn(small)_8"
   - "Corazo\u0301nanimacion_IZ_HandDrawn(small)_9"
   - "Corazo\u0301nanimacion_IZ_HandDrawn(small)_6"
@@ -294,7 +267,6 @@ SpriteAtlas:
   - "Corazo\u0301nanimacion_IZ(small)_10"
   - "Corazo\u0301nanimacion_IZ(small)_8"
   - "Corazo\u0301nanimacion_IZ(small)_9"
-  - Borde Intestinos
   - IntestinoAnimacion_IZ_11
   - IntestinoAnimacion_IZ_10
   - IntestinoAnimacion_IZ_8
@@ -319,7 +291,6 @@ SpriteAtlas:
   - VejigaAnimacion_IZ_2
   - VejigaAnimacion_IZ_9
   - VejigaAnimacion_IZ_8
-  - Borde Glandula Veneno
   - GlandulaVenenoAnimacion_IZ_9
   - GlandulaVenenoAnimacion_IZ_4
   - GlandulaVenenoAnimacion_IZ_5
@@ -332,7 +303,6 @@ SpriteAtlas:
   - GlandulaVenenoAnimacion_IZ_11
   - GlandulaVenenoAnimacion_IZ_10
   - GlandulaVenenoAnimacion_IZ_8
-  - Borde Cerebro
   - CerebroAnimacion_IZ_9
   - CerebroAnimacion_IZ_8
   - CerebroAnimacion_IZ_5
@@ -345,7 +315,6 @@ SpriteAtlas:
   - CerebroAnimacion_IZ_2
   - CerebroAnimacion_IZ_10
   - CerebroAnimacion_IZ_11
-  - Borde Higado
   - PancreasAnimacion_IZ_11
   - PancreasAnimacion_IZ_10
   - PancreasAnimacion_IZ_8
@@ -382,7 +351,6 @@ SpriteAtlas:
   - "Pulmo\u0301nAnimacion_IZ(small)_11"
   - "Pulmo\u0301nAnimacion_IZ(small)_9"
   - "Pulmo\u0301nAnimacion_IZ(small)_8"
-  - Borde Vejiga
   - "Rin\u0303onesAnimacion_IZ_11"
   - "Rin\u0303onesAnimacion_IZ_10"
   - "Rin\u0303onesAnimacion_IZ_0"
@@ -407,7 +375,6 @@ SpriteAtlas:
   - HigadoAnimacion_IZ_4
   - HigadoAnimacion_IZ_10
   - HigadoAnimacion_IZ_11
-  - "Borde Est\xF3mago"
   - EstomagoAnimacion_IZ_8
   - EstomagoAnimacion_IZ_9
   - EstomagoAnimacion_IZ_6
@@ -420,8 +387,6 @@ SpriteAtlas:
   - EstomagoAnimacion_IZ_1
   - EstomagoAnimacion_IZ_11
   - EstomagoAnimacion_IZ_10
-  - "Borde Coraz\xF3n"
-  - Borde Pulmones
   - HuesosAnimacion_IZ_6
   - HuesosAnimacion_IZ_7
   - HuesosAnimacion_IZ_4
@@ -434,7 +399,6 @@ SpriteAtlas:
   - HuesosAnimacion_IZ_9
   - HuesosAnimacion_IZ_11
   - HuesosAnimacion_IZ_10
-  - Borde Pancreas
   m_RenderDataMap: {}
   m_Tag: CellViewBGAtlas
   m_IsVariant: 0

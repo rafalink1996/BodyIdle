@@ -89,12 +89,10 @@ SpriteAtlas:
     - {fileID: 2800000, guid: 8ca26cc0d31b04bd9be56d98d4199618, type: 3}
     - {fileID: 2800000, guid: e2dc0cc0c189b4d6d95b966e63612e72, type: 3}
     - {fileID: 2800000, guid: 8fc6996bd7c0948f3ab820cfe36d1388, type: 3}
-    - {fileID: 2800000, guid: 2f9a41a553de54844ad7ec7436f55d78, type: 3}
     - {fileID: 2800000, guid: 941b915287f864bc0960cbf1e78d9c79, type: 3}
     - {fileID: 2800000, guid: 593b27938fb7d4a31b11551112f46be2, type: 3}
     - {fileID: 2800000, guid: 20fc191037b734dd3bf4ec2b9ebf3c2b, type: 3}
     - {fileID: 2800000, guid: 648c698fd141d4d4cadfee8928040a8c, type: 3}
-    - {fileID: 2800000, guid: 8dd02932ade0f4c1d830d5a774891e46, type: 3}
     bindAsDefault: 1
     isAtlasV2: 0
     cachedData: {fileID: 0}
@@ -109,7 +107,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 976a99715c7ae46049fd22a3b59b67ba, type: 3}
   - {fileID: 21300000, guid: 2e288ef194b9e42f1a40c1e0789dcf64, type: 3}
   - {fileID: 21300000, guid: e5a29f22fbb68420685d982f19ed6f04, type: 3}
-  - {fileID: 21300000, guid: 8dd02932ade0f4c1d830d5a774891e46, type: 3}
   - {fileID: 21300000, guid: 544e954257a544179bba0711a08512a9, type: 3}
   - {fileID: 21300000, guid: 941b915287f864bc0960cbf1e78d9c79, type: 3}
   - {fileID: 21300000, guid: 6792c0330b32246f2a20beaf919ddde6, type: 3}
@@ -118,7 +115,6 @@ SpriteAtlas:
   - {fileID: 21300000, guid: 1abce24456792448d9d692d6b5e51266, type: 3}
   - {fileID: 21300000, guid: 525e1484910c44bf8bee131cfd549a8f, type: 3}
   - {fileID: 21300000, guid: 92b30355096224a06a974fbfa629a81f, type: 3}
-  - {fileID: 21300000, guid: 2f9a41a553de54844ad7ec7436f55d78, type: 3}
   - {fileID: 21300000, guid: e66ea2d5aa7a74e35a574a496b1949f6, type: 3}
   - {fileID: 21300000, guid: f01e57d55ceb54c9db714994bc374826, type: 3}
   - {fileID: 21300000, guid: 5e8189f54119940978dd96dfb1c79ca4, type: 3}
@@ -160,7 +156,6 @@ SpriteAtlas:
   - Language_English
   - Notification_Icon
   - PlusSymbol_Cyan
-  - ButtonSquare
   - CyanLock
   - UISprite3
   - ButtonFillRound
@@ -169,7 +164,6 @@ SpriteAtlas:
   - ButtonFill
   - PlusSymbol
   - Language_Spanish
-  - UI_Transitions
   - Rectangle_NoBorder
   - ArrowTabOrange
   - OrgangeLock

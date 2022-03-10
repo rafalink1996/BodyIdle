@@ -23,6 +23,9 @@ public class SetGridLayoutGroup : MonoBehaviour
     [SerializeField] bool StartOnly = false;
     [SerializeField] bool ManualSet = false;
 
+    [Header("DEBUG")]
+    [SerializeField] bool debug;
+
     private void Start()
     {
         group = GetComponent<GridLayoutGroup>();
@@ -55,8 +58,10 @@ public class SetGridLayoutGroup : MonoBehaviour
         else
         {
             if (UseObjectChildren) Collumns = transform.childCount;
-            size = ((((rect.rect.width * 2) / 3) / Collumns)) * sizeAdjuster;
+            size = ((((rect.rect.width * 2) /3 ) / Collumns)) * sizeAdjuster;
         }
+
+        if (debug) Debug.Log("Width: " + rect.rect.width);
        
         cellSize.y = size;
         cellSize.x = size;

@@ -20,6 +20,9 @@ public class CR_Data : MonoBehaviour
     public float _musicVolume { get; private set; }
     public float _SFXVolume { get; private set; }
 
+    public BigDouble saveCount;
+    public System.DateTime _lastSesionTime;
+
     // GAME SETTINGS //
 
 
@@ -36,9 +39,7 @@ public class CR_Data : MonoBehaviour
     public OrganType[] organTypes;
 
     // OTHER VARIABLES //
-    [Range(0.1f, 1f)]
-    [SerializeField] float _energyPerSecondTime = 1;
-    float waitTime = 0;
+   
 
     public static event Action onLanguageChange;
 
@@ -46,10 +47,8 @@ public class CR_Data : MonoBehaviour
     {
         if (data == null)
         {
-            DontDestroyOnLoad(gameObject);
             data = this;
-            //Rest of Awake code
-            SaveSystem.Init();
+            DontDestroyOnLoad(gameObject);
         }
         else if (data != this)
         {
@@ -60,9 +59,7 @@ public class CR_Data : MonoBehaviour
     {
         for (int i = 0; i < organTypes.Length; i++)
         {
-            
            CalculateMultiplier(i);
-
         }
     }
 
@@ -156,25 +153,7 @@ public class CR_Data : MonoBehaviour
         organTypes[organType].organs.Add(newOrgan);
     }
 
-    private void Update()
-    {
-        AddEnergyPerSecond();
-
-    }
-
-    void AddEnergyPerSecond()
-    {
-        if (_energyPerSecond == 0) return;
-        if (waitTime > 0)
-        {
-            waitTime -= Time.deltaTime;
-        }
-        else
-        {
-            waitTime = _energyPerSecondTime;
-            SetEnergy(_energy + (_energyPerSecond * _energyPerSecondTime));
-        }
-    }
+    
 
     #region SET METHODS
     public void SetEnergy(BigDouble energy)

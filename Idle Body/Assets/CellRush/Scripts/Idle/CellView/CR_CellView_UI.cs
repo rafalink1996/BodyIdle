@@ -63,7 +63,7 @@ namespace Idle
                 LeanTween.scaleY(_StickyImage.gameObject, .2f, 0.3f).setEase(LeanTweenType.easeOutElastic);
                 LeanTween.cancel(_toggleArrow.gameObject);
                 LeanTween.rotateZ(_toggleArrow.gameObject, 180, 1).setEase(LeanTweenType.easeOutExpo);
-                LeanTween.moveLocalY(_UIHolder.gameObject, (_UIStartPos.y - (_UIHolder.rect.height / 1.5f)), .5f).setEase(LeanTweenType.easeOutElastic).setOnComplete(done => { _uiShown = false; });
+                LeanTween.moveLocalY(_UIHolder.gameObject, (_UIStartPos.y - (_UIHolder.rect.height * 0.75f)), .5f).setEase(LeanTweenType.easeOutElastic).setOnComplete(done => { _uiShown = false; });
 
             }
             else

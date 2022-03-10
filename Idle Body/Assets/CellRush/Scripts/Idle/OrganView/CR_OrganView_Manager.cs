@@ -251,13 +251,13 @@ namespace Idle
 
         public void HideUpgradeUI()
         {
-            LeanTween.scale(_upgradesInfoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo);
-            LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+            LeanTween.scale(_upgradesInfoObject.gameObject, Vector3.zero, 0.25f).setEase(LeanTweenType.easeInExpo);
+            LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.zero, 0.25f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
             {
-                LeanTween.scale(_upgradesBodyObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+                LeanTween.scale(_upgradesBodyObject, Vector3.zero, 0.25f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
                 {
 
-                    LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
+                    LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.zero, 0.25f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
                     {
                         LeanTween.alphaCanvas(_upgradeObject, 0, 0.5f).setOnComplete(done =>
                         {
@@ -275,14 +275,14 @@ namespace Idle
             _upgradesTitleObject.localScale = Vector3.zero;
             _upgradesCloseObject.localScale = Vector3.zero;
             _upgradesBodyObject.transform.localScale = Vector3.zero;
-            LeanTween.alphaCanvas(_upgradeObject, 1, 0.5f).setOnComplete(done =>
+            LeanTween.alphaCanvas(_upgradeObject, 1, 0.25f).setOnComplete(done =>
             {
-                LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                LeanTween.scale(_upgradesTitleObject.gameObject, Vector3.one, 0.25f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
                 {
-                    LeanTween.scale(_upgradesBodyObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                    LeanTween.scale(_upgradesBodyObject, Vector3.one, 0.25f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
                     {
 
-                        LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+                        LeanTween.scale(_upgradesCloseObject.gameObject, Vector3.one, 0.25f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
                         {
                             _upgradesUiShown = true;
                         });
