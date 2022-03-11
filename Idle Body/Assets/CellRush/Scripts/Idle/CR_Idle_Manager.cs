@@ -25,7 +25,8 @@ namespace Idle
         [Range(0.1f, 1f)]
         [SerializeField] float _energyPerSecondTime = 1;
         float waitTime = 0;
-      
+        bool loadedFirstTime;
+
 
         public static event Action<GameState> onGameStateChange;
 
@@ -68,19 +69,53 @@ namespace Idle
             GetReferences();
             if (!_TransitionAnimation.gameObject.activeSelf) _TransitionAnimation.gameObject.SetActive(true);
             //Game should start here
-            CR_SaveSystem.instance.Load();
-            if(_OfflineProgress != null)
+            CR_SaveSystem.instance.Load(out bool saveExists);
+            if (saveExists == false) return;
+            if (CR_Data.data._energyPerSecond > 0)
             {
-                StartCoroutine(_OfflineProgress.CheckLoadFiles());
+                if (_OfflineProgress != null)
+                {
+                    StartCoroutine(_OfflineProgress.CheckLoadFiles());
+                }
+                else
+                {
+                    Debug.Log("Offlone progress script is null");
+                    GameStart();
+                }
             }
             else
             {
-                Debug.Log("Offlone progress script is null");
+                GameStart();
             }
-
         }
-        void GameStart()
+
+        private void OnApplicationFocus(bool focus)
         {
+            if (CR_SaveSystem.instance == null) return;
+            if (!CR_Data.data.gameStarted) return;
+            if (!focus)
+            {
+                Debug.Log("Change focus: " + focus);
+                CR_SaveSystem.instance.save();
+            }
+            else
+            {
+                CR_SaveSystem.instance.Load(out bool saveExists);
+                if (saveExists == false) return;
+                if (CR_Data.data._energyPerSecond == 0) return;
+                if (_OfflineProgress == null) return;
+                StartCoroutine(CheckProgress());
+            }
+        }
+
+        IEnumerator CheckProgress()
+        {
+            //yield return _TransitionAnimation.TransitionIn();
+            yield return _OfflineProgress.CheckLoadFiles();
+        }
+        public void GameStart()
+        {
+            CR_Data.data.gameStarted = true;
             Debug.Log("gamestart");
             GetReferences();
             _overlayUI.CustomStart();
@@ -95,7 +130,7 @@ namespace Idle
 
         void AddEnergyPerSecond()
         {
-           
+
             if (_data._energyPerSecond == 0) return;
             if (waitTime > 0)
             {
@@ -110,7 +145,7 @@ namespace Idle
 
         public IEnumerator ChangeState(GameState state)
         {
-            
+
             yield return _TransitionAnimation.TransitionIn();
             gameState = state;
             switch (state)
@@ -124,7 +159,7 @@ namespace Idle
                 case GameState.CellView:
                     break;
                 default:
-                  
+
                     break;
             }
             onGameStateChange?.Invoke(state);
@@ -147,7 +182,7 @@ namespace Idle
             [SerializeField] public UpgradeType type;
             [SerializeField] public float amount;
             [SerializeField] public BigDouble UpgradeCost;
-            [SerializeField] public string[] description = new string[(int)CR_Data.Languages.NumOfLanguages ];
+            [SerializeField] public string[] description = new string[(int)CR_Data.Languages.NumOfLanguages];
         }
         [System.Serializable]
         public class OrganTypeAsstes

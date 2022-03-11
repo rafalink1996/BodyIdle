@@ -38,7 +38,8 @@ public class CR_OfflineProgress : MonoBehaviour
     private void Start()
     {
         _closeButton.gameObject.SetActive(false);
-        _offlineHolder.sizeDelta = new Vector2(0, -_offlineHolder.rect.height);
+        _closeButton.transform.localScale = Vector3.zero;
+        _offlineHolder.localScale = Vector3.zero;
         _offlineHolder.gameObject.SetActive(false);
     }
     public IEnumerator CheckLoadFiles()
@@ -75,6 +76,10 @@ public class CR_OfflineProgress : MonoBehaviour
         {
             CheckOfflineProgress(CurrentTime, CR_Data.data._lastSesionTime);
         }
+        else
+        {
+            CR_Idle_Manager.instance.GameStart();
+        }
     }
 
 
@@ -82,15 +87,19 @@ public class CR_OfflineProgress : MonoBehaviour
     public void CheckOfflineProgress(System.DateTime CurrenTime, System.DateTime LastTime)
     {
         //check offline time in seconds
-       var utcCurrentTime = CurrenTime.ToUniversalTime();
+        var utcCurrentTime = CurrenTime.ToUniversalTime();
         float offlineSecondsLimit = offlineHourLimit * 3600;
         var interval = utcCurrentTime - LastTime;
-        Debug.Log("Timespan: " + interval);
-        Debug.Log("Current Time: " + utcCurrentTime);
-        Debug.Log("Last Time: " + LastTime);
         float timeOffline = (float)interval.TotalSeconds;
+
+
+        //Debug.Log("Current Time: " + utcCurrentTime);
+        //Debug.Log("Last Time: " + LastTime);
+
         if (timeOffline > offlineSecondsLimit) timeOffline = offlineSecondsLimit;
         if (timeOffline < 0) timeOffline = 0;
+
+
         System.TimeSpan offlineInterval = System.TimeSpan.FromSeconds(timeOffline);
         _offlineSeconds = offlineInterval.Seconds;
         _offlineMinutes = offlineInterval.Minutes;
@@ -99,11 +108,31 @@ public class CR_OfflineProgress : MonoBehaviour
         //multiply time in seconds by _energyPerSecond
         var EPS = CR_Data.data.GetEnergyPerSecond();
         _offlineEnergy = EPS * timeOffline;
-        SetOfflineProduction();
-        ShowOfflineProduction();
+
+        if (timeOffline < 30)
+        {
+            CR_Data.data._offlineProgressCollected = true;
+            if (timeOffline > 10)
+            {
+                CR_Data.data.SetEnergy(CR_Data.data._energy + _offlineEnergy);
+            }
+            if (!CR_Data.data.gameStarted)
+            {
+                CR_Idle_Manager.instance.GameStart();
+            }
+        }
+        else
+        {
+            CR_Data.data._offlineProgressCollected = false;
+            SetOfflineProduction();
+            StartCoroutine(ShowOfflineProduction());
+        }
+
+
     }
     void SetOfflineProduction()
     {
+
         var language = (int)CR_Data.data._language;
         _workedHardText.text = LanguageManager.instance.offlineProgressTexts.workedHard[language];
         _hoursText.text = _offlineHours + "H";
@@ -113,21 +142,50 @@ public class CR_OfflineProgress : MonoBehaviour
         _madeText.text = LanguageManager.instance.offlineProgressTexts.made[language];
         _energyText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(_offlineEnergy);
     }
-    void ShowOfflineProduction()
+    IEnumerator ShowOfflineProduction()
     {
-        Debug.Log("Show OfflineProduction");
+        yield return CR_Idle_Manager.instance._TransitionAnimation.TransitionIn();
         _offlineHolder.gameObject.SetActive(true);
-        LeanTween.size(_offlineHolder, Vector2.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+        LeanTween.scale(_offlineHolder, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
         {
             _closeButton.gameObject.SetActive(true);
-            _closeButton.transform.localScale = Vector3.zero;
             LeanTween.scale(_closeButton.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+        });
+    }
+    void HideOfflineProduction()
+    {
+        LeanTween.scale(_closeButton.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+        {
+            _closeButton.gameObject.SetActive(false);
+            LeanTween.scale(_offlineHolder, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+            {
+                _offlineHolder.gameObject.SetActive(false);
+                if (!CR_Data.data.gameStarted)
+                {
+                    CR_Idle_Manager.instance.GameStart();
+                    CR_Data.data.gameStarted = true;
+                }
+                else
+                {
+                    StartCoroutine(CR_Idle_Manager.instance.ChangeState(CR_Idle_Manager.instance.gameState));
+                }
+
+
+            });
         });
     }
 
     public void OfflineProgressCheckError()
     {
         Debug.Log("There was an error loading offline progress");
+        CR_Idle_Manager.instance.GameStart();
+    }
+
+    public void OnClickCloseOfflineProgress()
+    {
+        CR_Data.data.SetEnergy(CR_Data.data._energy + _offlineEnergy);
+        CR_Data.data._offlineProgressCollected = true;
+        HideOfflineProduction();
     }
 
 }

@@ -35,6 +35,7 @@ public class CR_OrganismView_Anim : MonoBehaviour
     {
         if (!PosGotten)
         {
+            PosGotten = true;
             BuyUiStartingPos = BuyUI.localPosition;
             seeOrganButtonStartingPos = SeeOrganButton.localPosition;
         }

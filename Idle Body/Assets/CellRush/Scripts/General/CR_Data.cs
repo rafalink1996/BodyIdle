@@ -23,6 +23,9 @@ public class CR_Data : MonoBehaviour
     public BigDouble saveCount;
     public System.DateTime _lastSesionTime;
 
+    public bool _offlineProgressCollected;
+    public bool gameStarted;
+
     // GAME SETTINGS //
 
 
@@ -39,7 +42,7 @@ public class CR_Data : MonoBehaviour
     public OrganType[] organTypes;
 
     // OTHER VARIABLES //
-   
+
 
     public static event Action onLanguageChange;
 
@@ -59,7 +62,7 @@ public class CR_Data : MonoBehaviour
     {
         for (int i = 0; i < organTypes.Length; i++)
         {
-           CalculateMultiplier(i);
+            CalculateMultiplier(i);
         }
     }
 
@@ -153,7 +156,7 @@ public class CR_Data : MonoBehaviour
         organTypes[organType].organs.Add(newOrgan);
     }
 
-    
+
 
     #region SET METHODS
     public void SetEnergy(BigDouble energy)
@@ -298,7 +301,7 @@ public class CR_Data : MonoBehaviour
                         returnValue *= CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount;
                         break;
                     case CR_Idle_Manager.OrganUpgrade.UpgradeType.MultiplyAndOrganPower:
-                        returnValue *= Mathf.Pow(CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount, CR_Data.data.organTypes[organType].organs.Count) ;
+                        returnValue *= Mathf.Pow(CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount, CR_Data.data.organTypes[organType].organs.Count);
                         break;
                     case CR_Idle_Manager.OrganUpgrade.UpgradeType.Power:
                         returnValue = BigDouble.Pow(returnValue, CR_Idle_Manager.instance.organTypeAsstes[organType].upgrades[i].amount);
@@ -382,7 +385,7 @@ public class CR_Data : MonoBehaviour
             public bool infected;
             public CR_PathogenSystem.Infection infection;
             public int InfectionAmount;
-           
+
         }
 
         [Space(10)]

@@ -5,6 +5,7 @@ using UnityEngine;
 using BreakInfinity;
 using System.IO;
 using System;
+using Idle;
 
 public class CR_SaveSystem : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class CR_SaveSystem : MonoBehaviour
 
     string _pathName = "/save.txt";
     [SerializeField] CR_OfflineProgress _OfflineProgress;
+    float AutoSaveCountdown = 6;
+    [SerializeField] float AutosaveSeconds = 2;
 
     private void Awake()
     {
@@ -26,13 +29,24 @@ public class CR_SaveSystem : MonoBehaviour
         if (_OfflineProgress == null) _OfflineProgress = FindObjectOfType<CR_OfflineProgress>();
     }
 
-    private void OnApplicationFocus(bool focus)
+    private void Update()
     {
-        if (!focus)
+        Autosave();
+    }
+
+    void Autosave()
+    {
+        if (AutoSaveCountdown > 0)
         {
+            AutoSaveCountdown -= Time.deltaTime;
             save();
         }
+        else
+        {
+            AutoSaveCountdown = AutosaveSeconds;
+        }
     }
+
 
     public void save()
     {
@@ -52,10 +66,11 @@ public class CR_SaveSystem : MonoBehaviour
         Debug.Log("Saved");
     }
 
-    
-    public void Load()
+
+    public void Load(out bool saveExists)
     {
         string path;
+        saveExists = false;
         if (Application.isEditor)
         {
             path = Application.dataPath;
@@ -66,6 +81,7 @@ public class CR_SaveSystem : MonoBehaviour
         }
         if (File.Exists(path + _pathName))
         {
+            saveExists = true;
             string json = File.ReadAllText(path + _pathName);
             SaveObject saveObject = JsonUtility.FromJson<SaveObject>(json);
             SetSaveData(saveObject);
@@ -73,6 +89,7 @@ public class CR_SaveSystem : MonoBehaviour
         }
         else
         {
+            if (CR_Idle_Manager.instance != null) CR_Idle_Manager.instance.GameStart();
             Debug.Log("No save data");
         }
     }
@@ -81,10 +98,8 @@ public class CR_SaveSystem : MonoBehaviour
     void SetSaveData(SaveObject saveObject)
     {
         var data = CR_Data.data;
-        Debug.Log("Saved Time =  " + saveObject._saveTime);
         DateTime timeFromJson = JsonUtility.FromJson<JsonDateTime>(saveObject._saveTime);
         timeFromJson.ToLocalTime();
-
         data._lastSesionTime = timeFromJson;
         data.SetEnergy(saveObject._energy);
         data.SetLanguage(saveObject._language);
@@ -103,9 +118,29 @@ public class CR_SaveSystem : MonoBehaviour
     SaveObject ConstructSaveObject()
     {
         var data = CR_Data.data;
-        Debug.Log("Time now = " + (System.DateTime.Now).ToFileTimeUtc());
-        var time = DateTime.Now;
+        var time = DateTime.Now; ;
+        string path;
+        if (Application.isEditor)
+        {
+            path = Application.dataPath;
+        }
+        else
+        {
+            path = Application.persistentDataPath;
+        }
+        if (File.Exists(path + _pathName))
+        {
+            if (!data._offlineProgressCollected)
+            {
+                if (data._lastSesionTime != null)
+                {
+                    time = data._lastSesionTime;
+                }
+
+            }
+        }
         var jsonDateTime = JsonUtility.ToJson((JsonDateTime)time);
+
 
 
         SaveObject saveObject = new SaveObject
@@ -131,24 +166,23 @@ public class CR_SaveSystem : MonoBehaviour
         public long value;
         public static implicit operator DateTime(JsonDateTime jdt)
         {
-            Debug.Log("Converted to time");
+            // Debug.Log("Converted to time");
             return DateTime.FromFileTimeUtc(jdt.value);
         }
         public static implicit operator JsonDateTime(DateTime dt)
         {
-            Debug.Log("Converted to JDT");
+            // Debug.Log("Converted to JDT");
             JsonDateTime jdt = new JsonDateTime();
             jdt.value = dt.ToFileTimeUtc();
             return jdt;
         }
     }
 
-    
+
 
     [System.Serializable]
     public class SaveObject
     {
-
         public BigDouble _saveNumber;
         public string _saveTime;
 

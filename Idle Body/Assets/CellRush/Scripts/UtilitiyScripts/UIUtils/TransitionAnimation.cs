@@ -24,12 +24,12 @@ public class TransitionAnimation : MonoBehaviour
     {
         image.raycastTarget = true;
         bool Completed = false;
-        LTDescr L = LeanTween.size(rect, Vector2.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(end => { Completed = true; });
+        LTDescr L = LeanTween.size(rect, Vector2.zero, 0.3f).setEase(LeanTweenType.easeOutExpo).setOnComplete(end => { Completed = true; });
         while (!Completed)
         {
             yield return null;
         }
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.3f);
 
     }
 
@@ -39,7 +39,7 @@ public class TransitionAnimation : MonoBehaviour
         float H = GetHeight() * 1.15f;
         Vector2 outVector = new Vector2(H, H);
         bool Completed = false;
-        LTDescr L = LeanTween.size(rect, outVector, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(end => { Completed = true; });
+        LTDescr L = LeanTween.size(rect, outVector, 0.3f).setEase(LeanTweenType.easeInExpo).setOnComplete(end => { Completed = true; });
         while (!Completed)
         {
             yield return null;
