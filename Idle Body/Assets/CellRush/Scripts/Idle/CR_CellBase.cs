@@ -43,15 +43,17 @@ namespace Idle
             if (!gameObject.activeSelf) return;
             _move = true;
             if (_particles != null) _particles.Play();
+
             Invoke("StopParticles", 0.5f);
             StartCoroutine(CellMovementStart());
         }
 
-        public virtual void DespawnCell()
+        public virtual void DespawnCell(System.Action callback)
         {
             LeanTween.scale(gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
             {
                 gameObject.SetActive(false);
+                callback?.Invoke();
             });
         }
 
@@ -138,7 +140,7 @@ namespace Idle
 
         public virtual IEnumerator Merge(Transform target, float speedMultiplier = 1)
         {
-            
+
             StopCoroutine("applyForce");
             StopCoroutine("wait");
             _move = false;

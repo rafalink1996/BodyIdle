@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using BreakInfinity;
 
 namespace Idle
 {
@@ -32,10 +33,29 @@ namespace Idle
         [Header("BUY BUTTON ELEMENTS")]
         [SerializeField] Button _buyButton;
         [SerializeField] TextMeshProUGUI _cellCostText;
-        [SerializeField] Image _cellImage;
+        //[SerializeField] Image _cellImage;
         [SerializeField] Sprite[] _cellSprites;
 
+        [Header("BUY AMOUNT ELEMENTS")]
+        [SerializeField] TextMeshProUGUI _buyAmountText;
+        [SerializeField] Image _textBGImage;
+        [SerializeField] Image _rightButton;
+        [SerializeField] Image _leftButton;
 
+
+        [Header("SELECT CELL TYPE ELEMENTS")]
+        [SerializeField] RectTransform _selectSizeChildObject;
+        [SerializeField] RectTransform _selectSizeHolder;
+        [SerializeField] Button _redBloodButton;
+        [SerializeField] Button _whiteBloodButton;
+        [SerializeField] Button _helperTButton;
+
+        [Header("PATHOGEN ELEMENTS")]
+        [SerializeField] TextMeshProUGUI _pathogenAmountText;
+        [SerializeField] Image _pathogenMainBody;
+        [SerializeField] Image _pathogenDecors;
+        [SerializeField] Image _pathogenEyes;
+ 
         [Header("BACKGROUND ELEMENTS")]
         [SerializeField] Image _backgroundImage;
         [SerializeField] Image _borderImage;
@@ -43,9 +63,10 @@ namespace Idle
 
         [Header("VARIABLES")]
         public bool _uiShown = true;
+        public bool _selectCellUiShown;
         Vector2 _UIStartPos;
 
- 
+
 
         private void Awake()
         {
@@ -107,11 +128,14 @@ namespace Idle
                     break;
             }
 
+            _textBGImage.color = UIcolor;
+            _rightButton.color = UIcolor;
+            _leftButton.color = UIcolor;
             LeanTween.scale(_buyButton.gameObject, _buyButton.transform.localScale * 1.2f, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
             {
                 if (_buyButton.TryGetComponent(out Image image)) image.color = UIcolor;
-                _cellImage.sprite = _cellSprites[(int)type];
-                UpdateCellCost();
+                //_cellImage.sprite = _cellSprites[(int)type];
+                UpdateCellCost(CR_CellViewManager.instance.buyAmount);
                 LeanTween.scale(_buyButton.gameObject, Vector2.one, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
                 {
                     CR_CellViewManager.instance.canBuy = true;
@@ -136,7 +160,7 @@ namespace Idle
             }
             else
             {
-               
+
                 LeanTween.scale(_cellInfoHolder.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeInExpo).setOnComplete(done =>
                 {
                     LeanTween.alphaCanvas(_cellInfoObject, 0, 0.5f).setEase(LeanTweenType.easeInOutExpo).setOnComplete(done =>
@@ -290,18 +314,125 @@ namespace Idle
         }
 
 
-        public void UpdateCellCost()
+        public void UpdateCellCost(CR_CellViewManager.BuyAmount buyAmount)
         {
-            if (CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, (int)CR_CellViewManager.instance._cellSelected) >= 1000) 
+            var manager = CR_CellViewManager.instance;
+            var cellSelected = (int)manager._cellSelected;
+            int maxCellAmount = 1000;
+            switch (cellSelected)
+            {
+                case 0:
+                case 1:
+                default:
+                    maxCellAmount = 1000;
+                    break;
+                case 2:
+                    maxCellAmount = 27;
+                    break;
+            }
+
+            if (CR_Data.data.GetTotalCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, cellSelected) >=  maxCellAmount)
             {
                 _cellCostText.text = "MAX";
             }
             else
             {
-                var cost = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[(int)CR_CellViewManager.instance._cellSelected].currentCellCost;
+                BigDouble cost = 0;
+                var currentCellCost = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[(int)CR_CellViewManager.instance._cellSelected].currentCellCost;
+                var baseCost = CR_Data.data.organTypes[manager._organType].organs[manager._organNumber].CellTypes[cellSelected].initialCellCost;
+                var cellNumber = CR_Data.data.GetTotalCells(manager._organType, manager._organNumber, cellSelected);
+                switch (buyAmount)
+                {
+                    case CR_CellViewManager.BuyAmount.x1:
+                        cost = currentCellCost;
+                        break;
+                    case CR_CellViewManager.BuyAmount.x5:
+
+                        for (int i = 0; i < 5; i++)
+                        {
+                            cost += baseCost * Mathf.Pow(manager.CachedGrowthRate, cellNumber + i);
+                        }
+
+                        break;
+                    case CR_CellViewManager.BuyAmount.x10:
+                        for (int i = 0; i < 10; i++)
+                        {
+                            cost += baseCost * Mathf.Pow(manager.CachedGrowthRate, cellNumber + i);
+                        }
+                        break;
+                    case CR_CellViewManager.BuyAmount.max:
+                        var amount = manager.buyMaxAmount;
+                        if (amount <= 0)
+                        {
+                            amount = 1;
+                        }
+                        for (int i = 0; i < amount; i++)
+                        {
+                            cost += baseCost * Mathf.Pow(manager.CachedGrowthRate, cellNumber + i);
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 _cellCostText.text = AbbreviationUtility.AbbreviateBigDoubleNumber(cost);
             }
-           
+        }
+
+        public void UpdateBuyAmount(CR_CellViewManager.BuyAmount buyAmount)
+        {
+            switch (buyAmount)
+            {
+                case CR_CellViewManager.BuyAmount.x1:
+                    _buyAmountText.text = "X1";
+                    break;
+                case CR_CellViewManager.BuyAmount.x5:
+                    _buyAmountText.text = "X5";
+                    break;
+                case CR_CellViewManager.BuyAmount.x10:
+                    _buyAmountText.text = "X10";
+                    break;
+                case CR_CellViewManager.BuyAmount.max:
+                    var Amount = CR_CellViewManager.instance.buyMaxAmount;
+                    _buyAmountText.text = "MAX " + "(" + Amount + ")";
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        public void ShowCellTypesOptions()
+        {
+            LeanTween.size(_selectSizeHolder, new Vector2(0, _selectSizeChildObject.rect.height * 3), 0.3f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>{ _selectCellUiShown = true; });
+            
+        }
+
+        public void CloseCellTypesOptions(int ButtonSelected)
+        {
+            switch (ButtonSelected)
+            {
+                case 0:
+                    _redBloodButton.transform.SetSiblingIndex(0);
+                    break;
+                case 1:
+                    _whiteBloodButton.transform.SetSiblingIndex(0);
+                    break;
+                case 2:
+                    _helperTButton.transform.SetSiblingIndex(0);
+                    break;
+                default:
+                    break;
+            }
+            LeanTween.size(_selectSizeHolder, Vector2.zero, 0.3f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done => { _selectCellUiShown = false; });
+        }
+
+
+
+        public void SetPathogenUI(CR_PathogenSystem.Infection infection, int amount)
+        {
+            _pathogenAmountText.text = amount.ToString();
+            _pathogenMainBody.sprite = CR_PathogenSystem.instance.infectionAssets.infectionTypeAssets[(int)infection.infectionType].infectionBodies[infection.infectionBodyID];
+            _pathogenDecors.sprite = CR_PathogenSystem.instance.infectionAssets.infectionTypeAssets[(int)infection.infectionType].infectionDecorations[infection.infectionDecorationsID];
+           _pathogenEyes.sprite = CR_PathogenSystem.instance.infectionAssets.infectionTypeAssets[(int)infection.infectionType].infectionEyes[infection.infectionEyesID];
         }
     }
 }

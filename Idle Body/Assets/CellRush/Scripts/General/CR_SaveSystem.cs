@@ -39,11 +39,11 @@ public class CR_SaveSystem : MonoBehaviour
         if (AutoSaveCountdown > 0)
         {
             AutoSaveCountdown -= Time.deltaTime;
-            save();
         }
         else
         {
             AutoSaveCountdown = AutosaveSeconds;
+            save();
         }
     }
 

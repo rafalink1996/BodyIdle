@@ -213,17 +213,17 @@ namespace Idle
             _sellComplexityRefund.text = data.organTypes[currentOrganType].ComplexityCost[data.organTypes[currentOrganType].organs.Count].ToString();
             _organImage.sprite = manager.organTypeAsstes[currentOrganType].organSprite;
 
-            LeanTween.alphaCanvas(_infoCanvasGroup, 1, .5f).setOnComplete(done =>
+            LeanTween.alphaCanvas(_infoCanvasGroup, 1, .2f).setOnComplete(done =>
             {
-                LeanTween.scale(_infoObject.gameObject, Vector3.one, 0.5f).setEase(LeanTweenType.easeOutExpo);
+                LeanTween.scale(_infoObject.gameObject, Vector3.one, 0.3f).setEase(LeanTweenType.easeOutExpo);
             });
         }
 
         public void CloseOrganInfo()
         {
-            LeanTween.scale(_infoObject.gameObject, Vector3.zero, 0.5f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
+            LeanTween.scale(_infoObject.gameObject, Vector3.zero, 0.3f).setEase(LeanTweenType.easeOutExpo).setOnComplete(done =>
             {
-                LeanTween.alphaCanvas(_infoCanvasGroup, 0, .5f).setOnComplete(done =>
+                LeanTween.alphaCanvas(_infoCanvasGroup, 0, .2f).setOnComplete(done =>
                 {
                     _infoObject.parent.gameObject.SetActive(false);
                 }); ;

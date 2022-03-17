@@ -90,7 +90,6 @@ namespace Idle
 
         void InfectOrgan()
         {
-
             var availableOrganLists = new List<CR_Data.OrganType.OrganInfo>();
             var typesList = new List<int>();
             var organNumberList = new List<int>();
@@ -111,13 +110,18 @@ namespace Idle
             if (availableOrganLists.Count == 0) return;
             var randomOrgan = Random.Range(0, availableOrganLists.Count);
             var selectedOrgan = availableOrganLists[randomOrgan];
-            Debug.Log("Organ Infected");
+            Debug.Log("Organ Infected: " +"Type: "+ typesList[randomOrgan] + " number: " +organNumberList[randomOrgan]);
             _infectionInProgress = true;
             selectedOrgan.infection = CreateInfection();
             int amount = Random.Range(0, CR_Data.data.GetTotalCells(typesList[randomOrgan], organNumberList[randomOrgan], 0));
             selectedOrgan.InfectionAmount = amount;
             selectedOrgan.infected = true;
+            //Check if we are in the newly infected organ
+            if (CR_Idle_Manager.instance.gameState != CR_Idle_Manager.GameState.CellView) return;
+            if (CR_Idle_Manager.instance.CurrentOrganType != typesList[randomOrgan]) return;
+            if (CR_Idle_Manager.instance.CurrentOrganType != organNumberList[randomOrgan]) return;
 
+            CR_CellViewManager.instance.SpawnPathogens();
         }
 
         Infection CreateInfection()

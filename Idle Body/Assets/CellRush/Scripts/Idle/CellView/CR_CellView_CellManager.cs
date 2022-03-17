@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using BreakInfinity;
 
 namespace Idle
 {
@@ -54,10 +55,13 @@ namespace Idle
         Transform mergeTransform;
         public bool _merging;
 
+
         private void Awake()
         {
             SpawnPools();
         }
+
+
 
         void SpawnPools()
         {
@@ -118,6 +122,7 @@ namespace Idle
             CR_CellviewCell cell = SpawnFroomPool(_typePools[((int)type) - 1]._pools[(int)size].tag);
             cell.SetCellInfo(info);
             cell.StartCell();
+            cell.setCellSize(size);
             lists_CellTypes[((int)type) - 1].lists_CellSizes[(int)size].cells.Add(cell);
             return cell;
         }
@@ -342,6 +347,116 @@ namespace Idle
 
         }
 
+        public IEnumerator CheckBuyMaxCells(int amount)
+        {
+
+            var manager = CR_Idle_Manager.instance;
+            var cellViewManager = CR_CellViewManager.instance;
+            var currentCells = CR_Data.data.GetTotalCells(manager.CurrentOrganType, manager.CurrentOrganNumber, (int)cellViewManager._cellSelected);
+            var totalCellAmount = currentCells + amount;
+            var currentCellSelected = (int)CR_CellViewManager.instance._cellSelected;
+            Debug.Log("Total cells: " + totalCellAmount);
+
+            cellViewManager.canBuy = false;
+            int bigCells = 0;
+            int medCells = 0;
+            int smallCells = 0;
+
+            int bigCellDivider = 100;
+            int mediumCellDivider = 10;
+
+            switch (currentCellSelected)
+            {
+                case 0:
+                case 1:
+                default:
+                    bigCellDivider = 100;
+                    mediumCellDivider = 10;
+                    break;
+                case 2:
+                    bigCellDivider = 9;
+                    mediumCellDivider = 3;
+                    break;
+
+            }
+                
+            while (totalCellAmount >= bigCellDivider)
+            {
+                totalCellAmount -= bigCellDivider;
+                bigCells++;
+            }
+            while (totalCellAmount >= mediumCellDivider)
+            {
+                totalCellAmount -= mediumCellDivider;
+                medCells++;
+            }
+            smallCells = totalCellAmount;
+
+            BuymaxSetCellInfos(0, smallCells);
+            BuymaxSetCellInfos(1, medCells);
+            BuymaxSetCellInfos(2, bigCells);
+
+            
+            yield return ResetCells(true, currentCellSelected);
+            SpawnCells(CR_Idle_Manager.instance.CurrentOrganType, CR_Idle_Manager.instance.CurrentOrganNumber, currentCellSelected);
+            cellViewManager.canBuy = true;
+
+
+        }
+        void BuymaxSetCellInfos(int sizeIndex, int cellAmount)
+        {
+            var data = CR_Data.data;
+
+
+            var currentOrganType = CR_Idle_Manager.instance.CurrentOrganType; ;
+            var currentOrganNumber = CR_Idle_Manager.instance.CurrentOrganNumber;
+            var currentCellSelected = (int)CR_CellViewManager.instance._cellSelected;
+
+
+            var cellSizes = data.organTypes[currentOrganType].organs[currentOrganNumber].CellTypes[currentCellSelected].cellSizes;
+            var cellList = lists_CellTypes[currentCellSelected].lists_CellSizes[sizeIndex].cells;
+
+            var size = CR_CellBase.CellSize.Small;
+            switch (sizeIndex)
+            {
+                case 0:
+                    size = CR_CellBase.CellSize.Small;
+                    break;
+                case 1:
+                    size = CR_CellBase.CellSize.Medium;
+                    break;
+                case 2:
+                    size = CR_CellBase.CellSize.Big;
+                    break;
+            }
+            CR_CellBase.CellType type = CR_CellBase.CellType.RedBlood;
+            switch (currentCellSelected)
+            {
+                case 0:
+                    type = CR_CellBase.CellType.RedBlood;
+                    break;
+                case 1:
+                    type = CR_CellBase.CellType.White;
+                    break;
+                case 2:
+                    type = CR_CellBase.CellType.Helper;
+                    break;
+            }
+
+            while (cellSizes[sizeIndex].CellsInfos.Count > cellAmount)
+            {
+                if (cellSizes[sizeIndex].CellsInfos.Count > 0)
+                {
+                    cellSizes[sizeIndex].CellsInfos.RemoveAt(cellSizes[sizeIndex].CellsInfos.Count - 1);
+                }
+            }
+            while (cellSizes[sizeIndex].CellsInfos.Count < cellAmount)
+            {
+                CreateNewCellInfo(type, size);
+            }
+
+        }
+
         void ClearCells(CR_CellBase.CellType type, CR_CellBase.CellSize size)
         {
             var infos = CR_Data.data.organTypes[CR_Idle_Manager.instance.CurrentOrganType].organs[CR_Idle_Manager.instance.CurrentOrganNumber].CellTypes[(int)(type - 1)].cellSizes[(int)size].CellsInfos;
@@ -369,5 +484,45 @@ namespace Idle
             }
         }
 
+        public IEnumerator ResetCells(bool animation, int celltype)
+        {
+            if (mergeTransform != null) Destroy(mergeTransform.gameObject);
+
+            for (int o = 0; o < lists_CellTypes[celltype].lists_CellSizes.Length; o++)
+            {
+                int cellNumber = lists_CellTypes[celltype].lists_CellSizes[o].cells.Count;
+                for (int p = 0; p < lists_CellTypes[celltype].lists_CellSizes[o].cells.Count; p++)
+                {
+                    lists_CellTypes[celltype].lists_CellSizes[o].cells[p].DespawnCell(() => { cellNumber--; });
+                }
+                while (cellNumber > 0)
+                {
+                    yield return null;
+                }
+                lists_CellTypes[celltype].lists_CellSizes[o].cells.Clear();
+            }
+        }
+
+
+        public void SpawnCells(int organType, int organNumber, int celltype)
+        {
+            CR_Data data = CR_Data.data;
+            CR_Data.OrganType.OrganInfo organ = data.organTypes[organType].organs[organNumber];
+
+            for (int o = 0; o < organ.CellTypes[celltype].cellSizes.Count; o++)
+            {
+                for (int p = 0; p < organ.CellTypes[celltype].cellSizes[o].CellsInfos.Count; p++)
+                {
+                    CR_Data.OrganType.OrganInfo.cellsType.CellSizes.CellInfo info = organ.CellTypes[celltype].cellSizes[o].CellsInfos[p];
+                    CR_CellviewCell cell = SpawnCell((CR_CellBase.CellType)(celltype + 1), (CR_CellBase.CellSize)(o), info);
+                    float randomPosX = Random.Range(-MaxSpawnPos.x, MaxSpawnPos.x);
+                    float randomPosY = Random.Range(-MaxSpawnPos.y, MaxSpawnPos.y);
+                    cell.transform.localPosition = new Vector3(randomPosX, randomPosY, 0);
+                }
+            }
+
+        }
     }
+
+
 }

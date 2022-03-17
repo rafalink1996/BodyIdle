@@ -23,7 +23,7 @@ public class CR_CellView_Translator : MonoBehaviour
         _buyCellText.text = LanguageManager.instance.cellViewTexts.buyCells[language];
         _cellInfoTitle.text = LanguageManager.instance.cellViewTexts.cells[language];
         _redBloodCellText.text = LanguageManager.instance.cellViewTexts.redBloodCells[language];
-        _whiteBloodCellText.text = LanguageManager.instance.cellViewTexts.whiteBloodCells[language];
-        _helperBloodCellText.text = LanguageManager.instance.cellViewTexts.helperBloodCells[language];
+       if(_whiteBloodCellText != null) _whiteBloodCellText.text = LanguageManager.instance.cellViewTexts.whiteBloodCells[language];
+       if (_helperBloodCellText != null) _helperBloodCellText.text = LanguageManager.instance.cellViewTexts.helperBloodCells[language];
     }
 }
